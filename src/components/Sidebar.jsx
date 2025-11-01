@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList } from 'lucide-react'
+import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database } from 'lucide-react'
 import './Sidebar.css'
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -32,6 +32,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { icon: Sparkles, label: 'AI Hub', path: '/ai-hub' },
     { icon: ClipboardList, label: 'Wellness Report', path: '/wellness-report' },
     { icon: BarChart3, label: 'Web Analytics', path: '/analytics' },
+    { icon: Database, label: 'Data Backup', path: '/data-backup' },
     { icon: UserCircle, label: 'Profile', children: [
       { label: 'Profile', path: '/profile' },
       { label: 'Personal Information', path: '/profile/personal-info' },
