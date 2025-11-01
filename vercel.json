@@ -1,0 +1,33 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "VITE_GEMINI_API_KEY": "@gemini_api_key",
+    "VITE_RESEND_API_KEY": "@resend_api_key",
+    "VITE_EMAILJS_PUBLIC_KEY": "@emailjs_public_key"
+  },
+  "build": {
+    "env": {
+      "VITE_GEMINI_API_KEY": "@gemini_api_key",
+      "VITE_RESEND_API_KEY": "@resend_api_key",
+      "VITE_EMAILJS_PUBLIC_KEY": "@emailjs_public_key",
+      "VITE_RESEND_FROM_EMAIL": "onboarding@resend.dev",
+      "VITE_API_URL": ""
+    }
+  }
+}

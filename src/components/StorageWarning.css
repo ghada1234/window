@@ -1,0 +1,84 @@
+.storage-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-bottom: 2px solid #f59e0b;
+  padding: 12px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.storage-warning-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.storage-warning-text {
+  flex: 1;
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.5;
+}
+
+.storage-warning-text strong {
+  font-weight: 600;
+  color: #92400e;
+}
+
+.storage-warning-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #78350f;
+  transition: color 0.2s;
+  border-radius: 4px;
+}
+
+.storage-warning-dismiss:hover {
+  color: #92400e;
+  background: rgba(146, 64, 14, 0.1);
+}
+
+.storage-warning-dismiss:active {
+  transform: scale(0.95);
+}
+
+/* Adjust main content when warning is shown */
+body:has(.storage-warning) .main-content {
+  margin-top: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .storage-warning {
+    padding: 10px 15px;
+  }
+  
+  .storage-warning-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .storage-warning-dismiss {
+    align-self: flex-end;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+  
+  .storage-warning-text {
+    font-size: 12px;
+    padding-right: 30px;
+  }
+}
+
