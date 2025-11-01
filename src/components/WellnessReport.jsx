@@ -23,7 +23,15 @@ import html2canvas from 'html2canvas'
 import './WellnessReport.css'
 
 const WellnessReport = () => {
-  const { wellnessData } = useWellness()
+  const wellnessContext = useWellness()
+  const wellnessData = wellnessContext?.wellnessData || {
+    nutrition: [],
+    water: [],
+    activities: [],
+    sleep: [],
+    mood: []
+  }
+  
   const [reportPeriod, setReportPeriod] = useState('week') // week, month, year
   const [report, setReport] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -32,19 +40,50 @@ const WellnessReport = () => {
 
   useEffect(() => {
     generateReport()
-  }, [reportPeriod, wellnessData])
+  }, [reportPeriod])
 
   const generateReport = () => {
     setLoading(true)
     setTimeout(() => {
-      const generatedReport = calculateWellnessMetrics()
-      setReport(generatedReport)
-      setLoading(false)
+      try {
+        const generatedReport = calculateWellnessMetrics()
+        setReport(generatedReport)
+      } catch (error) {
+        console.error('Error generating report:', error)
+        // Set default report if generation fails
+        setReport(getDefaultReport())
+      } finally {
+        setLoading(false)
+      }
     }, 1000)
   }
 
+  const getDefaultReport = () => {
+    return {
+      period: reportPeriod,
+      generatedDate: new Date().toLocaleDateString(),
+      overallScore: 70,
+      scores: {
+        nutrition: 70,
+        hydration: 70,
+        activity: 70,
+        sleep: 70,
+        mood: 70
+      },
+      insights: [],
+      achievements: generateAchievements(),
+      recommendations: []
+    }
+  }
+
   const calculateWellnessMetrics = () => {
-    const { nutrition, water, activities, sleep, mood } = wellnessData
+    const { nutrition, water, activities, sleep, mood } = wellnessData || {
+      nutrition: [],
+      water: [],
+      activities: [],
+      sleep: [],
+      mood: []
+    }
 
     // Calculate averages and scores
     const nutritionScore = calculateNutritionScore(nutrition)
@@ -87,119 +126,150 @@ const WellnessReport = () => {
   }
 
   const calculateNutritionScore = (nutrition) => {
-    if (!nutrition || nutrition.length === 0) return 50
+    if (!nutrition || !Array.isArray(nutrition) || nutrition.length === 0) return 50
     
-    const avgCalories = nutrition.reduce((sum, item) => sum + (item.calories || 0), 0) / nutrition.length
-    const targetCalories = 2000
-    const difference = Math.abs(avgCalories - targetCalories)
-    
-    if (difference < 200) return 95
-    if (difference < 400) return 85
-    if (difference < 600) return 75
-    return 60
+    try {
+      const avgCalories = nutrition.reduce((sum, item) => sum + (item.calories || 0), 0) / nutrition.length
+      const targetCalories = 2000
+      const difference = Math.abs(avgCalories - targetCalories)
+      
+      if (difference < 200) return 95
+      if (difference < 400) return 85
+      if (difference < 600) return 75
+      return 60
+    } catch (error) {
+      console.error('Error calculating nutrition score:', error)
+      return 50
+    }
   }
 
   const calculateHydrationScore = (water) => {
-    if (!water || water.length === 0) return 50
+    if (!water || !Array.isArray(water) || water.length === 0) return 50
     
-    const avgWater = water.reduce((sum, item) => sum + (item.amount || 0), 0) / water.length
-    const targetWater = 2000 // ml per day
-    
-    if (avgWater >= targetWater) return 95
-    if (avgWater >= targetWater * 0.8) return 85
-    if (avgWater >= targetWater * 0.6) return 70
-    return 55
+    try {
+      const avgWater = water.reduce((sum, item) => sum + (item.amount || 0), 0) / water.length
+      const targetWater = 2000 // ml per day
+      
+      if (avgWater >= targetWater) return 95
+      if (avgWater >= targetWater * 0.8) return 85
+      if (avgWater >= targetWater * 0.6) return 70
+      return 55
+    } catch (error) {
+      console.error('Error calculating hydration score:', error)
+      return 50
+    }
   }
 
   const calculateActivityScore = (activities) => {
-    if (!activities || activities.length === 0) return 50
+    if (!activities || !Array.isArray(activities) || activities.length === 0) return 50
     
-    const totalMinutes = activities.reduce((sum, item) => sum + (item.duration || 0), 0)
-    const avgMinutes = totalMinutes / 7 // Weekly average
-    
-    if (avgMinutes >= 30) return 95
-    if (avgMinutes >= 20) return 80
-    if (avgMinutes >= 10) return 65
-    return 50
+    try {
+      const totalMinutes = activities.reduce((sum, item) => sum + (item.duration || 0), 0)
+      const avgMinutes = totalMinutes / 7 // Weekly average
+      
+      if (avgMinutes >= 30) return 95
+      if (avgMinutes >= 20) return 80
+      if (avgMinutes >= 10) return 65
+      return 50
+    } catch (error) {
+      console.error('Error calculating activity score:', error)
+      return 50
+    }
   }
 
   const calculateSleepScore = (sleep) => {
-    if (!sleep || sleep.length === 0) return 50
+    if (!sleep || !Array.isArray(sleep) || sleep.length === 0) return 50
     
-    const avgHours = sleep.reduce((sum, item) => sum + (item.hours || 0), 0) / sleep.length
-    
-    if (avgHours >= 7 && avgHours <= 9) return 95
-    if (avgHours >= 6 && avgHours <= 10) return 80
-    if (avgHours >= 5 && avgHours <= 11) return 65
-    return 50
+    try {
+      const avgHours = sleep.reduce((sum, item) => sum + (item.hours || 0), 0) / sleep.length
+      
+      if (avgHours >= 7 && avgHours <= 9) return 95
+      if (avgHours >= 6 && avgHours <= 10) return 80
+      if (avgHours >= 5 && avgHours <= 11) return 65
+      return 50
+    } catch (error) {
+      console.error('Error calculating sleep score:', error)
+      return 50
+    }
   }
 
   const calculateMoodScore = (mood) => {
-    if (!mood || mood.length === 0) return 70
+    if (!mood || !Array.isArray(mood) || mood.length === 0) return 70
     
-    const moodValues = {
-      'great': 100,
-      'good': 80,
-      'okay': 60,
-      'bad': 40,
-      'terrible': 20
+    try {
+      const moodValues = {
+        'great': 100,
+        'good': 80,
+        'okay': 60,
+        'bad': 40,
+        'terrible': 20
+      }
+      
+      const avgMood = mood.reduce((sum, item) => {
+        return sum + (moodValues[item.mood?.toLowerCase()] || 60)
+      }, 0) / mood.length
+      
+      return Math.round(avgMood)
+    } catch (error) {
+      console.error('Error calculating mood score:', error)
+      return 70
     }
-    
-    const avgMood = mood.reduce((sum, item) => {
-      return sum + (moodValues[item.mood?.toLowerCase()] || 60)
-    }, 0) / mood.length
-    
-    return Math.round(avgMood)
   }
 
   const generateInsights = (scores) => {
     const insights = []
     
-    // Strength insights
-    const strengths = Object.entries(scores)
-      .filter(([_, score]) => score >= 85)
-      .map(([category]) => category)
-    
-    if (strengths.length > 0) {
-      insights.push({
-        type: 'success',
-        icon: Award,
-        title: 'Your Strengths',
-        message: `You're excelling in ${strengths.join(', ')}! Keep up the great work.`
-      })
-    }
+    try {
+      if (!scores) return insights
+      
+      // Strength insights
+      const strengths = Object.entries(scores)
+        .filter(([_, score]) => score >= 85)
+        .map(([category]) => category)
+      
+      if (strengths.length > 0) {
+        insights.push({
+          type: 'success',
+          icon: Award,
+          title: 'Your Strengths',
+          message: `You're excelling in ${strengths.join(', ')}! Keep up the great work.`
+        })
+      }
 
-    // Improvement areas
-    const improvements = Object.entries(scores)
-      .filter(([_, score]) => score < 70)
-      .map(([category]) => category)
-    
-    if (improvements.length > 0) {
-      insights.push({
-        type: 'warning',
-        icon: AlertCircle,
-        title: 'Areas for Improvement',
-        message: `Focus on improving your ${improvements.join(', ')} for better wellness.`
-      })
-    }
+      // Improvement areas
+      const improvements = Object.entries(scores)
+        .filter(([_, score]) => score < 70)
+        .map(([category]) => category)
+      
+      if (improvements.length > 0) {
+        insights.push({
+          type: 'warning',
+          icon: AlertCircle,
+          title: 'Areas for Improvement',
+          message: `Focus on improving your ${improvements.join(', ')} for better wellness.`
+        })
+      }
 
-    // Overall trend
-    if (scores.nutrition > 80 && scores.activity > 80) {
-      insights.push({
-        type: 'info',
-        icon: TrendingUp,
-        title: 'Excellent Balance',
-        message: 'Your nutrition and activity levels are well balanced!'
-      })
-    }
+      // Overall trend
+      if (scores.nutrition > 80 && scores.activity > 80) {
+        insights.push({
+          type: 'info',
+          icon: TrendingUp,
+          title: 'Excellent Balance',
+          message: 'Your nutrition and activity levels are well balanced!'
+        })
+      }
 
-    if (scores.sleep < 70 && scores.mood < 70) {
-      insights.push({
-        type: 'warning',
-        icon: Brain,
-        title: 'Rest & Recovery',
-        message: 'Better sleep could improve your mood. Try establishing a bedtime routine.'
-      })
+      if (scores.sleep < 70 && scores.mood < 70) {
+        insights.push({
+          type: 'warning',
+          icon: Brain,
+          title: 'Rest & Recovery',
+          message: 'Better sleep could improve your mood. Try establishing a bedtime routine.'
+        })
+      }
+    } catch (error) {
+      console.error('Error generating insights:', error)
     }
 
     return insights
