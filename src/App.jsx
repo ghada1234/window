@@ -28,6 +28,9 @@ import Subscription from './components/Subscription'
 import PaymentSuccess from './components/PaymentSuccess'
 import PWAInstallPrompt from './components/PWAInstallPrompt'
 import ResetPassword from './components/ResetPassword'
+import WebAnalytics from './components/WebAnalytics'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import './App.css'
 
 // Protected Route wrapper - redirects to landing if not logged in
@@ -49,6 +52,8 @@ function App() {
       <Router>
         <StorageWarning />
         <PWAInstallPrompt />
+        <Analytics />
+        <SpeedInsights />
         <Routes>
           {/* Landing page - default route */}
           <Route path="/landing" element={<LandingPage />} />
@@ -87,6 +92,7 @@ function App() {
                     <Route path="/notifications" element={<Notifications />} />
                     <Route path="/info/about" element={<About />} />
                     <Route path="/info/contact" element={<Contact />} />
+                    <Route path="/analytics" element={<WebAnalytics />} />
                     <Route path="*" element={<Navigate to="/dashboard" replace />} />
                   </Routes>
                 </main>
