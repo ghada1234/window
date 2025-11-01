@@ -27,6 +27,7 @@ import StorageWarning from './components/StorageWarning'
 import Subscription from './components/Subscription'
 import PaymentSuccess from './components/PaymentSuccess'
 import PWAInstallPrompt from './components/PWAInstallPrompt'
+import ResetPassword from './components/ResetPassword'
 import './App.css'
 
 // Protected Route wrapper - redirects to landing if not logged in
@@ -55,6 +56,9 @@ function App() {
           
           {/* Payment success page - accessible without login */}
           <Route path="/payment/success" element={<PaymentSuccess />} />
+          
+          {/* Password reset page - accessible without login */}
+          <Route path="/reset-password" element={<ResetPassword />} />
           
           {/* Protected routes - require login */}
           <Route path="/*" element={
