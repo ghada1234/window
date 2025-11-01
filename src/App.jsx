@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import safeStorage from './utils/storage'
+import { initGA, trackPageView } from './utils/googleAnalytics'
 import { WellnessProvider } from './context/WellnessContext'
 import LandingPage from './components/LandingPage'
 import Sidebar from './components/Sidebar'
@@ -44,12 +45,33 @@ const ProtectedRoute = ({ children }) => {
   return children
 }
 
+// Analytics tracker component
+const AnalyticsTracker = () => {
+  const location = useLocation()
+  
+  useEffect(() => {
+    // Track page view on route change
+    trackPageView(location.pathname + location.search, document.title)
+  }, [location])
+  
+  return null
+}
+
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
+
+  // Initialize Google Analytics on mount
+  useEffect(() => {
+    const gaId = import.meta.env.VITE_GA4_MEASUREMENT_ID
+    if (gaId) {
+      initGA(gaId)
+    }
+  }, [])
 
   return (
     <WellnessProvider>
       <Router>
+        <AnalyticsTracker />
         <StorageWarning />
         <PWAInstallPrompt />
         <Analytics />
