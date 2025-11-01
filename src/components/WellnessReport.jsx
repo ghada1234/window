@@ -1,502 +1,676 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useWellness } from '../context/WellnessContext'
-import { FileText, Activity, Moon, Apple, Heart, Download, Share2 } from 'lucide-react'
+import { 
+  FileText, 
+  TrendingUp, 
+  Award, 
+  AlertCircle, 
+  Heart, 
+  Activity,
+  Droplet,
+  Moon,
+  Brain,
+  Target,
+  Download,
+  Calendar,
+  BarChart3,
+  Sparkles,
+  Share2,
+  MessageCircle
+} from 'lucide-react'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 import './WellnessReport.css'
 
 const WellnessReport = () => {
-  const { activities, sleepLogs, nutrition, moodLogs } = useWellness()
-  const [period, setPeriod] = useState('weekly') // 'daily', 'weekly', 'monthly', 'yearly'
+  const { wellnessData } = useWellness()
+  const [reportPeriod, setReportPeriod] = useState('week') // week, month, year
+  const [report, setReport] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [exporting, setExporting] = useState(false)
+  const reportRef = useRef(null)
 
-  // Calculate daily stats
-  const getDailyStats = () => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    
-    const dayActivities = activities.filter(a => {
-      const activityDate = new Date(a.date || Date.now())
-      return activityDate >= today && activityDate < tomorrow
-    })
+  useEffect(() => {
+    generateReport()
+  }, [reportPeriod, wellnessData])
 
-    const daySleep = sleepLogs.find(s => {
-      const sleepDate = new Date(s.date || Date.now())
-      return sleepDate >= today && sleepDate < tomorrow
-    })
+  const generateReport = () => {
+    setLoading(true)
+    setTimeout(() => {
+      const generatedReport = calculateWellnessMetrics()
+      setReport(generatedReport)
+      setLoading(false)
+    }, 1000)
+  }
 
-    const dayMood = moodLogs.find(m => {
-      const moodDate = new Date(m.date || Date.now())
-      return moodDate >= today && moodDate < tomorrow
-    })
+  const calculateWellnessMetrics = () => {
+    const { nutrition, water, activities, sleep, mood } = wellnessData
 
-    const totalActivity = dayActivities.reduce((sum, a) => sum + (a.duration || 0), 0)
-    const totalCalories = dayActivities.reduce((sum, a) => sum + (a.calories || 0), 0)
-    const avgCalories = dayActivities.length > 0 ? Math.round(totalCalories / dayActivities.length) : 0
-    
-    const sleepHours = daySleep ? parseFloat(daySleep.duration?.replace(' hours', '') || '0') : 0
-    const quality = daySleep 
-      ? (() => {
-          const qualityMap = { 'Excellent': 5, 'Good': 4, 'Fair': 3, 'Poor': 2 }
-          return qualityMap[daySleep.quality] || 3
-        })()
-      : 0
+    // Calculate averages and scores
+    const nutritionScore = calculateNutritionScore(nutrition)
+    const hydrationScore = calculateHydrationScore(water)
+    const activityScore = calculateActivityScore(activities)
+    const sleepScore = calculateSleepScore(sleep)
+    const moodScore = calculateMoodScore(mood)
 
-    const currentMood = dayMood?.mood || 'Okay'
+    const overallScore = Math.round(
+      (nutritionScore + hydrationScore + activityScore + sleepScore + moodScore) / 5
+    )
 
     return {
-      totalActivity,
-      totalCalories,
-      avgCalories,
-      avgMood: currentMood,
-      avgSleep: sleepHours.toFixed(1),
-      avgQuality: quality.toFixed(1),
-      activeDays: dayActivities.length > 0 ? 1 : 0
+      period: reportPeriod,
+      generatedDate: new Date().toLocaleDateString(),
+      overallScore,
+      scores: {
+        nutrition: nutritionScore,
+        hydration: hydrationScore,
+        activity: activityScore,
+        sleep: sleepScore,
+        mood: moodScore
+      },
+      insights: generateInsights({
+        nutrition: nutritionScore,
+        hydration: hydrationScore,
+        activity: activityScore,
+        sleep: sleepScore,
+        mood: moodScore
+      }),
+      achievements: generateAchievements(),
+      recommendations: generateRecommendations({
+        nutrition: nutritionScore,
+        hydration: hydrationScore,
+        activity: activityScore,
+        sleep: sleepScore,
+        mood: moodScore
+      })
     }
   }
 
-  // Calculate weekly stats
-  const getWeeklyStats = () => {
-    const today = new Date()
-    const weekStart = new Date(today)
-    weekStart.setDate(today.getDate() - today.getDay()) // Start of week (Sunday)
+  const calculateNutritionScore = (nutrition) => {
+    if (!nutrition || nutrition.length === 0) return 50
     
-    const weekActivities = activities.filter(a => {
-      const activityDate = new Date(a.date || Date.now())
-      return activityDate >= weekStart
-    })
-
-    const weekSleep = sleepLogs.filter(s => {
-      const sleepDate = new Date(s.date || Date.now())
-      return sleepDate >= weekStart
-    })
-
-    const weekMoods = moodLogs.filter(m => {
-      const moodDate = new Date(m.date || Date.now())
-      return moodDate >= weekStart
-    })
-
-    const totalActivity = weekActivities.reduce((sum, a) => sum + (a.duration || 0), 0)
-    const totalCalories = weekActivities.reduce((sum, a) => sum + (a.calories || 0), 0)
-    const avgCalories = weekActivities.length > 0 ? Math.round(totalCalories / weekActivities.length) : 0
+    const avgCalories = nutrition.reduce((sum, item) => sum + (item.calories || 0), 0) / nutrition.length
+    const targetCalories = 2000
+    const difference = Math.abs(avgCalories - targetCalories)
     
-    const avgSleepHours = weekSleep.length > 0 
-      ? (weekSleep.reduce((sum, s) => {
-          const hours = parseFloat(s.duration?.replace(' hours', '') || '0')
-          return sum + hours
-        }, 0) / weekSleep.length).toFixed(1)
-      : 0
-
-    const avgQuality = weekSleep.length > 0 
-      ? (weekSleep.reduce((sum, s) => {
-          const qualityMap = { 'Excellent': 5, 'Good': 4, 'Fair': 3, 'Poor': 2 }
-          return sum + (qualityMap[s.quality] || 3)
-        }, 0) / weekSleep.length).toFixed(1)
-      : 0
-
-    const activeDays = new Set(weekActivities.map(a => {
-      const date = new Date(a.date || Date.now())
-      return date.toDateString()
-    })).size
-
-    const avgMood = weekMoods.length > 0 
-      ? weekMoods[Math.floor(weekMoods.length / 2)]?.mood || 'Okay'
-      : 'Okay'
-
-    return {
-      totalActivity,
-      totalCalories,
-      avgCalories,
-      avgMood,
-      avgSleep: avgSleepHours,
-      avgQuality,
-      activeDays
-    }
+    if (difference < 200) return 95
+    if (difference < 400) return 85
+    if (difference < 600) return 75
+    return 60
   }
 
-  const stats = period === 'daily' ? getDailyStats() : getWeeklyStats()
-
-  // Generate chart data based on period
-  const getChartDays = () => {
-    const today = new Date()
-    const days = []
+  const calculateHydrationScore = (water) => {
+    if (!water || water.length === 0) return 50
     
-    if (period === 'daily') {
-      // Show hourly data for today
-      for (let i = 0; i < 24; i++) {
-        days.push({
-          hour: i,
-          label: `${i}:00`,
-          fullDate: today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        })
+    const avgWater = water.reduce((sum, item) => sum + (item.amount || 0), 0) / water.length
+    const targetWater = 2000 // ml per day
+    
+    if (avgWater >= targetWater) return 95
+    if (avgWater >= targetWater * 0.8) return 85
+    if (avgWater >= targetWater * 0.6) return 70
+    return 55
+  }
+
+  const calculateActivityScore = (activities) => {
+    if (!activities || activities.length === 0) return 50
+    
+    const totalMinutes = activities.reduce((sum, item) => sum + (item.duration || 0), 0)
+    const avgMinutes = totalMinutes / 7 // Weekly average
+    
+    if (avgMinutes >= 30) return 95
+    if (avgMinutes >= 20) return 80
+    if (avgMinutes >= 10) return 65
+    return 50
+  }
+
+  const calculateSleepScore = (sleep) => {
+    if (!sleep || sleep.length === 0) return 50
+    
+    const avgHours = sleep.reduce((sum, item) => sum + (item.hours || 0), 0) / sleep.length
+    
+    if (avgHours >= 7 && avgHours <= 9) return 95
+    if (avgHours >= 6 && avgHours <= 10) return 80
+    if (avgHours >= 5 && avgHours <= 11) return 65
+    return 50
+  }
+
+  const calculateMoodScore = (mood) => {
+    if (!mood || mood.length === 0) return 70
+    
+    const moodValues = {
+      'great': 100,
+      'good': 80,
+      'okay': 60,
+      'bad': 40,
+      'terrible': 20
+    }
+    
+    const avgMood = mood.reduce((sum, item) => {
+      return sum + (moodValues[item.mood?.toLowerCase()] || 60)
+    }, 0) / mood.length
+    
+    return Math.round(avgMood)
+  }
+
+  const generateInsights = (scores) => {
+    const insights = []
+    
+    // Strength insights
+    const strengths = Object.entries(scores)
+      .filter(([_, score]) => score >= 85)
+      .map(([category]) => category)
+    
+    if (strengths.length > 0) {
+      insights.push({
+        type: 'success',
+        icon: Award,
+        title: 'Your Strengths',
+        message: `You're excelling in ${strengths.join(', ')}! Keep up the great work.`
+      })
+    }
+
+    // Improvement areas
+    const improvements = Object.entries(scores)
+      .filter(([_, score]) => score < 70)
+      .map(([category]) => category)
+    
+    if (improvements.length > 0) {
+      insights.push({
+        type: 'warning',
+        icon: AlertCircle,
+        title: 'Areas for Improvement',
+        message: `Focus on improving your ${improvements.join(', ')} for better wellness.`
+      })
+    }
+
+    // Overall trend
+    if (scores.nutrition > 80 && scores.activity > 80) {
+      insights.push({
+        type: 'info',
+        icon: TrendingUp,
+        title: 'Excellent Balance',
+        message: 'Your nutrition and activity levels are well balanced!'
+      })
+    }
+
+    if (scores.sleep < 70 && scores.mood < 70) {
+      insights.push({
+        type: 'warning',
+        icon: Brain,
+        title: 'Rest & Recovery',
+        message: 'Better sleep could improve your mood. Try establishing a bedtime routine.'
+      })
+    }
+
+    return insights
+  }
+
+  const generateAchievements = () => {
+    return [
+      { icon: Heart, title: 'Wellness Warrior', description: '7 days of tracking', earned: true },
+      { icon: Droplet, title: 'Hydration Hero', description: 'Met water goal 5 days', earned: true },
+      { icon: Activity, title: 'Active Lifestyle', description: '30+ min exercise daily', earned: false },
+      { icon: Moon, title: 'Sleep Champion', description: '7-9 hours sleep consistently', earned: true },
+      { icon: Target, title: 'Goal Getter', description: 'Completed 3 goals', earned: false }
+    ]
+  }
+
+  const generateRecommendations = (scores) => {
+    const recommendations = []
+
+    if (scores.hydration < 80) {
+      recommendations.push({
+        category: 'Hydration',
+        icon: Droplet,
+        title: 'Increase Water Intake',
+        description: 'Aim for 8 glasses (2000ml) of water daily. Set reminders throughout the day.',
+        priority: 'high'
+      })
+    }
+
+    if (scores.activity < 80) {
+      recommendations.push({
+        category: 'Activity',
+        icon: Activity,
+        title: 'Boost Physical Activity',
+        description: 'Try to get at least 30 minutes of moderate exercise daily. Start with a 10-minute walk.',
+        priority: 'high'
+      })
+    }
+
+    if (scores.sleep < 80) {
+      recommendations.push({
+        category: 'Sleep',
+        icon: Moon,
+        title: 'Improve Sleep Quality',
+        description: 'Establish a consistent bedtime routine. Avoid screens 1 hour before bed.',
+        priority: 'medium'
+      })
+    }
+
+    if (scores.nutrition < 80) {
+      recommendations.push({
+        category: 'Nutrition',
+        icon: Heart,
+        title: 'Balance Your Diet',
+        description: 'Focus on whole foods, vegetables, and lean proteins. Use the AI food analyzer for guidance.',
+        priority: 'medium'
+      })
+    }
+
+    if (scores.mood < 70) {
+      recommendations.push({
+        category: 'Mental Health',
+        icon: Brain,
+        title: 'Practice Self-Care',
+        description: 'Try meditation, journaling, or breathing exercises. Connect with the AI wellness chat for support.',
+        priority: 'high'
+      })
+    }
+
+    return recommendations
+  }
+
+  const getScoreColor = (score) => {
+    if (score >= 85) return '#10b981' // green
+    if (score >= 70) return '#f59e0b' // yellow
+    return '#ef4444' // red
+  }
+
+  const getScoreLabel = (score) => {
+    if (score >= 85) return 'Excellent'
+    if (score >= 70) return 'Good'
+    if (score >= 50) return 'Fair'
+    return 'Needs Improvement'
+  }
+
+  const handleDownload = async () => {
+    setExporting(true)
+    try {
+      const element = reportRef.current
+      
+      // Temporarily hide buttons for PDF
+      const buttons = element.querySelectorAll('.report-actions, .download-btn, .share-btn')
+      buttons.forEach(btn => btn.style.display = 'none')
+      
+      // Capture the report as canvas
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      })
+      
+      // Restore buttons
+      buttons.forEach(btn => btn.style.display = '')
+      
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+      
+      const imgWidth = 210 // A4 width in mm
+      const pageHeight = 297 // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      let heightLeft = imgHeight
+      let position = 0
+      
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
+      
+      // Add additional pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight
+        pdf.addPage()
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
       }
-      return days
+      
+      // Download the PDF
+      const filename = `Wellness-Report-${report.generatedDate.replace(/\//g, '-')}.pdf`
+      pdf.save(filename)
+      
+      // Show success message
+      alert('✅ PDF downloaded successfully!')
+    } catch (error) {
+      console.error('PDF generation error:', error)
+      alert('❌ Failed to generate PDF. Please try again.')
+    } finally {
+      setExporting(false)
     }
-    
-    // For weekly, show last 7 days
-    if (period === 'weekly') {
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date(today)
-        date.setDate(today.getDate() - i)
-        days.push({
-          date: date,
-          dayName: date.toLocaleDateString('en-US', { weekday: 'short' }),
-          fullDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        })
+  }
+
+  const handleShareWhatsApp = async () => {
+    setExporting(true)
+    try {
+      const element = reportRef.current
+      
+      // Temporarily hide buttons for PDF
+      const buttons = element.querySelectorAll('.report-actions, .download-btn, .share-btn')
+      buttons.forEach(btn => btn.style.display = 'none')
+      
+      // Capture the report as canvas
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      })
+      
+      // Restore buttons
+      buttons.forEach(btn => btn.style.display = '')
+      
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+      
+      const imgWidth = 210
+      const pageHeight = 297
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      let heightLeft = imgHeight
+      let position = 0
+      
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
+      
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight
+        pdf.addPage()
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
       }
-      return days
-    }
-    
-    // For monthly, show last 30 days grouped by week
-    if (period === 'monthly') {
-      for (let i = 29; i >= 0; i--) {
-        const date = new Date(today)
-        date.setDate(today.getDate() - i)
-        days.push({
-          date: date,
-          dayName: date.toLocaleDateString('en-US', { weekday: 'short' }),
-          fullDate: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        })
+      
+      // Convert PDF to blob
+      const pdfBlob = pdf.output('blob')
+      const pdfUrl = URL.createObjectURL(pdfBlob)
+      
+      // Create share message
+      const message = `🌟 My Wellness Report (${reportPeriod})\n\n` +
+        `Overall Score: ${report.overallScore}/100 (${getScoreLabel(report.overallScore)})\n\n` +
+        `📊 Scores:\n` +
+        `• Nutrition: ${report.scores.nutrition}/100\n` +
+        `• Hydration: ${report.scores.hydration}/100\n` +
+        `• Activity: ${report.scores.activity}/100\n` +
+        `• Sleep: ${report.scores.sleep}/100\n` +
+        `• Mood: ${report.scores.mood}/100\n\n` +
+        `Generated on ${report.generatedDate}\n\n` +
+        `Track your wellness journey with Find Your Inner Peace! 🧘‍♀️`
+      
+      // Check if Web Share API is available with files support
+      if (navigator.share && navigator.canShare) {
+        try {
+          const file = new File([pdfBlob], `Wellness-Report-${report.generatedDate.replace(/\//g, '-')}.pdf`, {
+            type: 'application/pdf'
+          })
+          
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: 'My Wellness Report',
+              text: message,
+              files: [file]
+            })
+            alert('✅ Shared successfully!')
+          } else {
+            // Fallback to WhatsApp web link
+            shareViaWhatsAppWeb(message, pdfUrl)
+          }
+        } catch (error) {
+          if (error.name !== 'AbortError') {
+            shareViaWhatsAppWeb(message, pdfUrl)
+          }
+        }
+      } else {
+        // Fallback for browsers without Web Share API
+        shareViaWhatsAppWeb(message, pdfUrl)
       }
-      return days
+    } catch (error) {
+      console.error('Share error:', error)
+      alert('❌ Failed to share. Please try again.')
+    } finally {
+      setExporting(false)
     }
-    
-    // For yearly, show last 12 months
-    if (period === 'yearly') {
-      for (let i = 11; i >= 0; i--) {
-        const date = new Date(today)
-        date.setMonth(date.getMonth() - i)
-        days.push({
-          date: date,
-          dayName: date.toLocaleDateString('en-US', { month: 'short' }),
-          fullDate: date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        })
-      }
-      return days
-    }
-    
-    return days
   }
 
-  const chartDays = getChartDays()
-
-  const getActivityData = () => {
-    if (period === 'daily') {
-      // For daily, return today's total activity
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      const todayActivities = activities.filter(a => {
-        const activityDate = new Date(a.date || Date.now())
-        return activityDate >= today
-      })
-      const total = todayActivities.reduce((sum, a) => sum + (a.duration || 0), 0)
-      return chartDays.map(() => total / chartDays.length) // Distribute across hours
-    }
+  const shareViaWhatsAppWeb = (message, pdfUrl) => {
+    // First download the PDF
+    const link = document.createElement('a')
+    link.href = pdfUrl
+    link.download = `Wellness-Report-${report.generatedDate.replace(/\//g, '-')}.pdf`
+    link.click()
     
-    return chartDays.map(day => {
-      const dayActivities = activities.filter(a => {
-        const activityDate = new Date(a.date || Date.now())
-        if (period === 'weekly' || period === 'monthly') {
-          return activityDate.toDateString() === day.date.toDateString()
-        }
-        if (period === 'yearly') {
-          const activityMonth = activityDate.getMonth()
-          const activityYear = activityDate.getFullYear()
-          return activityMonth === day.date.getMonth() && activityYear === day.date.getFullYear()
-        }
-        return false
-      })
-      return dayActivities.reduce((sum, a) => sum + (a.duration || 0), 0)
-    })
-  }
-
-  const getSleepData = () => {
-    if (period === 'daily') {
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      const daySleep = sleepLogs.find(s => {
-        const sleepDate = new Date(s.date || Date.now())
-        return sleepDate >= today
-      })
-      const hours = daySleep ? parseFloat(daySleep.duration?.replace(' hours', '') || '0') : 0
-      return chartDays.map(() => hours / chartDays.length) // Distribute across hours
-    }
+    // Then open WhatsApp with the message
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank')
     
-    return chartDays.map(day => {
-      const daySleep = sleepLogs.find(s => {
-        const sleepDate = new Date(s.date || Date.now())
-        if (period === 'weekly' || period === 'monthly') {
-          return sleepDate.toDateString() === day.date.toDateString()
-        }
-        if (period === 'yearly') {
-          const sleepMonth = sleepDate.getMonth()
-          const sleepYear = sleepDate.getFullYear()
-          return sleepMonth === day.date.getMonth() && sleepYear === day.date.getFullYear()
-        }
-        return false
-      })
-      if (daySleep) {
-        return parseFloat(daySleep.duration?.replace(' hours', '') || '0')
-      }
-      return 0
-    })
+    alert('📄 PDF downloaded! Now you can manually attach it in WhatsApp.')
   }
 
-  const getNutritionData = () => {
-    if (period === 'daily') {
-      return chartDays.map(() => nutrition.calories / chartDays.length)
-    }
-    
-    return chartDays.map(() => nutrition.calories) // Simplified - would need per-day nutrition tracking
-  }
-
-  const getMoodData = () => {
-    const moodMap = { '😄 Excellent': 5, '😊 Good': 4, '😐 Okay': 3, '😔 Low': 2, '😢 Poor': 1, 'Great': 5, 'Moderate': 3, 'High': 5, 'Low': 2 }
-    if (period === 'daily') {
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      const dayMood = moodLogs.find(m => {
-        const moodDate = new Date(m.date || Date.now())
-        return moodDate >= today
-      })
-      const moodValue = dayMood ? (moodMap[dayMood.mood] || Object.values(moodMap).find(v => v === dayMood.mood) || 3) : 3
-      return chartDays.map(() => moodValue)
-    }
-    
-    return chartDays.map(day => {
-      const dayMood = moodLogs.find(m => {
-        const moodDate = new Date(m.date || Date.now())
-        if (period === 'weekly' || period === 'monthly') {
-          return moodDate.toDateString() === day.date.toDateString()
-        }
-        if (period === 'yearly') {
-          const moodMonth = moodDate.getMonth()
-          const moodYear = moodDate.getFullYear()
-          return moodMonth === day.date.getMonth() && moodYear === day.date.getFullYear()
-        }
-        return false
-      })
-      return dayMood ? (moodMap[dayMood.mood] || Object.values(moodMap).find(v => v === dayMood.mood) || 3) : 3
-    })
-  }
-
-  const activityData = getActivityData()
-  const sleepData = getSleepData()
-  const nutritionData = getNutritionData()
-  const moodData = getMoodData()
-
-  const maxActivity = Math.max(...activityData, 1)
-  const maxSleep = Math.max(...sleepData, 8)
-  const maxNutrition = Math.max(...nutritionData, 2000)
-  const maxMood = 5
-
-  const handleExportPDF = () => {
-    alert('Exporting PDF report...')
-    // PDF export functionality would go here
-  }
-
-  const handleShareWhatsApp = () => {
-    const text = `My Wellness Report:\nActivity: ${stats.totalActivity} min\nCalories: ${stats.totalCalories}\nSleep: ${stats.avgSleep}h\nMood: ${stats.avgMood}`
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`
-    window.open(url, '_blank')
+  if (loading) {
+    return (
+      <div className="wellness-report-container">
+        <div className="report-loading">
+          <div className="spinner"></div>
+          <p>Generating your wellness report...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="wellness-report-page">
-      <div className="wellness-report-container">
-        <header className="page-header">
-          <h1>Wellness Report</h1>
-          <p>An overview of your activity, sleep, nutrition, and mood data.</p>
-        </header>
-
-        <div className="report-controls">
-        <button 
-          className={`period-btn ${period === 'daily' ? 'active' : ''}`}
-          onClick={() => setPeriod('daily')}
-        >
-          Daily
-        </button>
-        <button 
-          className={`period-btn ${period === 'weekly' ? 'active' : ''}`}
-          onClick={() => setPeriod('weekly')}
-        >
-          Weekly
-        </button>
-        <button 
-          className={`period-btn ${period === 'monthly' ? 'active' : ''}`}
-          onClick={() => setPeriod('monthly')}
-        >
-          Monthly
-        </button>
-        <button 
-          className={`period-btn ${period === 'yearly' ? 'active' : ''}`}
-          onClick={() => setPeriod('yearly')}
-        >
-          Yearly
-        </button>
+    <div className="wellness-report-container" ref={reportRef}>
+      {/* Header */}
+      <div className="report-header">
+        <div className="report-header-content">
+          <div className="report-icon-wrapper">
+            <FileText size={32} />
+          </div>
+          <div>
+            <h1 className="report-title">Wellness Report</h1>
+            <p className="report-subtitle">
+              Your personalized health insights for the past {reportPeriod}
+            </p>
+          </div>
+        </div>
+        <div className="report-actions">
+          <select 
+            value={reportPeriod} 
+            onChange={(e) => setReportPeriod(e.target.value)}
+            className="period-select"
+          >
+            <option value="week">Last 7 Days</option>
+            <option value="month">Last 30 Days</option>
+            <option value="year">Last Year</option>
+          </select>
+          <button 
+            className="download-btn" 
+            onClick={handleDownload}
+            disabled={exporting}
+          >
+            {exporting ? (
+              <>
+                <div className="spinner-small"></div>
+                Generating...
+              </>
+            ) : (
+              <>
+                <Download size={18} />
+                Download PDF
+              </>
+            )}
+          </button>
+          <button 
+            className="share-btn whatsapp" 
+            onClick={handleShareWhatsApp}
+            disabled={exporting}
+          >
+            {exporting ? (
+              <>
+                <div className="spinner-small"></div>
+                Preparing...
+              </>
+            ) : (
+              <>
+                <MessageCircle size={18} />
+                Share on WhatsApp
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Daily/Weekly Summary */}
-      <section className="weekly-summary">
-        <h2>{period === 'daily' ? 'Daily Summary' : period === 'weekly' ? 'Weekly Summary' : period === 'monthly' ? 'Monthly Summary' : 'Yearly Summary'}</h2>
-        <div className="summary-grid">
-          <div className="summary-card">
-            <div className="summary-label">{period === 'daily' ? 'Today\'s Activity' : 'Total Activity'}</div>
-            <div className="summary-value">{stats.totalActivity} min</div>
+      {/* Overall Score */}
+      <div className="overall-score-card">
+        <div className="score-circle-container">
+          <svg className="score-circle" viewBox="0 0 200 200">
+            <circle
+              cx="100"
+              cy="100"
+              r="90"
+              fill="none"
+              stroke="#e5e7eb"
+              strokeWidth="20"
+            />
+            <circle
+              cx="100"
+              cy="100"
+              r="90"
+              fill="none"
+              stroke={getScoreColor(report.overallScore)}
+              strokeWidth="20"
+              strokeDasharray={`${report.overallScore * 5.65} 565`}
+              strokeLinecap="round"
+              transform="rotate(-90 100 100)"
+            />
+          </svg>
+          <div className="score-center">
+            <div className="score-number">{report.overallScore}</div>
+            <div className="score-label">{getScoreLabel(report.overallScore)}</div>
           </div>
-          <div className="summary-card">
-            <div className="summary-label">{period === 'daily' ? 'Today\'s Calories' : 'Total Calories'}</div>
-            <div className="summary-value">{stats.totalCalories}</div>
-          </div>
-          <div className="summary-card">
-            <div className="summary-label">Avg. Calories</div>
-            <div className="summary-value">{stats.avgCalories}</div>
-          </div>
-          <div className="summary-card">
-            <div className="summary-label">{period === 'daily' ? 'Current Mood' : 'Avg. Mood'}</div>
-            <div className="summary-value">{stats.avgMood}</div>
-          </div>
-          <div className="summary-card">
-            <div className="summary-label">{period === 'daily' ? 'Sleep Duration' : 'Avg. Sleep'}</div>
-            <div className="summary-value">{stats.avgSleep} h</div>
-          </div>
-          <div className="summary-card">
-            <div className="summary-label">{period === 'daily' ? 'Sleep Quality' : 'Avg. Quality'}</div>
-            <div className="summary-value">{stats.avgQuality}/5</div>
-          </div>
-          {period !== 'daily' && (
-            <div className="summary-card">
-              <div className="summary-label">Active Days</div>
-              <div className="summary-value">{stats.activeDays} Days</div>
-            </div>
-          )}
         </div>
-      </section>
-
-      {/* Charts */}
-      <section className="charts-section">
-        {/* Activity Chart */}
-        <div className="chart-card">
-          <h3>Activity</h3>
-          <div className="chart-container">
-            <div className="chart-bars">
-              {chartDays.map((day, index) => (
-                <div key={index} className="chart-bar-group">
-                  <div className="chart-bar" style={{ height: `${maxActivity > 0 ? (activityData[index] / maxActivity) * 100 : 0}%` }}></div>
-                  <span className="chart-label">
-                    {period === 'daily' ? day.label : period === 'yearly' ? day.dayName : day.dayName}
-                  </span>
+        <div className="score-details">
+          <h2>Your Overall Wellness Score</h2>
+          <p>Generated on {report.generatedDate}</p>
+          <div className="score-breakdown">
+            {Object.entries(report.scores).map(([category, score]) => (
+              <div key={category} className="score-item">
+                <span className="category-name">{category}</span>
+                <div className="score-bar-container">
+                  <div 
+                    className="score-bar" 
+                    style={{ 
+                      width: `${score}%`,
+                      backgroundColor: getScoreColor(score)
+                    }}
+                  />
                 </div>
-              ))}
-            </div>
-            <div className="chart-axis-label">Minutes</div>
+                <span className="score-value">{score}</span>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Sleep Chart */}
-        <div className="chart-card">
-          <h3>Sleep</h3>
-          <div className="chart-container">
-            <div className="chart-bars">
-              {chartDays.map((day, index) => (
-                <div key={index} className="chart-bar-group">
-                  <div className="chart-bar" style={{ height: `${maxSleep > 0 ? (sleepData[index] / maxSleep) * 100 : 0}%` }}></div>
-                  <span className="chart-label">
-                    {period === 'daily' ? day.label : period === 'yearly' ? day.dayName : day.fullDate}
-                  </span>
+      {/* Insights */}
+      {report.insights.length > 0 && (
+        <div className="report-section">
+          <h3 className="section-title">
+            <Sparkles size={20} />
+            Key Insights
+          </h3>
+          <div className="insights-grid">
+            {report.insights.map((insight, index) => (
+              <div key={index} className={`insight-card insight-${insight.type}`}>
+                <div className="insight-icon">
+                  <insight.icon size={24} />
                 </div>
-              ))}
-            </div>
-            <div className="chart-axis-label">Hours</div>
-          </div>
-        </div>
-
-        {/* Nutrition Chart */}
-        <div className="chart-card">
-          <h3>Nutrition</h3>
-          <div className="chart-container">
-            <div className="chart-bars">
-              {chartDays.map((day, index) => (
-                <div key={index} className="chart-bar-group">
-                  <div className="chart-bar" style={{ height: `${maxNutrition > 0 ? (nutritionData[index] / maxNutrition) * 100 : 0}%` }}></div>
-                  <span className="chart-label">
-                    {period === 'daily' ? day.label : period === 'yearly' ? day.dayName : day.dayName}
-                  </span>
+                <div className="insight-content">
+                  <h4>{insight.title}</h4>
+                  <p>{insight.message}</p>
                 </div>
-              ))}
-            </div>
-            <div className="chart-axis-label">Calories</div>
+              </div>
+            ))}
           </div>
         </div>
+      )}
 
-        {/* Mood Chart */}
-        <div className="chart-card">
-          <h3>Mood</h3>
-          <div className="chart-container">
-            <div className="chart-bars">
-              {chartDays.map((day, index) => (
-                <div key={index} className="chart-bar-group">
-                  <div className="chart-bar" style={{ height: `${maxMood > 0 ? (moodData[index] / maxMood) * 100 : 0}%` }}></div>
-                  <span className="chart-label">
-                    {period === 'daily' ? day.label : period === 'yearly' ? day.dayName : day.dayName}
-                  </span>
+      {/* Achievements */}
+      <div className="report-section">
+        <h3 className="section-title">
+          <Award size={20} />
+          Achievements
+        </h3>
+        <div className="achievements-grid">
+          {report.achievements.map((achievement, index) => (
+            <div 
+              key={index} 
+              className={`achievement-card ${achievement.earned ? 'earned' : 'locked'}`}
+            >
+              <div className="achievement-icon">
+                <achievement.icon size={32} />
+              </div>
+              <h4>{achievement.title}</h4>
+              <p>{achievement.description}</p>
+              {achievement.earned && (
+                <div className="earned-badge">
+                  <Award size={16} />
+                  Earned
                 </div>
-              ))}
+              )}
             </div>
-            <div className="chart-axis-label">Mood</div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recommendations */}
+      {report.recommendations.length > 0 && (
+        <div className="report-section">
+          <h3 className="section-title">
+            <Target size={20} />
+            Personalized Recommendations
+          </h3>
+          <div className="recommendations-list">
+            {report.recommendations.map((rec, index) => (
+              <div key={index} className={`recommendation-card priority-${rec.priority}`}>
+                <div className="rec-icon">
+                  <rec.icon size={24} />
+                </div>
+                <div className="rec-content">
+                  <div className="rec-header">
+                    <h4>{rec.title}</h4>
+                    <span className={`priority-badge ${rec.priority}`}>
+                      {rec.priority} priority
+                    </span>
+                  </div>
+                  <p>{rec.description}</p>
+                  <span className="rec-category">{rec.category}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Health Profile */}
-      <section className="health-profile">
-        <h2>Health Profile</h2>
-        <div className="health-profile-card">
-          <h3>Health Conditions</h3>
-          <p>No health conditions listed. You can add them on your personal information page to get more personalized insights.</p>
+      {/* Summary */}
+      <div className="report-footer">
+        <div className="footer-icon">
+          <BarChart3 size={24} />
         </div>
-      </section>
-
-      {/* Logs */}
-      <section className="logs-section">
-        <h2>Logs</h2>
-        <div className="logs-grid">
-          <a href="/body/activity" className="log-card">
-            <Activity size={24} />
-            <span>Activity Log</span>
-          </a>
-          <a href="/body/sleep" className="log-card">
-            <Moon size={24} />
-            <span>Sleep Log</span>
-          </a>
-          <a href="/body/nutrition" className="log-card">
-            <Apple size={24} />
-            <span>Nutrition Log</span>
-          </a>
-          <a href="/wellness/mood" className="log-card">
-            <Heart size={24} />
-            <span>Mood Log</span>
-          </a>
+        <div className="footer-content">
+          <h4>Keep Up the Great Work!</h4>
+          <p>
+            Continue tracking your wellness journey. Small daily improvements lead to significant long-term results.
+            Use the AI Wellness Hub for personalized guidance and support.
+          </p>
         </div>
-      </section>
-
-      {/* Export & Share */}
-      <section className="export-section">
-        <h2>Export & Share</h2>
-        <div className="export-actions">
-          <button className="export-btn" onClick={handleExportPDF}>
-            <Download size={20} />
-            <span>Export Full PDF Report</span>
-          </button>
-          <button className="share-btn" onClick={handleShareWhatsApp}>
-            <Share2 size={20} />
-            <span>Share to WhatsApp</span>
-          </button>
-        </div>
-      </section>
       </div>
     </div>
   )
 }
 
 export default WellnessReport
-

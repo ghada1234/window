@@ -30,6 +30,7 @@ import PaymentSuccess from './components/PaymentSuccess'
 import PWAInstallPrompt from './components/PWAInstallPrompt'
 import ResetPassword from './components/ResetPassword'
 import WebAnalytics from './components/WebAnalytics'
+import WellnessReport from './components/WellnessReport'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import './App.css'
@@ -115,6 +116,7 @@ function App() {
                     <Route path="/info/about" element={<About />} />
                     <Route path="/info/contact" element={<Contact />} />
                     <Route path="/analytics" element={<WebAnalytics />} />
+                    <Route path="/wellness-report" element={<WellnessReport />} />
                     <Route path="*" element={<Navigate to="/dashboard" replace />} />
                   </Routes>
                 </main>
