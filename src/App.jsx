@@ -32,6 +32,7 @@ import ResetPassword from './components/ResetPassword'
 import WebAnalytics from './components/WebAnalytics'
 import WellnessReport from './components/WellnessReport'
 import DataBackup from './components/DataBackup'
+import WearableSync from './components/WearableSync'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import './App.css'
@@ -119,6 +120,7 @@ function App() {
                     <Route path="/analytics" element={<WebAnalytics />} />
                     <Route path="/wellness-report" element={<WellnessReport />} />
                     <Route path="/data-backup" element={<DataBackup />} />
+                    <Route path="/wearable-sync" element={<WearableSync />} />
                     <Route path="*" element={<Navigate to="/dashboard" replace />} />
                   </Routes>
                 </main>

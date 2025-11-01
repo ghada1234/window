@@ -33,6 +33,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { icon: ClipboardList, label: 'Wellness Report', path: '/wellness-report' },
     { icon: BarChart3, label: 'Web Analytics', path: '/analytics' },
     { icon: Database, label: 'Data Backup', path: '/data-backup' },
+    { icon: Activity, label: 'Wearable Devices', path: '/wearable-sync' },
     { icon: UserCircle, label: 'Profile', children: [
       { label: 'Profile', path: '/profile' },
       { label: 'Personal Information', path: '/profile/personal-info' },
