@@ -57,50 +57,198 @@ const ForgotPasswordModal = ({ onClose, onSwitchToSignIn }) => {
         // Send email with reset link (using Resend)
         try {
           const { sendResendEmail } = await import('../utils/resendNotifications')
-          const subject = '🔐 Reset Your Password - Find Your Inner Peace'
-          const message = `Hi,\n\nWe received a request to reset your password.\n\nClick the link below to reset your password:\n${resetLink}\n\nThis link will expire in 1 hour.\n\nIf you didn't request this, you can safely ignore this email.\n\nBest regards,\nFind Your Inner Peace Team`
+          const subject = 'Reset your password for Find Your Inner Peace'
+          const message = `Hello,
+
+Follow this link to reset your Find Your Inner Peace password for your ${email} account.
+
+${resetLink}
+
+This link will expire in 1 hour.
+
+If you didn't ask to reset your password, you can ignore this email.
+
+Thanks,
+
+Your Find Your Inner Peace Team`
           
           const htmlMessage = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Your Password</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background: #f4f4f5; }
-    .container { max-width: 600px; margin: 0 auto; background: white; }
-    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; }
-    .header h1 { color: white; margin: 0; font-size: 28px; }
-    .content { padding: 40px 30px; }
-    .button { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 40px; text-decoration: none; border-radius: 10px; font-weight: 600; margin: 20px 0; }
-    .footer { background: #f9fafb; padding: 30px; text-align: center; color: #6b7280; font-size: 14px; }
-    .warning { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin: 20px 0; color: #78350f; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background-color: #f9fafb;
+      padding: 20px;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .email-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .email-header h1 {
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .email-body {
+      padding: 40px 30px;
+    }
+    .email-body p {
+      margin: 0 0 16px 0;
+      color: #4b5563;
+      font-size: 15px;
+    }
+    .email-body p:first-child {
+      color: #1f2937;
+      font-size: 16px;
+    }
+    .email-info {
+      background-color: #f3f4f6;
+      border-left: 4px solid #6366f1;
+      padding: 16px;
+      margin: 24px 0;
+      border-radius: 4px;
+    }
+    .email-info p {
+      margin: 0;
+      color: #374151;
+      font-size: 14px;
+    }
+    .button-container {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .reset-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+    .reset-button:hover {
+      transform: translateY(-2px);
+    }
+    .expiry-warning {
+      background-color: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .expiry-warning p {
+      margin: 0;
+      color: #92400e;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .link-fallback {
+      margin: 24px 0;
+      padding: 16px;
+      background-color: #f9fafb;
+      border-radius: 6px;
+    }
+    .link-fallback p {
+      margin: 0 0 8px 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .link-fallback a {
+      color: #6366f1;
+      word-break: break-all;
+      font-size: 13px;
+    }
+    .email-footer {
+      background-color: #f9fafb;
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid #e5e7eb;
+    }
+    .email-footer p {
+      margin: 0 0 8px 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .app-name {
+      color: #6366f1;
+      font-weight: 600;
+    }
+    .security-note {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    @media only screen and (max-width: 600px) {
+      .email-body { padding: 24px 20px; }
+      .email-header { padding: 30px 20px; }
+      .email-footer { padding: 24px 20px; }
+      .reset-button { padding: 12px 24px; font-size: 15px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🔐 Reset Your Password</h1>
+  <div class="email-container">
+    <div class="email-header">
+      <h1>🔐 Password Reset Request</h1>
     </div>
-    <div class="content">
-      <p>Hi,</p>
-      <p>We received a request to reset your password for Find Your Inner Peace.</p>
-      <p style="text-align: center;">
-        <a href="${resetLink}" class="button">Reset Password</a>
-      </p>
-      <div class="warning">
-        <p style="margin: 0;"><strong>⏰ This link expires in 1 hour</strong></p>
+    
+    <div class="email-body">
+      <p>Hello,</p>
+      
+      <p>Follow this link to reset your <span class="app-name">Find Your Inner Peace</span> password for your <strong>${email}</strong> account.</p>
+      
+      <div class="button-container">
+        <a href="${resetLink}" class="reset-button">Reset Password</a>
       </div>
-      <p style="color: #6b7280; font-size: 14px;">
-        If you didn't request this password reset, you can safely ignore this email. Your password will not be changed.
-      </p>
-      <p style="color: #9ca3af; font-size: 12px; margin-top: 20px;">
-        If the button doesn't work, copy and paste this link:<br>
-        <a href="${resetLink}" style="color: #6366f1; word-break: break-all;">${resetLink}</a>
-      </p>
+      
+      <div class="expiry-warning">
+        <p>⏰ This link will expire in 1 hour</p>
+      </div>
+      
+      <div class="email-info">
+        <p><strong>Security Notice:</strong></p>
+        <p>If you didn't ask to reset your password, you can safely ignore this email. Your password will not be changed.</p>
+      </div>
+      
+      <div class="link-fallback">
+        <p>If the button doesn't work, copy and paste this link into your browser:</p>
+        <a href="${resetLink}">${resetLink}</a>
+      </div>
+      
+      <div class="security-note">
+        <p>This is an automated message from Find Your Inner Peace. Please do not reply to this email.</p>
+      </div>
     </div>
-    <div class="footer">
-      <p><strong>Find Your Inner Peace</strong></p>
-      <p>Your Personal Wellness Companion</p>
+    
+    <div class="email-footer">
+      <p><strong class="app-name">Find Your Inner Peace</strong></p>
+      <p>Your Personal Wellness Companion 🧘‍♀️</p>
+      <p style="margin-top: 16px; font-size: 12px;">
+        © ${new Date().getFullYear()} Find Your Inner Peace. All rights reserved.
+      </p>
     </div>
   </div>
 </body>
