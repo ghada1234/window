@@ -443,3 +443,106 @@
     transform: translateY(0);
   }
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .journal-page {
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .journal-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .analyze-btn,
+  .new-entry-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .new-entry-section {
+    padding: 1.5rem;
+  }
+
+  .new-entry-section h2 {
+    font-size: 1.125rem;
+  }
+
+  .journal-textarea-large {
+    font-size: 0.95rem;
+    min-height: 180px;
+  }
+
+  .entry-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .entry-card {
+    padding: 1.25rem;
+  }
+
+  .entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .entry-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .journal-modal {
+    padding: 1.5rem;
+  }
+
+  .journal-modal h3 {
+    font-size: 1.25rem;
+  }
+
+  .delete-modal {
+    padding: 1.5rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .delete-confirm-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .journal-page {
+    padding: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .new-entry-section {
+    padding: 1.25rem;
+  }
+
+  .entry-card {
+    padding: 1rem;
+  }
+
+  .journal-modal {
+    padding: 1.25rem;
+  }
+}
