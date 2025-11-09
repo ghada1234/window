@@ -2373,7 +2373,34 @@
       "asian": "آسيوي",
       "mexican": "مكسيكي",
       "italian": "إيطالي",
-      "american": "أمريكي"
+      "american": "أمريكي",
+      "indian": "هندي",
+      "middleeastern": "شرق أوسطي",
+      "french": "فرنسي"
+    },
+    "profileBanner": {
+      "personalizedGoals": "أهدافك الغذائية المخصصة",
+      "basedOnProfile": "بناءً على ملفك الشخصي",
+      "years": "سنة",
+      "dailyCalories": "السعرات اليومية",
+      "protein": "البروتين",
+      "carbs": "الكربوهيدرات",
+      "fats": "الدهون",
+      "tip": "نصيحة: يتم تصفية خطط الوجبات لتتناسب مع",
+      "calorieGoal": "هدف السعرات الحرارية",
+      "incompleteTitle": "أكمل ملفك الشخصي للحصول على خطط وجبات مخصصة",
+      "incompleteDesc": "حدد عمرك ووزنك وطولك ومستوى نشاطك وهدفك للحصول على توصيات مخصصة",
+      "setupButton": "إكمال إعداد الملف الشخصي"
+    },
+    "mealMeta": {
+      "prepTime": "وقت التحضير",
+      "cookTime": "وقت الطهي",
+      "servings": "الحصص",
+      "difficulty": "الصعوبة",
+      "rating": "التقييم",
+      "easy": "سهل",
+      "medium": "متوسط",
+      "hard": "صعب"
     }
   }
 }

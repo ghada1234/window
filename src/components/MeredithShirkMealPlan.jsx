@@ -252,8 +252,8 @@ const MeredithShirkMealPlan = () => {
           <div className="banner-header">
             <User size={24} />
             <div>
-              <h3>Your Personalized Nutrition Goals</h3>
-              <p>Based on your profile: {userProfile.age}y, {userProfile.weight}kg, {userProfile.height}cm, {userProfile.activityLevel}</p>
+              <h3>{t('meredithShirk.profileBanner.personalizedGoals')}</h3>
+              <p>{t('meredithShirk.profileBanner.basedOnProfile')}: {userProfile.age}{t('meredithShirk.profileBanner.years')}, {userProfile.weight}kg, {userProfile.height}cm, {userProfile.activityLevel}</p>
             </div>
           </div>
           <div className="nutrition-stats">
@@ -261,33 +261,33 @@ const MeredithShirkMealPlan = () => {
               <Flame size={28} />
               <div>
                 <span className="stat-value">{calculateCalories.calories}</span>
-                <span className="stat-label">Daily Calories</span>
+                <span className="stat-label">{t('meredithShirk.profileBanner.dailyCalories')}</span>
               </div>
             </div>
             <div className="stat-card">
               <Target size={24} />
               <div>
                 <span className="stat-value">{calculateCalories.protein}g</span>
-                <span className="stat-label">Protein</span>
+                <span className="stat-label">{t('meredithShirk.profileBanner.protein')}</span>
               </div>
             </div>
             <div className="stat-card">
               <Activity size={24} />
               <div>
                 <span className="stat-value">{calculateCalories.carbs}g</span>
-                <span className="stat-label">Carbs</span>
+                <span className="stat-label">{t('meredithShirk.profileBanner.carbs')}</span>
               </div>
             </div>
             <div className="stat-card">
               <TrendingUp size={24} />
               <div>
                 <span className="stat-value">{calculateCalories.fat}g</span>
-                <span className="stat-label">Fats</span>
+                <span className="stat-label">{t('meredithShirk.profileBanner.fats')}</span>
               </div>
             </div>
           </div>
           <p className="banner-note">
-            💡 Tip: Meal plans are filtered to match your {calculateCalories.calories} calorie goal
+            💡 {t('meredithShirk.profileBanner.tip')} {calculateCalories.calories} {t('meredithShirk.profileBanner.calorieGoal')}
           </p>
         </div>
       ) : (
@@ -295,13 +295,13 @@ const MeredithShirkMealPlan = () => {
           <div className="banner-header">
             <Settings size={24} />
             <div>
-              <h3>Complete Your Profile for Personalized Meal Plans</h3>
-              <p>Set your age, weight, height, activity level, and goal to get customized recommendations</p>
+              <h3>{t('meredithShirk.profileBanner.incompleteTitle')}</h3>
+              <p>{t('meredithShirk.profileBanner.incompleteDesc')}</p>
             </div>
           </div>
           <button className="setup-profile-btn" onClick={() => navigate('/profile/personal-info')}>
             <User size={20} />
-            Complete Profile Setup
+            {t('meredithShirk.profileBanner.setupButton')}
           </button>
         </div>
       )}

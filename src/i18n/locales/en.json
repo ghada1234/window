@@ -2385,7 +2385,34 @@
       "asian": "Asian",
       "mexican": "Mexican",
       "italian": "Italian",
-      "american": "American"
+      "american": "American",
+      "indian": "Indian",
+      "middleeastern": "Middle Eastern",
+      "french": "French"
+    },
+    "profileBanner": {
+      "personalizedGoals": "Your Personalized Nutrition Goals",
+      "basedOnProfile": "Based on your profile",
+      "years": "y",
+      "dailyCalories": "Daily Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fats": "Fats",
+      "tip": "Tip: Meal plans are filtered to match your",
+      "calorieGoal": "calorie goal",
+      "incompleteTitle": "Complete Your Profile for Personalized Meal Plans",
+      "incompleteDesc": "Set your age, weight, height, activity level, and goal to get customized recommendations",
+      "setupButton": "Complete Profile Setup"
+    },
+    "mealMeta": {
+      "prepTime": "Prep Time",
+      "cookTime": "Cook Time",
+      "servings": "Servings",
+      "difficulty": "Difficulty",
+      "rating": "Rating",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
     }
   }
 }
