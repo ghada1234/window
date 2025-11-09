@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat } from 'lucide-react'
+import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import './Sidebar.css'
 
@@ -100,6 +100,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <img src="/sun.jpg" alt={t('app.name')} className="sidebar-logo-img" />
           <h2>{t('app.name')}</h2>
         </div>
+        
+        {/* Language Switcher in Sidebar */}
+        <div className="sidebar-language-switcher">
+          <button 
+            className="language-switch-btn"
+            onClick={(e) => {
+              e.stopPropagation()
+              const newLang = i18n.language === 'en' ? 'ar' : 'en'
+              i18n.changeLanguage(newLang)
+              document.documentElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr')
+              document.documentElement.setAttribute('lang', newLang)
+            }}
+          >
+            <Globe size={18} />
+            <span>{i18n.language === 'en' ? 'عربي' : 'English'}</span>
+          </button>
+        </div>
+        
         <nav className="sidebar-nav">
           {menuItems.map((item, index) => {
             const Icon = item.icon || Home

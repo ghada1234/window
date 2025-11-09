@@ -36,7 +36,6 @@ import DataBackup from './components/DataBackup'
 import WearableSync from './components/WearableSync'
 import OAuthCallback from './components/OAuthCallback'
 import NotificationPrompt from './components/NotificationPrompt/NotificationPrompt'
-import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
 import InstallPrompt from './components/InstallPrompt'
 import SubscriptionGate from './components/SubscriptionGate'
 import VoiceJournal from './components/VoiceJournal'
@@ -148,7 +147,6 @@ function App() {
             <ProtectedRoute>
               <SubscriptionGate>
               <div className="app">
-                  <LanguageSwitcher />
                   <NotificationPrompt />
                   <InstallPrompt />
                 <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />

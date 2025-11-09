@@ -103,6 +103,41 @@ html[dir="rtl"] .sidebar-header h2 {
   color: #1a1a1a;
 }
 
+/* Language Switcher in Sidebar */
+.sidebar-language-switcher {
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.language-switch-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.language-switch-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+}
+
+html[dir="rtl"] .language-switch-btn {
+  flex-direction: row;
+}
+
 .sidebar-nav {
   padding: 1rem 0;
 }

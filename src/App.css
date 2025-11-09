@@ -6,29 +6,9 @@
   overflow-x: hidden;
 }
 
-/* Language Switcher - Fixed position */
+/* Language Switcher moved to Sidebar - old styles kept for backward compatibility */
 .app > .language-switcher {
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 1000;
-  animation: slideInFromRight 0.4s ease-out;
-}
-
-html[dir="rtl"] .app > .language-switcher {
-  right: auto;
-  left: 1.5rem;
-}
-
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  display: none;
 }
 
 .main-content {
@@ -55,21 +35,10 @@ html[dir="rtl"] .main-content.sidebar-closed {
 }
 
 @media (max-width: 768px) {
-  .app > .language-switcher {
-    top: 1rem;
-    right: 1rem;
-    z-index: 2000;
-  }
-
-  html[dir="rtl"] .app > .language-switcher {
-    right: auto;
-    left: 1rem;
-  }
-
   .main-content {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 4rem 1rem 5rem 1rem;
     width: 100%;
     min-height: 100vh;
     position: relative;
@@ -88,19 +57,8 @@ html[dir="rtl"] .main-content.sidebar-closed {
 }
 
 @media (max-width: 480px) {
-  .app > .language-switcher {
-    top: 0.75rem;
-    right: 0.75rem;
-    scale: 0.9;
-  }
-
-  html[dir="rtl"] .app > .language-switcher {
-    right: auto;
-    left: 0.75rem;
-  }
-
   .main-content {
-    padding: 4rem 0.75rem 0.75rem 0.75rem;
+    padding: 4rem 0.75rem 5rem 0.75rem;
   }
 }
 
