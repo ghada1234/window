@@ -1,9 +1,11 @@
 import { useMemo } from 'react'
 import { useWellness } from '../context/WellnessContext'
 import { Brain, TrendingUp, TrendingDown, Heart, Moon, Activity, Apple, BookOpen, Calendar, Lightbulb, BarChart3 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './EmotionInsights.css'
 
 const EmotionInsights = () => {
+  const { t } = useTranslation()
   const { moodLogs, nutrition, sleepLogs, activities, journalEntries } = useWellness()
 
   // Analyze mood patterns over time
@@ -259,17 +261,17 @@ const EmotionInsights = () => {
   return (
     <div className="emotion-insights-page">
       <header className="page-header">
-        <h1><Brain size={32} /> Emotional Insights</h1>
-        <p>Comprehensive analysis of your emotional patterns and correlations with wellness factors.</p>
+        <h1><Brain size={32} /> {t('emotionInsights.title')}</h1>
+        <p>{t('emotionInsights.subtitle')}</p>
       </header>
 
       {/* Mood Overview */}
       <section className="mood-overview">
-        <h2><Heart size={24} /> Mood Overview</h2>
+        <h2><Heart size={24} /> {t('emotionInsights.moodOverview')}</h2>
         {moodAnalysis.totalLogs === 0 ? (
           <div className="empty-state">
             <Heart size={48} />
-            <p>Start logging your moods to see insights and patterns.</p>
+            <p>{t('emotionInsights.startLogging')}</p>
           </div>
         ) : (
           <div className="mood-stats-grid">
@@ -346,10 +348,10 @@ const EmotionInsights = () => {
 
       {/* Correlations */}
       <section className="correlations-section">
-        <h2><Lightbulb size={24} /> Correlations & Insights</h2>
+        <h2><Lightbulb size={24} /> {t('emotionInsights.correlationsInsights')}</h2>
         {correlations.length === 0 ? (
           <div className="empty-state">
-            <p>Log more data across different wellness areas to discover correlations.</p>
+            <p>{t('emotionInsights.logMoreData')}</p>
           </div>
         ) : (
           <div className="correlations-grid">
@@ -372,21 +374,25 @@ const EmotionInsights = () => {
       {/* Journal Insights */}
       {journalInsights && (
         <section className="journal-insights-section">
-          <h2><BookOpen size={24} /> Journal Sentiment Analysis</h2>
+          <h2><BookOpen size={24} /> {t('emotionInsights.journalSentiment')}</h2>
           <div className="journal-insight-card">
             <div className="journal-stat">
-              <div className="stat-label">Total Entries</div>
+              <div className="stat-label">{t('emotionInsights.totalEntries')}</div>
               <div className="stat-value">{journalInsights.totalEntries}</div>
             </div>
             <div className="journal-stat">
-              <div className="stat-label">Average Sentiment</div>
+              <div className="stat-label">{t('emotionInsights.averageSentiment')}</div>
               <div className={`stat-value sentiment-${journalInsights.averageSentiment}`}>
-                {journalInsights.averageSentiment}
+                {t(`emotionInsights.${journalInsights.averageSentiment}`)}
               </div>
             </div>
             <div className="journal-insight">
               <Lightbulb size={20} />
-              <p>{journalInsights.insight}</p>
+              <p>
+                {journalInsights.averageSentiment === 'neutral' && t('emotionInsights.balancedTone')}
+                {journalInsights.averageSentiment === 'positive' && t('emotionInsights.positiveTone')}
+                {journalInsights.averageSentiment === 'negative' && t('emotionInsights.negativeTone')}
+              </p>
             </div>
           </div>
         </section>
@@ -409,7 +415,7 @@ const EmotionInsights = () => {
 
       {/* Recommendations */}
       <section className="recommendations-section">
-        <h2><Lightbulb size={24} /> Recommendations</h2>
+        <h2><Lightbulb size={24} /> {t('emotionInsights.recommendations')}</h2>
         <div className="recommendations-grid">
           {moodAnalysis.averageMood && parseFloat(moodAnalysis.averageMood) < 3 && (
             <div className="recommendation-card">
@@ -453,13 +459,13 @@ const EmotionInsights = () => {
 
           {moodAnalysis.totalLogs < 7 && (
             <div className="recommendation-card">
-              <h3>Build Your Data</h3>
-              <p>Log more moods to get better insights:</p>
+              <h3>{t('emotionInsights.buildYourData')}</h3>
+              <p>{t('emotionInsights.logMoreMoods')}</p>
               <ul>
-                <li>Log your mood daily</li>
-                <li>Track pre and post-meal moods</li>
-                <li>Note factors that influence your mood</li>
-                <li>Review patterns regularly</li>
+                <li>{t('emotionInsights.logMoodDaily')}</li>
+                <li>{t('emotionInsights.trackMealMoods')}</li>
+                <li>{t('emotionInsights.noteFactors')}</li>
+                <li>{t('emotionInsights.reviewPatterns')}</li>
               </ul>
             </div>
           )}

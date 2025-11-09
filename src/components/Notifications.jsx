@@ -1,44 +1,62 @@
 import { useState } from 'react'
-import { Bell, Check, X, Info, AlertCircle, CheckCircle, Clock, Mail, Send } from 'lucide-react'
+import { Bell, Check, X, Info, AlertCircle, CheckCircle, Clock, Mail, Send, Smartphone } from 'lucide-react'
 import { sendNotificationEmail, getEmailPreferences, getUserEmail, isEmailJSConfigured } from '../utils/emailNotifications'
 import { sendWellnessNotification, isResendConfigured } from '../utils/resendNotifications'
+import NotificationSettings from './NotificationSettings/NotificationSettings'
+import { useTranslation } from 'react-i18next'
 import './Notifications.css'
 
 const Notifications = () => {
-  const [notifications] = useState([
+  const { t } = useTranslation()
+  const [activeTab, setActiveTab] = useState('list') // 'list', 'email', 'push'
+  
+  // Notification keys for translation
+  const [notificationKeys] = useState([
     {
       id: 1,
       type: 'success',
-      title: 'Goal Achieved!',
-      message: 'You completed your daily water intake goal',
-      time: '2 hours ago',
+      titleKey: 'goalAchieved',
+      messageKey: 'waterGoal',
+      timeKey: 'hoursAgo',
+      timeCount: 2,
       read: false
     },
     {
       id: 2,
       type: 'info',
-      title: 'Reminder',
-      message: 'Time for your evening meditation session',
-      time: '5 hours ago',
+      titleKey: 'reminder',
+      messageKey: 'eveningMeditation',
+      timeKey: 'hoursAgo',
+      timeCount: 5,
       read: false
     },
     {
       id: 3,
       type: 'warning',
-      title: 'Low Activity',
-      message: 'You haven\'t logged any activity today',
-      time: '1 day ago',
+      titleKey: 'lowActivity',
+      messageKey: 'noActivity',
+      timeKey: 'dayAgo',
+      timeCount: 1,
       read: true
     },
     {
       id: 4,
       type: 'success',
-      title: 'Mood Insights',
-      message: 'Your weekly mood report is ready',
-      time: '2 days ago',
+      titleKey: 'moodInsights',
+      messageKey: 'weeklyReport',
+      timeKey: 'daysAgo',
+      timeCount: 2,
       read: true
     }
   ])
+  
+  // Translate notifications
+  const notifications = notificationKeys.map(notif => ({
+    ...notif,
+    title: t(`notifications.types.${notif.titleKey}`),
+    message: t(`notifications.messages.${notif.messageKey}`),
+    time: t(`notifications.time.${notif.timeKey}`, { count: notif.timeCount })
+  }))
 
   const getNotificationIcon = (type) => {
     switch (type) {
@@ -74,7 +92,7 @@ const Notifications = () => {
     const email = getUserEmail() // Always get fresh email
     
     if (!email || !email.includes('@')) {
-      alert('Please set your email address in Profile > Email Preferences')
+      alert(t('notifications.alerts.setEmail'))
       return
     }
 
@@ -89,13 +107,14 @@ const Notifications = () => {
       } else if (emailjsConfigured) {
         result = await sendNotificationEmail(notification, email)
       } else {
-        alert('No email service configured. Please set up Resend or EmailJS in your .env file.')
+        alert(t('notifications.alerts.noServiceConfigured'))
         setSendingEmails(prev => ({ ...prev, [notification.id]: false }))
         return
       }
       
       if (result.success) {
-        alert(`✅ Email sent successfully to ${email}${resendConfigured ? ' via Resend' : ' via EmailJS'}`)
+        const service = resendConfigured ? ' via Resend' : ' via EmailJS'
+        alert(t('notifications.alerts.emailSentSuccess', { email, service }))
       } else {
         alert(`❌ Failed to send email: ${result.reason || result.error}`)
       }
@@ -111,11 +130,11 @@ const Notifications = () => {
     const email = prefs.email || getUserEmail()
     
     if (!email || !email.includes('@')) {
-      alert('Please set your email address in Profile > Email Preferences')
+      alert(t('notifications.alerts.setEmail'))
       return
     }
 
-    if (!confirm(`Send all notifications to ${email}?`)) {
+    if (!confirm(t('notifications.alerts.confirmSendAll', { email }))) {
       return
     }
 
@@ -132,7 +151,7 @@ const Notifications = () => {
         } else if (emailjsConfigured) {
           result = await sendNotificationEmail(notification, email)
         } else {
-          alert('No email service configured. Please set up Resend in your .env file.')
+          alert(t('notifications.alerts.noServiceConfigured'))
           return
         }
         
@@ -150,9 +169,9 @@ const Notifications = () => {
 
     const serviceName = resendConfigured ? 'Resend' : 'EmailJS'
     if (failCount === 0) {
-      alert(`✅ Successfully sent ${successCount} email(s) to ${email} via ${serviceName}!`)
+      alert(t('notifications.alerts.emailSentCount', { count: successCount, email, service: serviceName }))
     } else {
-      alert(`Sent ${successCount} email(s) successfully via ${serviceName}. ${failCount} failed.`)
+      alert(t('notifications.alerts.emailSentPartial', { success: successCount, service: serviceName, fail: failCount }))
     }
   }
 
@@ -160,44 +179,141 @@ const Notifications = () => {
     <div className="notifications-page">
       <header className="page-header">
         <div>
-          <h1><Bell size={32} /> Notifications</h1>
-          <p>Stay updated with your wellness journey</p>
-          {!emailjsConfigured && (
-            <div style={{ 
-              marginTop: '10px', 
-              padding: '10px', 
-              background: '#fef3c7', 
-              border: '1px solid #f59e0b', 
-              borderRadius: '6px',
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <AlertCircle size={16} color="#f59e0b" />
-              <span style={{ color: '#92400e' }}>
-                EmailJS not configured. <a href="/profile" style={{ color: '#d97706', textDecoration: 'underline' }}>Configure in Profile → Email Preferences</a>
-              </span>
-            </div>
-          )}
+          <h1><Bell size={32} /> {t('notifications.title')}</h1>
+          <p>{t('notifications.subtitle')}</p>
+          
+          {/* Tab Navigation */}
+          <div className="notification-tabs" style={{
+            display: 'flex',
+            gap: '12px',
+            marginTop: '20px',
+            borderBottom: '2px solid #e5e7eb'
+          }}>
+            <button
+              className={`tab-button ${activeTab === 'list' ? 'active' : ''}`}
+              onClick={() => setActiveTab('list')}
+              style={{
+                padding: '12px 20px',
+                background: activeTab === 'list' ? '#667eea' : 'transparent',
+                color: activeTab === 'list' ? 'white' : '#666',
+                border: 'none',
+                borderRadius: '8px 8px 0 0',
+                cursor: 'pointer',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Bell size={18} />
+              {t('notifications.tabs.list')}
+            </button>
+            <button
+              className={`tab-button ${activeTab === 'email' ? 'active' : ''}`}
+              onClick={() => setActiveTab('email')}
+              style={{
+                padding: '12px 20px',
+                background: activeTab === 'email' ? '#667eea' : 'transparent',
+                color: activeTab === 'email' ? 'white' : '#666',
+                border: 'none',
+                borderRadius: '8px 8px 0 0',
+                cursor: 'pointer',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Mail size={18} />
+              {t('notifications.tabs.email')}
+            </button>
+            <button
+              className={`tab-button ${activeTab === 'push' ? 'active' : ''}`}
+              onClick={() => setActiveTab('push')}
+              style={{
+                padding: '12px 20px',
+                background: activeTab === 'push' ? '#667eea' : 'transparent',
+                color: activeTab === 'push' ? 'white' : '#666',
+                border: 'none',
+                borderRadius: '8px 8px 0 0',
+                cursor: 'pointer',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+            >
+              <Smartphone size={18} />
+              {t('notifications.tabs.push')}
+            </button>
+          </div>
         </div>
-        {notifications.length > 0 && emailjsConfigured && (
+        {activeTab === 'list' && notifications.length > 0 && emailjsConfigured && (
           <button 
             className="send-all-emails-btn"
             onClick={handleSendAllEmails}
             title={`Send all notifications to ${userEmail || 'your email'}`}
           >
             <Send size={18} />
-            <span>Send All via Email</span>
+            <span>{t('notifications.sendAllEmail')}</span>
           </button>
         )}
       </header>
 
-      <div className="notifications-list">
+      {/* Push Notifications Tab */}
+      {activeTab === 'push' && (
+        <NotificationSettings />
+      )}
+
+      {/* Email Settings Tab */}
+      {activeTab === 'email' && (
+        <div style={{ padding: '20px', background: 'white', borderRadius: '12px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '20px', marginBottom: '16px', color: '#1a1a1a' }}>
+            <Mail size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+            {t('notifications.emailSettings.title')}
+          </h2>
+          <p style={{ color: '#666', marginBottom: '20px' }}>
+            {t('notifications.emailSettings.configureIn')} <a href="/profile" style={{ color: '#667eea', textDecoration: 'underline' }}>{t('notifications.emailSettings.profileLink')}</a> {t('notifications.emailSettings.section')}
+          </p>
+          <div style={{ padding: '16px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '16px', marginBottom: '12px', color: '#333' }}>{t('notifications.emailSettings.serviceStatus')}</h3>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: emailjsConfigured || resendConfigured ? '#059669' : '#dc2626' }}>
+              {emailjsConfigured || resendConfigured ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+              {resendConfigured ? t('notifications.emailSettings.resendConfigured') : emailjsConfigured ? t('notifications.emailSettings.emailjsConfigured') : t('notifications.emailSettings.notConfigured')}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Notifications List Tab */}
+      {activeTab === 'list' && (
+        <>
+          {!emailjsConfigured && !resendConfigured && (
+            <div style={{ 
+              marginBottom: '20px',
+              padding: '16px', 
+              background: '#fef3c7', 
+              border: '1px solid #f59e0b', 
+              borderRadius: '12px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px'
+            }}>
+              <AlertCircle size={20} color="#f59e0b" />
+              <span style={{ color: '#92400e' }}>
+                {t('notifications.emailSettings.notConfiguredWarning')} <a href="/profile" style={{ color: '#d97706', textDecoration: 'underline' }}>{t('notifications.emailSettings.configureLink')}</a>
+              </span>
+            </div>
+          )}
+          <div className="notifications-list">
         {notifications.length === 0 ? (
           <div className="no-notifications">
             <Bell size={48} />
-            <p>No notifications</p>
+            <p>{t('notifications.noNotifications')}</p>
           </div>
         ) : (
           notifications.map((notification) => {
@@ -233,11 +349,11 @@ const Notifications = () => {
                     )}
                   </button>
                   {!notification.read && (
-                    <button className="mark-read-btn" title="Mark as read">
+                    <button className="mark-read-btn" title={t('notifications.markAsRead')}>
                       <Check size={18} />
                     </button>
                   )}
-                  <button className="delete-btn" title="Delete">
+                  <button className="delete-btn" title={t('notifications.delete')}>
                     <X size={18} />
                   </button>
                 </div>
@@ -245,7 +361,9 @@ const Notifications = () => {
             )
           })
         )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

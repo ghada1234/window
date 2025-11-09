@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react'
 import { useWellness } from '../context/WellnessContext'
 import { Target, Plus, X, Check, Calendar, TrendingUp, Edit2, Trash2, Bell, Award, Flag, Star, Filter } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './HabitsGoals.css'
 
 const HabitsGoals = () => {
+  const { t } = useTranslation()
   const { habits, addHabit, updateHabit, deleteHabit, completeHabit } = useWellness()
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingHabit, setEditingHabit] = useState(null)
@@ -23,24 +25,24 @@ const HabitsGoals = () => {
   })
 
   const categories = [
-    { value: 'wellness', label: 'Wellness' },
-    { value: 'fitness', label: 'Fitness' },
-    { value: 'mindfulness', label: 'Mindfulness' },
-    { value: 'nutrition', label: 'Nutrition' },
-    { value: 'productivity', label: 'Productivity' },
-    { value: 'other', label: 'Other' }
+    { value: 'wellness', label: t('habitsGoals.categories.wellness') },
+    { value: 'fitness', label: t('habitsGoals.categories.fitness') },
+    { value: 'mindfulness', label: t('habitsGoals.categories.mindfulness') },
+    { value: 'nutrition', label: t('habitsGoals.categories.nutrition') },
+    { value: 'productivity', label: t('habitsGoals.categories.productivity') },
+    { value: 'other', label: t('habitsGoals.categories.other') }
   ]
 
   const priorities = [
-    { value: 'high', label: 'High Priority', icon: Flag, color: '#ef4444' },
-    { value: 'medium', label: 'Medium Priority', icon: Target, color: '#f59e0b' },
-    { value: 'low', label: 'Low Priority', icon: Star, color: '#10b981' }
+    { value: 'high', label: t('habitsGoals.priorities.high'), icon: Flag, color: '#ef4444' },
+    { value: 'medium', label: t('habitsGoals.priorities.medium'), icon: Target, color: '#f59e0b' },
+    { value: 'low', label: t('habitsGoals.priorities.low'), icon: Star, color: '#10b981' }
   ]
 
   const difficulties = [
-    { value: 'easy', label: 'Easy', color: '#10b981' },
-    { value: 'medium', label: 'Medium', color: '#f59e0b' },
-    { value: 'hard', label: 'Hard', color: '#ef4444' }
+    { value: 'easy', label: t('habitsGoals.difficulties.easy'), color: '#10b981' },
+    { value: 'medium', label: t('habitsGoals.difficulties.medium'), color: '#f59e0b' },
+    { value: 'hard', label: t('habitsGoals.difficulties.hard'), color: '#ef4444' }
   ]
 
   // Calculate success rate for a habit
@@ -189,15 +191,15 @@ const HabitsGoals = () => {
     <div className="habits-goals-page">
       <div className="page-header">
         <div>
-          <h1>Habits & Goals</h1>
-          <p>Build positive habits and track your progress</p>
+          <h1>{t('habitsGoals.title')}</h1>
+          <p>{t('habitsGoals.subtitle')}</p>
         </div>
         <button 
           className="add-habit-btn"
           onClick={() => setShowAddForm(true)}
         >
           <Plus size={20} />
-          Add Habit
+          {t('habitsGoals.addHabit')}
         </button>
       </div>
 
@@ -205,34 +207,34 @@ const HabitsGoals = () => {
         <div className="habit-form-overlay">
           <div className="habit-form-card">
             <div className="habit-form-header">
-              <h2>{editingHabit ? 'Edit Habit' : 'Add New Habit'}</h2>
+              <h2>{editingHabit ? t('habitsGoals.editHabit') : t('habitsGoals.addNewHabit')}</h2>
               <button className="close-btn" onClick={handleCancel}>
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Habit Name *</label>
+                <label>{t('habitsGoals.habitName')} *</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g., Morning Meditation"
+                  placeholder={t('habitsGoals.habitNamePlaceholder')}
                   required
                 />
               </div>
               <div className="form-group">
-                <label>Description</label>
+                <label>{t('habitsGoals.description')}</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Add a description or motivation..."
+                  placeholder={t('habitsGoals.descriptionPlaceholder')}
                   rows="3"
                 />
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Priority *</label>
+                  <label>{t('habitsGoals.priority')} *</label>
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
@@ -244,7 +246,7 @@ const HabitsGoals = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Difficulty</label>
+                  <label>{t('habitsGoals.difficulty')}</label>
                   <select
                     value={formData.difficulty}
                     onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
@@ -257,7 +259,7 @@ const HabitsGoals = () => {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Category</label>
+                  <label>{t('habitsGoals.category')}</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -268,20 +270,20 @@ const HabitsGoals = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Frequency</label>
+                  <label>{t('habitsGoals.frequency')}</label>
                   <select
                     value={formData.frequency}
                     onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
                   >
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="custom">Custom</option>
+                    <option value="daily">{t('habitsGoals.frequencies.daily')}</option>
+                    <option value="weekly">{t('habitsGoals.frequencies.weekly')}</option>
+                    <option value="custom">{t('habitsGoals.frequencies.custom')}</option>
                   </select>
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Weekly Target</label>
+                  <label>{t('habitsGoals.weeklyTarget')}</label>
                   <input
                     type="number"
                     value={formData.target}
@@ -291,7 +293,7 @@ const HabitsGoals = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Reminder Time</label>
+                  <label>{t('habitsGoals.reminderTime')}</label>
                   <input
                     type="time"
                     value={formData.reminderTime}
@@ -300,20 +302,20 @@ const HabitsGoals = () => {
                 </div>
               </div>
               <div className="form-group">
-                <label>Motivation (Why is this important?)</label>
+                <label>{t('habitsGoals.motivation')}</label>
                 <textarea
                   value={formData.motivation}
                   onChange={(e) => setFormData({ ...formData, motivation: e.target.value })}
-                  placeholder="Remind yourself why this habit matters..."
+                  placeholder={t('habitsGoals.motivationPlaceholder')}
                   rows="2"
                 />
               </div>
               <div className="form-actions">
                 <button type="button" className="cancel-btn" onClick={handleCancel}>
-                  Cancel
+                  {t('habitsGoals.cancel')}
                 </button>
                 <button type="submit" className="save-btn">
-                  {editingHabit ? 'Update Habit' : 'Create Habit'}
+                  {editingHabit ? t('habitsGoals.updateHabit') : t('habitsGoals.createHabit')}
                 </button>
               </div>
             </form>
@@ -324,10 +326,10 @@ const HabitsGoals = () => {
       {habits.length === 0 ? (
         <div className="empty-state">
           <Target size={64} />
-          <h2>No habits yet</h2>
-          <p>Start building positive habits today!</p>
+          <h2>{t('habitsGoals.noHabits')}</h2>
+          <p>{t('habitsGoals.startBuilding')}</p>
           <button className="add-first-habit-btn" onClick={() => setShowAddForm(true)}>
-            Add Your First Habit
+            {t('habitsGoals.addFirstHabit')}
           </button>
         </div>
       ) : (
@@ -399,7 +401,7 @@ const HabitsGoals = () => {
                       <span className="stat-value" style={{ color: getStreakColor(habit.streak) }}>
                         {habit.streak || 0}
                       </span>
-                      <span className="stat-label">Day Streak</span>
+                      <span className="stat-label">{t('habitsGoals.dayStreak')}</span>
                     </div>
                   </div>
                   <div className="stat-item">
@@ -408,28 +410,28 @@ const HabitsGoals = () => {
                       <span className="stat-value" style={{ color: successRate >= 80 ? '#22c55e' : successRate >= 50 ? '#f59e0b' : '#ef4444' }}>
                         {successRate}%
                       </span>
-                      <span className="stat-label">Success Rate</span>
+                      <span className="stat-label">{t('habitsGoals.successRate')}</span>
                     </div>
                   </div>
                   <div className="stat-item">
                     <Calendar size={16} />
                     <div>
                       <span className="stat-value">{progress}%</span>
-                      <span className="stat-label">This Week</span>
+                      <span className="stat-label">{t('habitsGoals.thisWeek')}</span>
                     </div>
                   </div>
                   <div className="stat-item">
                     <Target size={16} />
                     <div>
                       <span className="stat-value">{habit.bestStreak || 0}</span>
-                      <span className="stat-label">Best Streak</span>
+                      <span className="stat-label">{t('habitsGoals.bestStreak')}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="habit-progress">
                   <div className="progress-header">
-                    <span className="progress-label">Weekly Progress</span>
+                    <span className="progress-label">{t('habitsGoals.weeklyProgress')}</span>
                     <span className="progress-percentage">{progress}%</span>
                   </div>
                   <div className="progress-bar">
@@ -441,7 +443,7 @@ const HabitsGoals = () => {
                   <span className="progress-text">
                     {habit.completedDays.filter(date => 
                       getThisWeekDates().includes(new Date(date).toDateString())
-                    ).length} / {habit.target} days this week
+                    ).length} / {habit.target} {t('habitsGoals.daysThisWeek')}
                   </span>
                 </div>
 
@@ -451,7 +453,7 @@ const HabitsGoals = () => {
                   disabled={isCompletedToday}
                 >
                   <Check size={18} />
-                  {isCompletedToday ? 'Completed Today ✓' : 'Mark as Complete'}
+                  {isCompletedToday ? t('habitsGoals.completedToday') : t('habitsGoals.markComplete')}
                 </button>
               </div>
             )
@@ -462,29 +464,29 @@ const HabitsGoals = () => {
       {/* Success Analytics Summary */}
       {habits.length > 0 && (
         <div className="success-summary">
-          <h3>📊 Success Overview</h3>
+          <h3>{t('habitsGoals.successOverview')}</h3>
           <div className="summary-stats">
             <div className="summary-card">
               <div className="summary-value">{habits.length}</div>
-              <div className="summary-label">Total Habits</div>
+              <div className="summary-label">{t('habitsGoals.totalHabits')}</div>
             </div>
             <div className="summary-card">
               <div className="summary-value" style={{ color: '#22c55e' }}>
                 {habits.filter(h => getSuccessRate(h) >= 80).length}
               </div>
-              <div className="summary-label">High Success (≥80%)</div>
+              <div className="summary-label">{t('habitsGoals.highSuccess')}</div>
             </div>
             <div className="summary-card">
               <div className="summary-value" style={{ color: '#f59e0b' }}>
                 {habits.filter(h => (h.streak || 0) >= 7).length}
               </div>
-              <div className="summary-label">7+ Day Streaks</div>
+              <div className="summary-label">{t('habitsGoals.sevenDayStreaks')}</div>
             </div>
             <div className="summary-card">
               <div className="summary-value">
                 {Math.round(habits.reduce((sum, h) => sum + getSuccessRate(h), 0) / habits.length) || 0}%
               </div>
-              <div className="summary-label">Average Success Rate</div>
+              <div className="summary-label">{t('habitsGoals.averageSuccess')}</div>
             </div>
           </div>
         </div>

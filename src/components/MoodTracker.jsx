@@ -1,43 +1,47 @@
 import { useState, useMemo } from 'react'
 import { useWellness } from '../context/WellnessContext'
-import { Heart, TrendingUp, Calendar } from 'lucide-react'
+import { Heart, TrendingUp, Calendar, Edit2, Trash2, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './MoodTracker.css'
 
 const MoodTracker = () => {
-  const { moodLogs, addMoodLog } = useWellness()
+  const { t } = useTranslation()
+  const { moodLogs, addMoodLog, updateMoodLog, deleteMoodLog } = useWellness()
   const [mood, setMood] = useState('')
   const [energy, setEnergy] = useState('')
   const [factors, setFactors] = useState([])
   const [notes, setNotes] = useState('')
+  const [editingMood, setEditingMood] = useState(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(null)
 
   const moodOptions = [
-    { emoji: '😄', label: 'Excellent', value: 'Excellent' },
-    { emoji: '😊', label: 'Good', value: 'Good' },
-    { emoji: '😐', label: 'Okay', value: 'Okay' },
-    { emoji: '😔', label: 'Low', value: 'Low' },
-    { emoji: '😢', label: 'Poor', value: 'Poor' }
+    { emoji: '😄', label: t('moodTracker.excellent'), value: 'Excellent' },
+    { emoji: '😊', label: t('moodTracker.good'), value: 'Good' },
+    { emoji: '😐', label: t('moodTracker.okay'), value: 'Okay' },
+    { emoji: '😔', label: t('moodTracker.low'), value: 'Low' },
+    { emoji: '😢', label: t('moodTracker.poor'), value: 'Poor' }
   ]
 
   const energyOptions = [
-    { emoji: '⚡', label: 'High', value: 'High' },
-    { emoji: '💪', label: 'Good', value: 'Good' },
-    { emoji: '😌', label: 'Moderate', value: 'Moderate' },
-    { emoji: '😴', label: 'Low', value: 'Low' },
-    { emoji: '💤', label: 'Exhausted', value: 'Exhausted' }
+    { emoji: '⚡', label: t('moodTracker.high'), value: 'High' },
+    { emoji: '💪', label: t('moodTracker.good'), value: 'Good' },
+    { emoji: '😌', label: t('moodTracker.moderate'), value: 'Moderate' },
+    { emoji: '😴', label: t('moodTracker.low'), value: 'Low' },
+    { emoji: '💤', label: t('moodTracker.exhausted'), value: 'Exhausted' }
   ]
 
   const moodFactors = [
-    { emoji: '💼', label: 'Work Stress', id: 'work-stress' },
-    { emoji: '👨‍👩‍👧‍👦', label: 'Family Time', id: 'family-time' },
-    { emoji: '😴', label: 'Good Sleep', id: 'good-sleep' },
-    { emoji: '👥', label: 'Social', id: 'social' },
-    { emoji: '🧘', label: 'Relaxed', id: 'relaxed' },
-    { emoji: '😰', label: 'Anxious', id: 'anxious' },
-    { emoji: '🙏', label: 'Grateful', id: 'grateful' },
-    { emoji: '✅', label: 'Productive', id: 'productive' },
-    { emoji: '🎨', label: 'Creative', id: 'creative' },
-    { emoji: '😪', label: 'Tired', id: 'tired' },
-    { emoji: '🎉', label: 'Excited', id: 'excited' }
+    { emoji: '💼', label: t('moodTracker.workStress'), id: 'work-stress' },
+    { emoji: '👨‍👩‍👧‍👦', label: t('moodTracker.familyTime'), id: 'family-time' },
+    { emoji: '😴', label: t('moodTracker.goodSleep'), id: 'good-sleep' },
+    { emoji: '👥', label: t('moodTracker.social'), id: 'social' },
+    { emoji: '🧘', label: t('moodTracker.relaxed'), id: 'relaxed' },
+    { emoji: '😰', label: t('moodTracker.anxious'), id: 'anxious' },
+    { emoji: '🙏', label: t('moodTracker.grateful'), id: 'grateful' },
+    { emoji: '✅', label: t('moodTracker.productive'), id: 'productive' },
+    { emoji: '🎨', label: t('moodTracker.creative'), id: 'creative' },
+    { emoji: '😪', label: t('moodTracker.tired'), id: 'tired' },
+    { emoji: '🎉', label: t('moodTracker.excited'), id: 'excited' }
   ]
 
   const toggleFactor = (factorId) => {
@@ -51,31 +55,69 @@ const MoodTracker = () => {
   const handleSaveMood = (e) => {
     e.preventDefault()
     if (mood && energy) {
-      const moodEntry = {
-        id: Date.now(),
-        mood: moodOptions.find(m => m.value === mood)?.label || mood,
-        moodEmoji: moodOptions.find(m => m.value === mood)?.emoji || '',
-        energy: energyOptions.find(e => e.value === energy)?.label || energy,
-        energyEmoji: energyOptions.find(e => e.value === energy)?.emoji || '',
-        factors: factors.map(id => moodFactors.find(f => f.id === id)).filter(Boolean),
-        notes,
-        date: new Date().toISOString(),
-        dateString: new Date().toLocaleString('en-US', {
-          month: '2-digit',
-          day: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true
+      if (editingMood) {
+        // Update existing mood log
+        updateMoodLog(editingMood.id, {
+          mood: moodOptions.find(m => m.value === mood)?.label || mood,
+          moodEmoji: moodOptions.find(m => m.value === mood)?.emoji || '',
+          energy: energyOptions.find(e => e.value === energy)?.label || energy,
+          energyEmoji: energyOptions.find(e => e.value === energy)?.emoji || '',
+          factors: factors.map(id => moodFactors.find(f => f.id === id)).filter(Boolean),
+          notes
         })
+        setEditingMood(null)
+      } else {
+        // Add new mood log
+        const moodEntry = {
+          id: Date.now(),
+          mood: moodOptions.find(m => m.value === mood)?.label || mood,
+          moodEmoji: moodOptions.find(m => m.value === mood)?.emoji || '',
+          energy: energyOptions.find(e => e.value === energy)?.label || energy,
+          energyEmoji: energyOptions.find(e => e.value === energy)?.emoji || '',
+          factors: factors.map(id => moodFactors.find(f => f.id === id)).filter(Boolean),
+          notes,
+          date: new Date().toISOString(),
+          dateString: new Date().toLocaleString('en-US', {
+            month: '2-digit',
+            day: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+          })
+        }
+        addMoodLog(moodEntry)
       }
-      addMoodLog(moodEntry)
       setMood('')
       setEnergy('')
       setFactors([])
       setNotes('')
     }
+  }
+
+  const handleEditMood = (moodLog) => {
+    setEditingMood(moodLog)
+    const moodValue = moodOptions.find(m => m.label === moodLog.mood || m.value === moodLog.mood)?.value || ''
+    const energyValue = energyOptions.find(e => e.label === moodLog.energy || e.value === moodLog.energy)?.value || ''
+    setMood(moodValue)
+    setEnergy(energyValue)
+    setFactors(moodLog.factors?.map(f => f.id) || [])
+    setNotes(moodLog.notes || '')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleCancelEdit = () => {
+    setEditingMood(null)
+    setMood('')
+    setEnergy('')
+    setFactors([])
+    setNotes('')
+  }
+
+  const handleDeleteMood = (moodId) => {
+    deleteMoodLog(moodId)
+    setDeleteConfirm(null)
   }
 
   // Calculate insights
@@ -146,8 +188,8 @@ const MoodTracker = () => {
     <div className="mood-tracker-page">
       <div className="mood-tracker-container">
         <header className="page-header">
-          <h1>Mood Tracker</h1>
-          <p>Check in with your emotions to understand your mental landscape.</p>
+          <h1>{t('moodTracker.title')}</h1>
+          <p>{t('moodTracker.subtitle')}</p>
         </header>
 
         <div className="mood-tracker-content">
@@ -155,8 +197,8 @@ const MoodTracker = () => {
           <div className="mood-form-section">
             <form onSubmit={handleSaveMood} className="mood-form">
               <div className="form-section">
-                <label className="form-label">How are you feeling?</label>
-                <p className="form-subtitle">Right now, my mood is...</p>
+                <label className="form-label">{t('moodTracker.howFeeling')}</label>
+                <p className="form-subtitle">{t('moodTracker.rightNowMood')}</p>
                 <div className="mood-grid">
                   {moodOptions.map(option => (
                     <button
@@ -173,7 +215,7 @@ const MoodTracker = () => {
               </div>
 
               <div className="form-section">
-                <label className="form-label">My energy level is...</label>
+                <label className="form-label">{t('moodTracker.energyLevel')}</label>
                 <div className="energy-grid">
                   {energyOptions.map(option => (
                     <button
@@ -190,7 +232,7 @@ const MoodTracker = () => {
               </div>
 
               <div className="form-section">
-                <label className="form-label">What might be influencing your mood?</label>
+                <label className="form-label">{t('moodTracker.whatInfluencing')}</label>
                 <div className="factors-grid">
                   {moodFactors.map(factor => (
                     <button
@@ -207,20 +249,27 @@ const MoodTracker = () => {
               </div>
 
               <div className="form-section">
-                <label className="form-label">Anything on your mind?</label>
-                <p className="form-subtitle">Reflect on your feelings, triggers, and thoughts...</p>
+                <label className="form-label">{t('moodTracker.anythingOnMind')}</label>
+                <p className="form-subtitle">{t('moodTracker.reflectPlaceholder')}</p>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Reflect on your feelings, triggers, and thoughts..."
+                  placeholder={t('moodTracker.reflectPlaceholder')}
                   rows="4"
                   className="notes-textarea"
                 />
               </div>
 
-              <button type="submit" className="save-mood-btn" disabled={!mood || !energy}>
-                Save Mood Entry
-              </button>
+              <div className="form-actions">
+                {editingMood && (
+                  <button type="button" className="cancel-btn" onClick={handleCancelEdit}>
+                    {t('common.cancel')}
+                  </button>
+                )}
+                <button type="submit" className="save-mood-btn" disabled={!mood || !energy}>
+                  {editingMood ? t('common.update') : t('moodTracker.saveMoodEntry')}
+                </button>
+              </div>
             </form>
           </div>
 
@@ -229,11 +278,11 @@ const MoodTracker = () => {
             {/* Charts */}
             <div className="charts-row">
               <div className="chart-card">
-                <h3>Mood This Week</h3>
+                <h3>{t('moodTracker.moodThisWeek')}</h3>
                 {moodLogs.length === 0 ? (
                   <div className="no-data">
-                    <p>No Data Yet</p>
-                    <span>Log your mood for a few days to see trends.</span>
+                    <p>{t('moodTracker.noDataYet')}</p>
+                    <span>{t('moodTracker.logMoodForTrends')}</span>
                   </div>
                 ) : (
                   <div className="chart-placeholder">
@@ -244,11 +293,11 @@ const MoodTracker = () => {
               </div>
 
               <div className="chart-card">
-                <h3>Energy This Week</h3>
+                <h3>{t('moodTracker.energyThisWeek')}</h3>
                 {moodLogs.length === 0 ? (
                   <div className="no-data">
-                    <p>No Data Yet</p>
-                    <span>Log your energy levels to see trends.</span>
+                    <p>{t('moodTracker.noDataYet')}</p>
+                    <span>{t('moodTracker.logEnergyForTrends')}</span>
                   </div>
                 ) : (
                   <div className="chart-placeholder">
@@ -261,26 +310,26 @@ const MoodTracker = () => {
 
             {/* Mood Insights */}
             <div className="insights-card">
-              <h3>Mood Insights</h3>
+              <h3>{t('moodTracker.moodInsights')}</h3>
               <div className="insights-grid">
                 <div className="insight-item">
                   <span className="insight-emoji">{insights.avgMoodEmoji}</span>
                   <div>
-                    <div className="insight-label">Avg. Mood</div>
+                    <div className="insight-label">{t('moodTracker.avgMood')}</div>
                     <div className="insight-value">{insights.avgMood}</div>
                   </div>
                 </div>
                 <div className="insight-item">
                   <Calendar size={24} />
                   <div>
-                    <div className="insight-label">Top Factor</div>
+                    <div className="insight-label">{t('moodTracker.topFactor')}</div>
                     <div className="insight-value">{insights.topFactor}</div>
                   </div>
                 </div>
                 <div className="insight-item">
                   <TrendingUp size={24} />
                   <div>
-                    <div className="insight-label">Day Streak</div>
+                    <div className="insight-label">{t('moodTracker.dayStreak')}</div>
                     <div className="insight-value">{insights.dayStreak}</div>
                   </div>
                 </div>
@@ -289,10 +338,10 @@ const MoodTracker = () => {
 
             {/* Recent Entries */}
             <div className="recent-entries-card">
-              <h3>Recent Mood Entries</h3>
+              <h3>{t('moodTracker.recentEntries')}</h3>
               {recentEntries.length === 0 ? (
                 <div className="no-entries">
-                  <p>No mood entries yet. Start tracking your mood!</p>
+                  <p>{t('moodTracker.noEntries')}</p>
                 </div>
               ) : (
                 <div className="entries-list">
@@ -300,10 +349,26 @@ const MoodTracker = () => {
                     <div key={entry.id} className="entry-item">
                       <div className="entry-main">
                         <div className="entry-mood-energy">
-                          <span>{entry.moodEmoji || '😊'} {entry.mood || 'Good'} mood,</span>
-                          <span>{entry.energyEmoji || '😌'} {entry.energy || 'Moderate'} energy</span>
+                          <span>{entry.moodEmoji || '😊'} {entry.mood || t('moodTracker.good')} {t('moodTracker.moodLabel')},</span>
+                          <span>{entry.energyEmoji || '😌'} {entry.energy || t('moodTracker.moderate')} {t('moodTracker.energyLabel')}</span>
                         </div>
                         <div className="entry-date">{entry.dateString || entry.date}</div>
+                        <div className="entry-actions">
+                          <button 
+                            className="icon-btn edit-btn" 
+                            onClick={() => handleEditMood(entry)}
+                            title={t('common.edit')}
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button 
+                            className="icon-btn delete-btn" 
+                            onClick={() => setDeleteConfirm(entry.id)}
+                            title={t('common.delete')}
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
                       </div>
                       {entry.factors && entry.factors.length > 0 && (
                         <div className="entry-factors">
@@ -320,13 +385,37 @@ const MoodTracker = () => {
                     </div>
                   ))}
                   {recentEntries.length >= 10 && (
-                    <button className="load-more-btn">Load More</button>
+                    <button className="load-more-btn">{t('common.loadMore')}</button>
                   )}
                 </div>
               )}
             </div>
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm && (
+          <div className="modal-overlay" onClick={() => setDeleteConfirm(null)}>
+            <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2>{t('common.confirmDelete')}</h2>
+                <button className="close-btn" onClick={() => setDeleteConfirm(null)}>
+                  <X size={24} />
+                </button>
+              </div>
+              <p className="delete-message">{t('common.deleteMessage')}</p>
+              <div className="modal-actions">
+                <button className="cancel-btn" onClick={() => setDeleteConfirm(null)}>
+                  {t('common.cancel')}
+                </button>
+                <button className="delete-confirm-btn" onClick={() => handleDeleteMood(deleteConfirm)}>
+                  <Trash2 size={18} />
+                  {t('common.delete')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

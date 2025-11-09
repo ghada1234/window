@@ -1,0 +1,2393 @@
+{
+  "app": {
+    "name": "Find Your Inner Peace",
+    "tagline": "Your Personal Wellness Journey Companion",
+    "loading": "Loading..."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "mind": "Mind",
+    "body": "Body",
+    "wellness": "Wellness",
+    "community": "Community",
+    "profile": "Profile",
+    "subscription": "Subscription",
+    "notifications": "Notifications",
+    "logout": "Log Out",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "viewAll": "View All"
+  },
+  "sidebar": {
+    "mindPractices": "Mind Practices",
+    "journal": "Journal",
+    "voiceJournal": "Voice Journal",
+    "cbtTherapy": "CBT Therapy",
+    "emotionInsights": "Emotion Insights",
+    "nutrition": "Nutrition",
+    "meredithShirk": "Meal Plans",
+    "waterLog": "Water Log",
+    "activity": "Activity",
+    "sleep": "Sleep",
+    "mood": "Mood",
+    "selfLove": "Self Love",
+    "social": "Social Feed",
+    "whatsappGroups": "WhatsApp Groups",
+    "hobbies": "Hobbies",
+    "habitsGoals": "Habits & Goals",
+    "aiHub": "AI Hub",
+    "wellnessReport": "Wellness Report",
+    "webAnalytics": "Web Analytics",
+    "userStats": "User Statistics",
+    "dataBackup": "Data Backup",
+    "wearableDevices": "Wearable Devices",
+    "personalInfo": "Personal Information",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "landing": {
+    "hero": {
+      "title": "Find Your Inner Peace",
+      "subtitle": "Your Comprehensive Wellness & Meditation Platform",
+      "description": "Track your mood, meditate, and discover AI-powered insights for a healthier, happier you.",
+      "trialBadge": "🎁 First Week Free",
+      "trialNotice": "No credit card required • Cancel anytime",
+      "ctaSignUp": "Start Free Week",
+      "ctaSignIn": "Sign In"
+    },
+    "sections": {
+      "comprehensiveFeatures": {
+        "title": "Comprehensive Wellness Features",
+        "subtitle": "Discover our complete suite of AI-powered wellness tools designed to help you achieve optimal health and inner peace."
+      },
+      "aiFeatures": {
+        "title": "Advanced AI-Powered Features",
+        "subtitle": "Leveraging cutting-edge AI technology for personalized wellness insights"
+      },
+      "pricing": {
+        "monthlyPlan": "Monthly Subscription",
+        "price": "25.67",
+        "currency": "AED",
+        "perMonth": "/month",
+        "fullAccess": "Full Access",
+        "subscribe": "Subscribe Now"
+      }
+    },
+    "mainFeatures": {
+      "aiHub": {
+        "title": "AI Hub",
+        "subtitle": "Your personal wellness assistant",
+        "description": "Get personalized wellness summaries, 5 tailored recommendations, and AI-powered insights based on your data patterns.",
+        "feature1": "Personalized Recommendations",
+        "feature2": "Wellness Summary",
+        "feature3": "AI Assistant"
+      },
+      "nutrition": {
+        "title": "AI Nutrition Tracker",
+        "subtitle": "Smart food analysis and tracking",
+        "description": "Analyze food photos, scan nutrition labels, search food database, and track your daily nutrition with AI.",
+        "feature1": "Photo Analysis",
+        "feature2": "Label Scanning",
+        "feature3": "Food Database",
+        "feature4": "Macro Tracking"
+      },
+      "meditation": {
+        "title": "Meditation & Mindfulness",
+        "subtitle": "Guided sessions with vocal instructions",
+        "description": "Access guided meditation sessions, breathing exercises, and mindfulness practices with vocal guidance.",
+        "feature1": "Guided Meditation",
+        "feature2": "Breathing Exercises",
+        "feature3": "Vocal Instructions"
+      },
+      "sleep": {
+        "title": "Sleep Analysis",
+        "subtitle": "Comprehensive sleep monitoring",
+        "description": "Track sleep quality, duration, and patterns. Get insights to improve your rest and recovery.",
+        "feature1": "Sleep Quality",
+        "feature2": "Duration Tracking",
+        "feature3": "Pattern Analysis"
+      },
+      "activity": {
+        "title": "Activity Tracking",
+        "subtitle": "Monitor your daily activities",
+        "description": "Log various activities, track calories burned, and visualize your weekly activity patterns with charts.",
+        "feature1": "Activity Logging",
+        "feature2": "Calorie Tracking",
+        "feature3": "Weekly Charts"
+      },
+      "water": {
+        "title": "Water Intake Tracking",
+        "subtitle": "Stay hydrated with smart logging",
+        "description": "Track daily water intake with quick-add buttons, custom amounts, and comprehensive history with offline sync.",
+        "feature1": "Quick Add",
+        "feature2": "Custom Amounts",
+        "feature3": "Offline Sync"
+      },
+      "mood": {
+        "title": "Mood Tracking",
+        "subtitle": "Monitor emotional well-being",
+        "description": "Log daily moods, emotions, and triggers to identify patterns and improve your mental health.",
+        "feature1": "Emotion Logging",
+        "feature2": "Pattern Analysis",
+        "feature3": "Trigger Tracking"
+      },
+      "journal": {
+        "title": "Digital Journal",
+        "subtitle": "Reflect and document your journey",
+        "description": "Write daily reflections, gratitude entries, and thoughts. Organize entries with tags and search functionality.",
+        "feature1": "Daily Reflections",
+        "feature2": "Gratitude Entries",
+        "feature3": "Tag Organization"
+      },
+      "selfLove": {
+        "title": "Self Love & Care",
+        "subtitle": "Nurture your relationship with yourself",
+        "description": "Practice self-compassion, positive affirmations, and self-care activities to build a healthier relationship with yourself.",
+        "feature1": "Affirmations",
+        "feature2": "Self-Care Activities",
+        "feature3": "Compassion Practice"
+      },
+      "habits": {
+        "title": "Habits & Goals",
+        "subtitle": "Build lasting wellness habits",
+        "description": "Create and track daily habits, set wellness goals, and build consistency with streak tracking and progress monitoring.",
+        "feature1": "Habit Tracking",
+        "feature2": "Goal Setting",
+        "feature3": "Streak Tracking"
+      }
+    },
+    "aiFeatures": {
+      "title1": "Smart Food Analysis",
+      "desc1": "Take a photo of your meal and get instant nutritional analysis, portion size estimation, and macro breakdown.",
+      "title2": "Personalized Goals",
+      "desc2": "Get customized nutrition targets, macro recommendations, and wellness goals based on your unique profile and objectives."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Get started with our comprehensive wellness platform in just a few simple steps."
+    },
+    "steps": {
+      "step1": {
+        "number": "1",
+        "title": "Create Your Profile",
+        "description": "Set up your personal information including age, weight, height, activity level, and wellness goals.",
+        "benefit1": "Personalized recommendations",
+        "benefit2": "Accurate nutrition calculations",
+        "benefit3": "Nutrition tracking & analysis"
+      },
+      "step2": {
+        "number": "2",
+        "title": "Explore AI-Powered Features",
+        "description": "Use our AI Hub for personalized recommendations, nutrition analysis, and wellness insights.",
+        "benefit1": "Food photo analysis",
+        "benefit2": "Nutrition label scanning"
+      },
+      "step3": {
+        "number": "3",
+        "title": "Track Your Wellness",
+        "description": "Log your meals, water intake, activities, sleep, and mood to get comprehensive insights.",
+        "benefit1": "Nutrition tracking",
+        "benefit2": "Water intake monitoring",
+        "benefit3": "Activity and sleep logs"
+      },
+      "step4": {
+        "number": "4",
+        "title": "Practice Mindfulness",
+        "description": "Engage with meditation sessions, breathing exercises, and journaling for mental wellness.",
+        "benefit1": "Guided meditation",
+        "benefit2": "Breathing exercises",
+        "benefit3": "Journaling and reflection"
+      }
+    },
+    "quickStart": {
+      "title": "Quick Start Guide",
+      "subtitle": "New to wellness tracking? Follow our quick start guide to get the most out of your journey.",
+      "cta": "Start Your Journey"
+    },
+    "completePlatform": {
+      "title": "Complete Wellness Platform",
+      "subtitle": "Access all our AI-powered wellness features, meditation sessions, and personalized insights for just 25.67 AED per month.",
+      "monthlyPrice": "25.67 AED/MONTH",
+      "fullAccessDesc": "Full access to all wellness features including AI-powered nutrition analysis, unlimited meditation sessions, personalized insights, and priority support. Cancel anytime."
+    },
+    "pricingFeatures": [
+      "Full access to all wellness features and tools",
+      "Unlimited meditation sessions (5-60 min)",
+      "AI-powered nutrition analysis",
+      "Food photo recognition & analysis",
+      "Advanced breathing & mindfulness exercises",
+      "Mood tracking & mental wellness tools",
+      "Sleep analysis & activity tracking",
+      "AI Hub with personalized insights",
+      "Digital journaling & self-love practices",
+      "Community support & regular updates"
+    ],
+    "guarantee": {
+      "title": "Money-Back Guarantee",
+      "subtitle": "100% Money Refundable",
+      "subtitleSuffix": "if you're dissatisfied with our service.",
+      "description": "We stand behind our wellness platform. If you're not completely satisfied, contact us for a full refund—no questions asked."
+    },
+    "footer": {
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "copyright": "© 2024 Find Your Inner Peace. All rights reserved.",
+      "securePayment": "Secure UAE Payment (Ziina)",
+      "encryption": "256-bit Encryption",
+      "support": "Priority Support",
+      "securityNote": "All features include secure data encryption, regular updates, and access to our supportive community."
+    },
+    "notificationDropdown": {
+      "goalAchieved": "Goal Achieved!",
+      "goalMessage": "You completed your daily water intake goal",
+      "reminder": "Reminder",
+      "reminderMessage": "Time for your evening meditation session"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "subtitle": "Welcome back! Please sign in to your account.",
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign In",
+      "signing": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign Up",
+      "or": "or",
+      "continueWithGoogle": "Continue with Google"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "subtitle": "Create your account to start your wellness journey.",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "namePlaceholder": "Enter your full name",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Create a password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "button": "Sign Up",
+      "creating": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign In",
+      "or": "or",
+      "continueWithGoogle": "Continue with Google",
+      "passwordMatch": "Passwords match"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password.",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "button": "Send Reset Link",
+      "sending": "Sending...",
+      "backToSignIn": "Back to Sign In",
+      "success": {
+        "title": "Check Your Email",
+        "message": "We've sent a password reset link to",
+        "instructions": "Please check your inbox and click the link to reset your password. If you don't see the email, check your spam folder."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your wellness overview",
+    "welcome": "Welcome Back!",
+    "lastSleep": "Last Sleep",
+    "lastNutrition": "Last Nutrition",
+    "lastActivity": "Last Activity",
+    "lastMood": "Last Mood",
+    "caloriesConsumed": "Calories consumed",
+    "workoutTime": "Workout time",
+    "howFeeling": "How you're feeling",
+    "waterIntake": "Water Intake",
+    "todayGlasses": "Today's Glasses",
+    "addGlass": "+ Add Glass",
+    "dailyGoals": "Daily Goals",
+    "goalsSubtitle": "Stay on track with your wellness targets for today.",
+    "meditate": "Meditate",
+    "drinkWater": "Drink Water",
+    "walk": "Walk",
+    "journal": "Journal",
+    "minutes": "minutes",
+    "glasses": "glasses",
+    "entry": "entry",
+    "moreToGo": "more to go",
+    "recentLogs": "Recent Logs",
+    "recentLogsSubtitle": "A summary of your most recent wellness entries.",
+    "type": "Type",
+    "details": "Details",
+    "time": "Time",
+    "recentActivity": "Recent Activity",
+    "logYourMood": "Log Your Mood",
+    "moodSubtitle": "Check in with your emotions to understand your mental landscape.",
+    "logMood": "Log Mood",
+    "hours": "hours",
+    "good": "Good",
+    "excellent": "Excellent",
+    "moderate": "Moderate",
+    "cycling": "Cycling",
+    "hiit": "HIIT Training",
+    "quality": "quality",
+    "logged": "Logged",
+    "completed": "Completed",
+    "daysAgo": "days ago",
+    "monthsAgo": "months ago",
+    "of": "of",
+    "breathing": "breathing",
+    "meditation": "meditation"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "update": "Update",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "confirmDelete": "Confirm Delete",
+    "deleteMessage": "Are you sure you want to delete this item? This action cannot be undone.",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "all": "All",
+    "locale": "en-US",
+    "loadMore": "Load More"
+  },
+  "mindPractices": {
+    "title": "Mind Practices",
+    "subtitle": "Breathing exercises, meditation, and mindfulness practices for mental wellness",
+    "breathing": "Breathing",
+    "meditation": "Meditation",
+    "mindfulness": "Mindfulness",
+    "history": "History",
+    "breathingExercises": "Breathing Exercises",
+    "breathingSubtitle": "Master conscious breathing techniques for relaxation and focus",
+    "min": "min",
+    "boxBreathing": {
+      "title": "Box Breathing",
+      "description": "Breathe in for 4, hold for 4, out for 4, hold for 4. Perfect for focus and calm.",
+      "benefit1": "Deep Relaxation",
+      "benefit2": "Stress Relief",
+      "benefit3": "Enhanced Focus"
+    },
+    "fourSevenEight": {
+      "title": "4-7-8 Breathing",
+      "description": "Powerful technique to quickly reduce stress and anxiety.",
+      "benefit1": "Stress Relief",
+      "benefit2": "Anxiety Reduction",
+      "benefit3": "Quick Calm"
+    },
+    "diaphragmatic": {
+      "title": "Diaphragmatic Breathing",
+      "description": "Deep belly breathing for relaxation and stress reduction.",
+      "benefit1": "Deep Relaxation",
+      "benefit2": "Stress Reduction",
+      "benefit3": "Better Breathing"
+    },
+    "benefits": "Benefits:",
+    "startPractice": "Start Practice"
+  },
+  "journal": {
+    "title": "Simple Journal",
+    "subtitle": "Write your thoughts and reflections",
+    "analyzeJournal": "Analyze Journal",
+    "analyzingMessage": "Analyzing journal entries...",
+    "newEntry": "New Entry",
+    "entry": "Entry",
+    "journalEntries": "Journal Entries",
+    "entriesSubtitle": "Your recent journal entries",
+    "noEntries": "No entries yet. Start writing!",
+    "writeThoughts": "Write your thoughts and feelings",
+    "placeholder": "What's on your mind today?"
+  },
+  "emotionInsights": {
+    "title": "Emotional Insights",
+    "subtitle": "Comprehensive analysis of your emotional patterns and correlations with wellness factors.",
+    "moodOverview": "Mood Overview",
+    "correlationsInsights": "Correlations & Insights",
+    "journalSentiment": "Journal Sentiment Analysis",
+    "totalEntries": "Total Entries",
+    "averageSentiment": "Average Sentiment",
+    "neutral": "neutral",
+    "positive": "positive",
+    "negative": "negative",
+    "balancedTone": "Your journal entries show a balanced emotional tone.",
+    "positiveTone": "Your journal entries reflect positive emotions.",
+    "negativeTone": "Your journal entries indicate some challenging emotions.",
+    "recommendations": "Recommendations",
+    "buildYourData": "Build Your Data",
+    "logMoreMoods": "Log more moods to get better insights:",
+    "logMoodDaily": "Log your mood daily",
+    "trackMealMoods": "Track pre and post-meal moods",
+    "noteFactors": "Note factors that influence your mood",
+    "reviewPatterns": "Review patterns regularly",
+    "startLogging": "Start logging your moods to see insights and patterns.",
+    "logMoreData": "Log more data across different wellness areas to discover correlations.",
+    "noCorrelations": "No significant correlations found yet. Keep logging!"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account settings and view your wellness journey",
+    "profilePicture": "Profile Picture",
+    "uploadPhoto": "Upload Photo",
+    "changePhoto": "Change Photo",
+    "removePhoto": "Remove Photo",
+    "invalidImageType": "Please select a valid image file (JPG, PNG, GIF, etc.)",
+    "imageTooLarge": "Image size must be less than 5MB",
+    "memberSince": "Member since",
+    "goalsCompleted": "Goals Completed",
+    "currentStreak": "Day Streak",
+    "days": "days",
+    "settings": "Settings",
+    "personalInformation": "Personal Information",
+    "accountSettings": "Account Settings",
+    "emailPreferences": "Email Preferences",
+    "goalsPreferences": "Goals & Preferences",
+    "achievements": "Achievements",
+    "emailNotifications": "Email Notifications",
+    "pushNotifications": "Push Notifications",
+    "dataPrivacy": "Data & Privacy",
+    "logout": "Log Out",
+    "exportData": "Export My Data",
+    "deleteAccount": "Delete Account",
+    "achievementsList": {
+      "firstWeek": "First Week Complete",
+      "meditationMaster": "Meditation Master",
+      "nutritionExpert": "Nutrition Expert"
+    },
+    "emailSettings": {
+      "title": "Email Notification Settings",
+      "resendActive": "✅ Resend Email Service Active",
+      "resendDesc": "Professional email delivery powered by Resend",
+      "emailjsConfigured": "EmailJS Configured",
+      "emailjsDesc": "Email delivery via EmailJS",
+      "noServiceConfigured": "No Email Service Configured",
+      "enableEmailNotifications": "Enable Email Notifications",
+      "emailAddress": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "notificationFrequency": "Notification Frequency",
+      "frequencies": {
+        "immediate": "Immediate",
+        "daily": "Daily Digest",
+        "weekly": "Weekly Summary"
+      },
+      "notificationTypes": "Notification Types",
+      "types": {
+        "goalAchievements": "Goal Achievements",
+        "reminders": "Reminders",
+        "achievements": "Achievements",
+        "reports": "Reports",
+        "insights": "Insights",
+        "warnings": "Warnings"
+      }
+    }
+  },
+  "nutrition": {
+    "title": "Nutrition Tracker",
+    "subtitle": "Log your meals, track your intake, and discover nutritional insights.",
+    "generalRecommendations": "General Recommendations Based on Your Current Mood",
+    "currentMood": "Current Mood:",
+    "tipMessage": "💡 Tip: Use the \"Pre-Meal Check-in\" and \"Post-Meal Check-in\" buttons below to get personalized recommendations based on your emotional state around meals!",
+    "balancedNutrition": "Balanced Nutrition",
+    "balancedDesc": "Maintain a balanced diet with variety",
+    "colorfulVegetables": "Colorful vegetables",
+    "varietyNutrients": "Variety of nutrients",
+    "wholeGrains": "Whole grains",
+    "steadyEnergy": "Steady energy",
+    "leanProteins": "Lean proteins",
+    "muscleHealth": "Muscle and brain health",
+    "healthyFats": "Healthy fats",
+    "fatsExample": "Avocado, nuts, olive oil",
+    "emotionalInsights": "Emotional Insights: Food & Mood Correlation",
+    "emotionalDesc": "Discover patterns between your eating habits and emotional state.",
+    "startLoggingMeals": "Start logging your meals and moods to discover patterns and correlations.",
+    "emotionalCheckin": "Emotional Check-in",
+    "checkinDesc": "Track your emotional state before and after meals to understand your relationship with food.",
+    "preMealCheckin": "Pre-Meal Check-in",
+    "postMealCheckin": "Post-Meal Check-in",
+    "todayNutrition": "Today's Nutrition",
+    "dailyProgress": "Your daily intake progress",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fiber": "Fiber",
+    "sugar": "Sugar",
+    "aiFoodAnalysis": "AI Food Analysis",
+    "aiDesc": "Upload a photo, search for foods, or scan nutrition labels to get AI-powered nutritional analysis",
+    "searchDatabase": "🔍 Search Food Database",
+    "searchDesc": "Search our comprehensive food database for nutritional information.",
+    "searchPlaceholder": "e.g., grilled chicken breast, banana, quinoa...",
+    "search": "Search",
+    "analyzePhoto": "📸 Analyze Food Photo",
+    "analyzePhotoDesc": "Upload a photo of your food to get instant AI-powered nutritional analysis using Google Gemini.",
+    "uploadPhoto": "📸 Upload Photo",
+    "scanLabel": "🏷️ Scan Nutrition Label",
+    "scanLabelDesc": "Upload a photo of a nutrition label to extract detailed nutritional information using Gemini AI.",
+    "uploadLabel": "🏷️ Upload Label Photo"
+  },
+  "waterLog": {
+    "title": "Water Log",
+    "subtitle": "Track and manage your daily water intake history.",
+    "addNewEntry": "Add New Entry",
+    "glassesOfWater": "Glasses of Water",
+    "dailyGoal": "Daily Goal (Glasses)",
+    "date": "Date",
+    "addEntry": "Add Entry",
+    "todayWaterGoal": "Today's Water Goal",
+    "currentGoal": "Current goal:",
+    "glassesPerDay": "glasses per day",
+    "glasses": "glasses",
+    "updateGoal": "Update Goal",
+    "addOneGlass": "+1 Glass",
+    "addTwoGlasses": "+2 Glasses",
+    "custom": "Custom",
+    "lowWaterAlert": "Low Water Intake Alert",
+    "alertMessage": "You've only had {current} glasses today. You need {remaining} more glasses to reach your goal of {goal} glasses.",
+    "history": "History",
+    "noHistory": "No water intake history yet. Start logging!",
+    "of": "of"
+  },
+  "activityTracker": {
+    "title": "Activity Tracker",
+    "subtitle": "Log your workouts, track your progress, and stay motivated.",
+    "logActivitySection": "Log Your Activity",
+    "logDesc": "Quickly add a new workout or activity to your daily log.",
+    "logNewActivity": "Log New Activity",
+    "workoutTimer": "Workout Timer",
+    "wearableDevices": "Wearable Devices",
+    "progressInsights": "Progress & Insights",
+    "activityHistory": "Your Activity History",
+    "noActivities": "No activities logged yet. Start logging your workouts!",
+    "activityNameLabel": "Activity Name",
+    "activityNamePlaceholder": "e.g., Running, Cycling",
+    "durationLabel": "Duration (minutes)",
+    "durationPlaceholder": "30",
+    "caloriesLabel": "Calories (optional)",
+    "caloriesPlaceholder": "300",
+    "saveActivity": "Save Activity",
+    "cancel": "Cancel",
+    "minutesUnit": "{{count}} min",
+    "caloriesUnit": "{{count}} kcal",
+    "timerLabel": "Hours : Minutes : Seconds",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "finishLog": "Finish & Log Activity",
+    "totalActivities": "Total Activities",
+    "totalMinutes": "Total Minutes",
+    "totalCalories": "Total Calories",
+    "avgDuration": "Avg. Duration (min)",
+    "last7Days": "Last 7 Days",
+    "mostCommon": "Most Common Activity",
+    "syncBanner": {
+      "title": "💡 Sync Your Wearable Device",
+      "description": "Connect your Apple Watch, Fitbit, or other device to automatically import your activity data, or manually log your workouts below.",
+      "goToSync": "Go to Wearable Sync"
+    }
+  },
+  "waterTracker": {
+    "history": "Water History",
+    "glass": "glass",
+    "glasses": "glasses"
+  },
+  "sleepTracker": {
+    "title": "Sleep Tracker",
+    "subtitle": "Monitor your sleep patterns and improve your rest",
+    "logLastNight": "Log Last Night's Sleep",
+    "bedtime": "Bedtime",
+    "wakeTime": "Wake Time",
+    "sleepQuality": "Sleep Quality",
+    "sleepFactors": "Sleep Factors",
+    "additionalNotes": "Additional Notes",
+    "notesPlaceholder": "Any thoughts on your sleep?",
+    "saveSleepData": "Save Sleep Data",
+    "sleepLog": "Sleep Log",
+    "recentLogs": "Your recent sleep entries",
+    "noLogs": "No sleep logs yet. Start tracking your sleep!",
+    "sleepPatternsWeek": "Sleep Patterns This Week",
+    "sleepGoal": "Aim for 7-9 hours of quality sleep nightly.",
+    "sleepInsights": "Sleep Insights",
+    "avgSleep": "Avg. Sleep",
+    "avgQuality": "Avg. Quality",
+    "daysTracked": "Days Tracked",
+    "na": "N/A",
+    "improvementTips": "Sleep Improvement Tips",
+    "tipsSubtitle": "Simple habits for more restful nights.",
+    "tip1Title": "Consistent Schedule",
+    "tip1Desc": "Go to bed and wake up at the same time every day, even on weekends.",
+    "tip2Title": "Optimize Environment",
+    "tip2Desc": "Keep your bedroom dark, quiet, cool, and comfortable.",
+    "tip3Title": "Limit Stimulants",
+    "tip3Desc": "Avoid caffeine and alcohol close to bedtime.",
+    "tip4Title": "Relaxation Routine",
+    "tip4Desc": "Develop a relaxing bedtime ritual, like reading or a warm bath.",
+    "caffeineLate": "Caffeine late",
+    "screenTime": "Screen time before bed",
+    "heavyMeal": "Heavy meal late",
+    "alcohol": "Alcohol",
+    "roomTemp": "Room temperature",
+    "noise": "Noise",
+    "comfyBed": "Comfy bed",
+    "reading": "Reading",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "terrible": "Terrible",
+    "hours": "hours",
+    "sleep": "sleep",
+    "on": "on",
+    "bedtimeLabel": "Bedtime",
+    "wakeTimeLabel": "Wake Time"
+  },
+  "moodTracker": {
+    "title": "Mood Tracker",
+    "subtitle": "Understand your emotional well-being and identify patterns",
+    "logYourMood": "Log Your Mood",
+    "howFeeling": "How are you feeling?",
+    "rightNowMood": "Right now, my mood is...",
+    "energyLevel": "Energy Level",
+    "influencingFactors": "Influencing Factors",
+    "whatInfluencing": "What's influencing your mood?",
+    "additionalNotes": "Additional Notes",
+    "notesPlaceholder": "Any specific thoughts or events?",
+    "anythingOnMind": "Anything on your mind?",
+    "reflectPlaceholder": "Reflect on what's influencing your mood...",
+    "saveMood": "Save Mood",
+    "saveMoodEntry": "Save Mood Entry",
+    "moodCharts": "Mood Charts",
+    "moodTrends": "Mood Trends",
+    "moodThisWeek": "Mood This Week",
+    "energyThisWeek": "Energy This Week",
+    "moodDistribution": "Mood Distribution",
+    "insights": "Mood Insights",
+    "moodInsights": "Mood Insights",
+    "avgMood": "Avg. Mood",
+    "topFactor": "Top Factor",
+    "dayStreak": "Day Streak",
+    "recentEntries": "Recent Entries",
+    "noEntries": "No mood entries yet. Log your mood to see insights!",
+    "noDataYet": "No data yet",
+    "logMoodForTrends": "Log your mood to see trends",
+    "logEnergyForTrends": "Log your energy to see trends",
+    "excellent": "Excellent",
+    "good": "Good",
+    "okay": "Okay",
+    "low": "Low",
+    "poor": "Poor",
+    "high": "High",
+    "moderate": "Moderate",
+    "exhausted": "Exhausted",
+    "workStress": "Work stress",
+    "familyTime": "Family time",
+    "goodSleep": "Good sleep",
+    "social": "Social interaction",
+    "relaxed": "Relaxed",
+    "anxious": "Anxious",
+    "grateful": "Grateful",
+    "productive": "Productive",
+    "creative": "Creative",
+    "tired": "Tired",
+    "excited": "Excited",
+    "moodLabel": "Mood",
+    "energyLabel": "Energy",
+    "factorsLabel": "Factors",
+    "notesLabel": "Notes",
+    "na": "N/A"
+  },
+  "voiceJournal": {
+    "title": "Voice Journal",
+    "subtitle": "Record your thoughts and let AI detect emotions from your voice",
+    "recordYourThoughts": "Record Your Thoughts",
+    "speakFreely": "Speak freely - your voice reveals your emotions",
+    "startRecording": "Start Recording",
+    "pause": "Pause",
+    "resume": "Resume",
+    "save": "Save",
+    "play": "Play",
+    "emotionDetected": "Emotion Detected",
+    "liveTranscript": "Live Transcript",
+    "confidence": "confidence",
+    "yourEntries": "Your Voice Entries",
+    "noEntries": "No voice entries yet. Start recording your thoughts!",
+    "confirmDelete": "Are you sure you want to delete this entry?",
+    "micAccessError": "Could not access microphone. Please grant permission.",
+    "browserNotSupported": "Browser Not Supported",
+    "browserNotSupportedDesc": "Your browser doesn't support voice recording. Please use Chrome, Edge, or Safari.",
+    "emotions": {
+      "happy": "Happy",
+      "sad": "Sad",
+      "anxious": "Anxious",
+      "calm": "Calm",
+      "neutral": "Neutral"
+    }
+  },
+  "cbt": {
+    "title": "CBT Therapy & Mindfulness",
+    "subtitle": "Evidence-based cognitive behavioral therapy tools for mental wellness",
+    "whatIsCBT": "What is CBT?",
+    "whatIsCBTDesc": "Cognitive Behavioral Therapy (CBT) helps you identify and challenge negative thought patterns, manage emotions, and develop healthy coping strategies.",
+    "thoughtRecords": "Thought Records",
+    "thoughtRecordsDesc": "Track and challenge your automatic thoughts using the ABC model",
+    "grounding": "Grounding",
+    "groundingDesc": "Anchor yourself in the present moment when feeling anxious or overwhelmed",
+    "relaxation": "Relaxation",
+    "relaxationDesc": "Progressive muscle relaxation to release physical tension",
+    "activation": "Behavioral Activation",
+    "activationDesc": "Plan positive activities to improve mood and break the cycle of inactivity",
+    "newRecord": "New Record",
+    "newThoughtRecord": "New Thought Record",
+    "newThoughtRecordDesc": "Use the ABC model: Activating event, Beliefs (thoughts), Consequences (emotions)",
+    "situation": "Situation (A - Activating Event)",
+    "situationPlaceholder": "What happened? Where were you? Who was involved?",
+    "automaticThought": "Automatic Thought (B - Beliefs)",
+    "thoughtPlaceholder": "What went through your mind? What did you think about yourself/situation?",
+    "emotion": "Emotion (C - Consequences)",
+    "emotionPlaceholder": "e.g., Anxious, Sad, Angry",
+    "intensity": "Intensity",
+    "evidence": "Evidence For/Against",
+    "evidencePlaceholder": "What evidence supports or contradicts this thought?",
+    "alternativeThought": "Alternative/Balanced Thought",
+    "alternativePlaceholder": "What's a more balanced way to view this situation?",
+    "newEmotion": "New Emotion",
+    "newEmotionPlaceholder": "How do you feel now?",
+    "newIntensity": "New Intensity",
+    "noThoughtRecords": "No thought records yet. Start tracking and challenging your thoughts!",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "fillRequired": "Please fill in the required fields",
+    "fiveThings": "5-4-3-2-1 Grounding",
+    "fiveThingsDesc": "Use your senses to ground yourself in the present moment",
+    "startExercise": "Start Exercise",
+    "fiveSee": "Name 5 things you can SEE",
+    "fourTouch": "Name 4 things you can TOUCH",
+    "threeHear": "Name 3 things you can HEAR",
+    "twoSmell": "Name 2 things you can SMELL",
+    "oneTaste": "Name 1 thing you can TASTE",
+    "boxBreathing": "Box Breathing",
+    "boxBreathingDesc": "4-4-4-4 breathing pattern to calm the nervous system",
+    "breathIn4": "Breathe in for 4 seconds",
+    "hold4": "Hold for 4 seconds",
+    "breathOut4": "Breathe out for 4 seconds",
+    "hold4again": "Hold again for 4 seconds",
+    "bodyScan": "Body Scan",
+    "bodyScanDesc": "Systematically relax each part of your body from head to toe",
+    "coldWater": "Cold Water Technique",
+    "coldWaterDesc": "Splash cold water on your face to activate the dive reflex and calm down",
+    "recentExercises": "Recent Exercises",
+    "5-4-3-2-1": "5-4-3-2-1 Grounding",
+    "box-breathing": "Box Breathing",
+    "body-scan": "Body Scan",
+    "cold-water": "Cold Water",
+    "pmr": "Progressive Muscle Relaxation",
+    "pmrTitle": "Progressive Muscle Relaxation (PMR)",
+    "pmrIntro": "Tense each muscle group for 5 seconds, then release for 10 seconds. Notice the difference between tension and relaxation.",
+    "pmr": {
+      "hands": {
+        "title": "Hands & Forearms",
+        "instruction": "Make tight fists, then release and feel the warmth"
+      },
+      "arms": {
+        "title": "Upper Arms",
+        "instruction": "Bend arms and tense biceps, then release"
+      },
+      "shoulders": {
+        "title": "Shoulders",
+        "instruction": "Raise shoulders to ears, then drop them down"
+      },
+      "face": {
+        "title": "Face & Jaw",
+        "instruction": "Scrunch face and clench jaw, then relax completely"
+      },
+      "stomach": {
+        "title": "Stomach",
+        "instruction": "Tighten stomach muscles, then release"
+      },
+      "legs": {
+        "title": "Legs & Thighs",
+        "instruction": "Tense leg muscles, then let them go limp"
+      },
+      "feet": {
+        "title": "Feet & Toes",
+        "instruction": "Curl toes tightly, then release and spread them"
+      }
+    },
+    "startPMR": "Start PMR Session",
+    "planActivity": "Plan Activity",
+    "newActivationPlan": "New Behavioral Activation Plan",
+    "newActivationPlanDesc": "Schedule a positive activity to improve your mood and energy",
+    "activity": "Activity",
+    "activityPlaceholder": "e.g., Go for a walk, Call a friend, Read a book",
+    "day": "Day",
+    "selectDay": "Select a day",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "time": "Time",
+    "motivation": "Motivation Level",
+    "importance": "Importance Level",
+    "noActivationPlans": "No activation plans yet. Start planning positive activities!"
+  },
+  "social": {
+    "title": "Social & Community",
+    "subtitle": "Share your wellness journey and connect with others",
+    "tabs": {
+      "feed": "Feed",
+      "friends": "Friends",
+      "achievements": "Achievements"
+    },
+    "shareYourProgress": "Share Your Progress!",
+    "shareProgressDesc": "Inspire others by sharing your wellness milestones and achievements",
+    "filters": {
+      "all": "All",
+      "sleep": "Sleep",
+      "activity": "Activity",
+      "mood": "Mood",
+      "achievements": "Achievements"
+    },
+    "public": "Public",
+    "friendsOnly": "Friends Only",
+    "share": "Share",
+    "enterComment": "Enter your comment:",
+    "viewMore": "View {{count}} more comments",
+    "myFriends": "My Friends",
+    "addFriend": "Add Friend",
+    "addFriendDesc": "Search for friends by email to connect and share your wellness journey",
+    "enterEmail": "Enter friend's email...",
+    "searchResults": "Search Results",
+    "sendRequest": "Send Request",
+    "friendRequestSent": "Friend request sent to {{name}}!",
+    "noUsersFound": "No users found with that email",
+    "mutualFriends": "{{count}} mutual friends",
+    "confirmRemoveFriend": "Are you sure you want to remove this friend?",
+    "dayStreak": "{{count}} day streak",
+    "activitiesLogged": "{{count}} activities",
+    "pendingRequest": "Pending Request",
+    "connected": "Connected",
+    "accept": "Accept",
+    "decline": "Decline",
+    "myAchievements": "My Achievements",
+    "earnBadges": "Earn badges by completing wellness milestones",
+    "earned": "Earned",
+    "earnedOn": "Earned on",
+    "locked": "Locked",
+    "types": {
+      "sleep": "Sleep",
+      "activity": "Activity",
+      "mood": "Mood",
+      "nutrition": "Nutrition",
+      "water": "Water",
+      "milestone": "Milestone",
+      "achievement": "Achievement",
+      "meditation": "Meditation",
+      "journal": "Journal"
+    },
+    "stats": {
+      "streak": "Streak",
+      "days": "Days",
+      "activities": "Activities",
+      "hours": "Hours",
+      "quality": "Quality",
+      "duration": "Duration",
+      "calories": "Calories",
+      "total": "Total"
+    },
+    "time": {
+      "hoursAgo": "{{count}} hours ago",
+      "hoursAgo_plural": "{{count}} hours ago",
+      "daysAgo": "{{count}} day ago",
+      "daysAgo_plural": "{{count}} days ago"
+    },
+    "sampleUser1": "Sarah M.",
+    "sampleUser2": "Ahmed K.",
+    "sampleUser3": "Emma L.",
+    "sampleUser4": "Omar H.",
+    "friend1": "Lisa Chen",
+    "friend2": "Mohammed Ali",
+    "friend3": "Sofia Rodriguez",
+    "friend4": "Yuki Tanaka",
+    "posts": {
+      "weekStreak": "7-Day Wellness Streak!",
+      "weekStreakDesc": "I've logged my wellness activities for 7 days straight! Feeling motivated and energized. 🔥",
+      "greatSleep": "Best Sleep in Months!",
+      "greatSleepDesc": "Finally got 8.5 hours of excellent quality sleep. The new bedtime routine is really working!",
+      "completedWorkout": "Completed HIIT Workout",
+      "completedWorkoutDesc": "Crushed a 45-minute HIIT session! Feeling strong and accomplished. 💪",
+      "meditationStreak": "30-Day Meditation Streak",
+      "meditationStreakDesc": "Reached 30 consecutive days of daily meditation practice. My mind has never been clearer! 🧘‍♀️"
+    },
+    "achievements": {
+      "weekStreak": "Week Warrior",
+      "weekStreakDesc": "Log wellness activities for 7 consecutive days",
+      "hydration": "Hydration Hero",
+      "hydrationDesc": "Drink 8 glasses of water daily for 7 days",
+      "sleepMaster": "Sleep Master",
+      "sleepMasterDesc": "Get 8+ hours of quality sleep for 7 nights",
+      "fitnessWarrior": "Fitness Warrior",
+      "fitnessWarriorDesc": "Complete 20 workout sessions",
+      "mindfulnessGuru": "Mindfulness Guru",
+      "mindfulnessGuruDesc": "Practice meditation for 30 consecutive days",
+      "goalCrusher": "Goal Crusher",
+      "goalCrusherDesc": "Complete 50 daily goals",
+      "journalMaster": "Journal Master",
+      "journalMasterDesc": "Write 30 journal entries",
+      "wellnessChampion": "Wellness Champion",
+      "wellnessChampionDesc": "Use all wellness features for 30 days"
+    }
+  },
+  "selfLove": {
+    "title": "Self-Love & Care",
+    "subtitle": "Cultivate compassion and kindness for yourself with these practices.",
+    "affirmations": "Affirmations",
+    "selfCare": "Self-Care",
+    "gratitudeTab": "Gratitude",
+    "insights": "Insights",
+    "todayAffirmation": "Today's Affirmation",
+    "useAsMantra": "Use this as a mantra for your day.",
+    "newAffirmation": "New Affirmation",
+    "addToFavorites": "Add to Favorites",
+    "inFavorites": "In Favorites",
+    "add": "Add",
+    "noFavorites": "No favorite affirmations yet. Add one to get started!",
+    "yourAffirmations": "Your Personal Affirmations",
+    "noAffirmations": "No affirmations yet. Click \"Add\" to create your first one!",
+    "basedOnMood": "Based on your current mood",
+    "moodBasedSubtitle": "This affirmation is personalized for how you're feeling right now",
+    "moods": {
+      "excellent": "Excellent mood",
+      "good": "Good mood",
+      "okay": "Okay mood",
+      "low": "Low mood",
+      "anxious": "Anxious",
+      "neutral": "Neutral"
+    },
+    "moodAffirmations": {
+      "excellent": [
+        "I celebrate my joy and share my positive energy with the world.",
+        "I am grateful for this moment of happiness and abundance.",
+        "My enthusiasm and optimism are contagious and uplifting.",
+        "I deserve to feel this amazing and I embrace it fully.",
+        "I use this positive energy to create even more wonderful experiences."
+      ],
+      "good": [
+        "I am worthy of love and kindness, especially from myself.",
+        "I choose to focus on the positive aspects of my life.",
+        "I am doing my best, and that is enough.",
+        "I radiate positivity and attract good things into my life.",
+        "I am proud of myself for showing up today."
+      ],
+      "okay": [
+        "I accept myself exactly as I am in this moment.",
+        "It's okay to feel neutral - not every day needs to be extraordinary.",
+        "I am taking care of myself, one step at a time.",
+        "I trust the process of life and allow things to unfold naturally.",
+        "I am gentle with myself as I navigate this day."
+      ],
+      "low": [
+        "I am allowed to have difficult days, and I deserve compassion.",
+        "This feeling is temporary, and brighter days are ahead.",
+        "I am stronger than I realize, even when I feel weak.",
+        "I reach out for support when I need it - that's a sign of strength.",
+        "I honor my feelings while knowing they don't define my worth."
+      ],
+      "anxious": [
+        "I am safe right now in this present moment.",
+        "I breathe deeply and release the tension in my body.",
+        "I can handle uncertainty - I've overcome challenges before.",
+        "I let go of what I cannot control and focus on what I can.",
+        "My anxiety doesn't define me - I am so much more than this feeling."
+      ],
+      "neutral": [
+        "I am enough just as I am.",
+        "I am growing and learning every day.",
+        "I release the need for self-criticism and embrace self-compassion.",
+        "I have the power to create the life I desire.",
+        "I trust myself and my journey."
+      ]
+    },
+    "defaultAffirmations": [
+      "I am worthy of love and kindness, especially from myself.",
+      "I am enough just as I am.",
+      "I am growing and learning every day.",
+      "I release the need for self-criticism and embrace self-compassion.",
+      "I have the power to create the life I desire."
+    ],
+    "selfCareActivities": {
+      "1": "Take a relaxing bath or shower",
+      "2": "Go for a mindful 15-minute walk",
+      "3": "Do a 10-minute stretching session",
+      "4": "Practice deep breathing for 5 minutes",
+      "5": "Read a chapter of a book for fun",
+      "6": "Listen to a favorite uplifting playlist",
+      "7": "Meditate for 10 minutes",
+      "8": "Write in your journal for 15 minutes",
+      "9": "Call or message a loved one",
+      "10": "Write down 3 things you're grateful for",
+      "11": "Watch a funny video or show",
+      "12": "Do something creative for 45 minutes",
+      "13": "Schedule a video chat with a friend",
+      "14": "Send a kind message to someone",
+      "15": "Engage with a community or group",
+      "16": "Spend time volunteering"
+    },
+    "min": "min",
+    "do": "Do",
+    "done": "✓ Done",
+    "todayProgress": "Today's Progress",
+    "noActivitiesCompleted": "No self-care activities completed today.",
+    "completedActivities": "You've completed {count} self-care activity today! 🎉",
+    "completedActivitiesPlural": "You've completed {count} self-care activities today! 🎉",
+    "gratitude": {
+      "title": "Daily Gratitude Reflection",
+      "subtitle": "Take a moment to appreciate the good things in your life.",
+      "question": "What are you grateful for today?",
+      "placeholder": "Today, I'm grateful for...",
+      "newEntry": "New Entry",
+      "recentEntries": "Recent Gratitude Entries",
+      "noEntries": "No gratitude entries yet. Start your gratitude practice today!"
+    },
+    "insightsTab": {
+      "affirmations": "Affirmations",
+      "saved": "Saved",
+      "selfCareActs": "Self-Care Acts",
+      "today": "Today",
+      "gratitudeLabel": "Gratitude",
+      "total": "Total",
+      "journeyTitle": "Your Self-Love Journey",
+      "growingSelfCompassion": "Growing Self-Compassion",
+      "growingSelfCompassionDesc": "Your saved affirmations show a commitment to positive self-talk.",
+      "consistentCare": "Consistent Care",
+      "consistentCareDesc": "You're actively participating in self-care. Every small act matters.",
+      "embracingPositive": "Embracing Positive Self-Talk",
+      "embracingPositiveDesc": "Gratitude is a powerful tool for shifting perspective. You're using it well.",
+      "encouragement": "You're doing beautifully. Self-love is a practice, not a destination. Be patient with yourself."
+    },
+    "modal": {
+      "editAffirmation": "Edit Affirmation",
+      "addNewAffirmation": "Add New Affirmation",
+      "affirmationPlaceholder": "I am worthy of love and kindness, especially from myself.",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "whatsappGroups": {
+    "title": "WhatsApp Groups",
+    "subtitle": "Connect with others on their wellness journey through community groups",
+    "createGroup": "Create Group",
+    "members": "members",
+    "joinOnWhatsApp": "Join on WhatsApp",
+    "createGroupModal": "Create WhatsApp Group",
+    "groupName": "Group Name",
+    "groupNamePlaceholder": "e.g., Morning Yoga Squad",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe your group's purpose and activities...",
+    "category": "Category",
+    "icon": "Icon",
+    "whatsappLink": "WhatsApp Group Link (Optional)",
+    "whatsappLinkPlaceholder": "https://chat.whatsapp.com/...",
+    "addLinkLater": "Add this after creating the WhatsApp group",
+    "howItWorks": "How it works:",
+    "step1": "1. Fill in the group details here",
+    "step2": "2. Create the actual WhatsApp group",
+    "step3": "3. Add the invite link above (optional)",
+    "step4": "4. Share with your wellness community!",
+    "openWhatsApp": "Open WhatsApp",
+    "createGroupButton": "Create Group",
+    "fillRequired": "Please fill in group name and description",
+    "groupCreated": "✅ Group created! Now create the actual WhatsApp group and add the invite link.",
+    "aboutTitle": "About Community Groups",
+    "aboutDesc": "Our WhatsApp groups provide a supportive space for you to connect with others who share similar wellness goals. Share your progress, ask questions, and support each other on your journey to better health.",
+    "wantToCreate": "💡 Want to create your own group?",
+    "createStep1": "Click \"Create Group\" button above",
+    "createStep2": "Fill in group details (name, description, category)",
+    "createStep3": "Create the WhatsApp group on WhatsApp",
+    "createStep4": "Share the invite link with members",
+    "createStep5": "Build your wellness community!",
+    "categories": {
+      "generalWellness": "General Wellness",
+      "meditation": "Meditation",
+      "nutrition": "Nutrition",
+      "fitness": "Fitness",
+      "mentalHealth": "Mental Health",
+      "sleep": "Sleep",
+      "yoga": "Yoga",
+      "running": "Running",
+      "weightLoss": "Weight Loss",
+      "other": "Other"
+    },
+    "defaultGroups": {
+      "wellnessWarriors": {
+        "name": "Wellness Warriors",
+        "description": "A supportive community for wellness enthusiasts sharing tips and motivation"
+      },
+      "mindfulMeditation": {
+        "name": "Mindful Meditation",
+        "description": "Daily meditation sessions and mindfulness practices"
+      },
+      "nutritionHealth": {
+        "name": "Nutrition & Health",
+        "description": "Share recipes, meal plans, and nutrition advice"
+      },
+      "fitnessBuddies": {
+        "name": "Fitness Buddies",
+        "description": "Find workout partners and share fitness achievements"
+      }
+    }
+  },
+  "hobbies": {
+    "title": "Hobbies",
+    "subtitle": "Track your stress-relief hobbies and creative activities",
+    "addHobby": "Add Hobby",
+    "editHobby": "Edit Hobby",
+    "addNewHobby": "Add New Hobby",
+    "hobbyName": "Hobby Name",
+    "hobbyNamePlaceholder": "e.g., Painting, Reading, Gardening",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe this hobby and why you enjoy it...",
+    "category": "Category",
+    "frequency": "Frequency",
+    "cancel": "Cancel",
+    "updateHobby": "Update Hobby",
+    "createHobby": "Create Hobby",
+    "noHobbies": "No hobbies yet",
+    "startTracking": "Start tracking your hobbies and activities!",
+    "addFirstHobby": "Add Your First Hobby",
+    "started": "Started",
+    "categories": {
+      "creative": "Creative",
+      "physical": "Physical",
+      "social": "Social",
+      "mindful": "Mindful",
+      "educational": "Educational",
+      "other": "Other"
+    },
+    "frequencies": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "occasional": "Occasional"
+    }
+  },
+  "habitsGoals": {
+    "title": "Habits & Goals",
+    "subtitle": "Build positive habits and track your progress",
+    "addHabit": "Add Habit",
+    "editHabit": "Edit Habit",
+    "addNewHabit": "Add New Habit",
+    "habitName": "Habit Name",
+    "habitNamePlaceholder": "e.g., Morning Meditation",
+    "description": "Description",
+    "descriptionPlaceholder": "Add a description or motivation...",
+    "priority": "Priority",
+    "difficulty": "Difficulty",
+    "category": "Category",
+    "frequency": "Frequency",
+    "weeklyTarget": "Weekly Target",
+    "reminderTime": "Reminder Time",
+    "motivation": "Motivation (Why is this important?)",
+    "motivationPlaceholder": "Remind yourself why this habit matters...",
+    "cancel": "Cancel",
+    "updateHabit": "Update Habit",
+    "createHabit": "Create Habit",
+    "noHabits": "No habits yet",
+    "startBuilding": "Start building positive habits today!",
+    "addFirstHabit": "Add Your First Habit",
+    "dayStreak": "Day Streak",
+    "successRate": "Success Rate",
+    "thisWeek": "This Week",
+    "bestStreak": "Best Streak",
+    "weeklyProgress": "Weekly Progress",
+    "daysThisWeek": "days this week",
+    "completedToday": "Completed Today ✓",
+    "markComplete": "Mark as Complete",
+    "successOverview": "📊 Success Overview",
+    "totalHabits": "Total Habits",
+    "highSuccess": "High Success (≥80%)",
+    "sevenDayStreaks": "7+ Day Streaks",
+    "averageSuccess": "Average Success Rate",
+    "priorities": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "difficulties": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "categories": {
+      "wellness": "Wellness",
+      "fitness": "Fitness",
+      "mindfulness": "Mindfulness",
+      "nutrition": "Nutrition",
+      "productivity": "Productivity",
+      "other": "Other"
+    },
+    "frequencies": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "custom": "Custom"
+    }
+  },
+  "aiHub": {
+    "title": "AI Wellness Hub",
+    "subtitle": "Your intelligent center for personalized insights and recommendations",
+    "tabs": {
+      "recommendations": "Recommendations",
+      "assistant": "AI Assistant",
+      "insights": "Insights"
+    },
+    "recommendationsTab": {
+      "title": "Your Personalized Recommendations",
+      "subtitle": "AI-powered insights tailored to your wellness journey",
+      "refreshAnalysis": "Refresh AI Analysis",
+      "loadingMessage": "AI is analyzing your wellness data and generating personalized recommendations...",
+      "recommendationCount": "{{count}} recommendations",
+      "duration": "Duration:",
+      "recommendedActions": "Recommended Actions:",
+      "addToPlan": "Add to Plan",
+      "addedToPlan": "added to your plan!",
+      "tellMore": "💬 Tell me more",
+      "tellMoreQuestion": "Tell me more about: {{title}}",
+      "noData": "Not enough data yet. Start tracking your wellness activities to get personalized AI recommendations!"
+    },
+    "assistantTab": {
+      "title": "Chat with Wellness AI",
+      "subtitle": "Ask questions, get explanations, and explore your wellness data with AI assistance.",
+      "geminiNotConfigured": "Gemini AI Not Configured",
+      "geminiNotConfiguredDesc": "Configure VITE_GEMINI_API_KEY to enable AI-powered chat responses based on your data.",
+      "geminiConfigured": "✅ AI Assistant Active",
+      "geminiConfiguredDesc": "Powered by Google Gemini AI for intelligent wellness insights",
+      "initialMessage": "Hello! I'm your AI Wellness Assistant powered by Gemini AI. How can I help you understand your data or reach your goals today?",
+      "placeholder": "Ask me about your sleep, mood, nutrition, or wellness goals...",
+      "send": "Send",
+      "thinking": "AI thinking...",
+      "errorMessage": "I'm sorry, I encountered an error processing your question. Please try again or ask me about your sleep, mood, activity, or nutrition.",
+      "responses": {
+        "sleep": "Based on your recent sleep logs, I notice you're tracking your sleep patterns. Maintaining a consistent sleep schedule is crucial for wellness. Try going to bed and waking up at the same time each day for better sleep quality.",
+        "mood": "Tracking your mood helps identify patterns in your emotional well-being. Regular mood logging can reveal connections between your activities, sleep, and emotional state. Would you like to explore your mood trends?",
+        "activity": "Physical activity is a cornerstone of wellness. Aim for at least 30 minutes of moderate activity daily. I can help you set activity goals or analyze your activity patterns if you'd like.",
+        "nutrition": "Nutrition plays a vital role in your overall health. Tracking your meals helps ensure you're meeting your nutritional needs. Would you like recommendations for balanced meal planning?",
+        "goal": "Setting clear wellness goals is important. Based on your data, I recommend focusing on consistency - whether it's sleep, activity, or mood tracking. Small, consistent steps lead to lasting change.",
+        "hello": "Hello! I'm here to help you understand your wellness data and achieve your goals. Feel free to ask me about your sleep, mood, activity, nutrition, or any wellness-related questions!",
+        "default": "That's a great question! I'm here to help you understand your wellness journey. Try asking me about your sleep patterns, mood trends, activity levels, nutrition goals, or ways to improve your overall wellness."
+      }
+    },
+    "insightsTab": {
+      "title": "Wellness Insights",
+      "subtitle": "Deep analytics and trends from your wellness journey",
+      "refreshAnalysis": "Refresh AI Analysis",
+      "loadingMessage": "AI is analyzing patterns and generating insights...",
+      "geminiNotConfigured": "Gemini AI Not Configured",
+      "geminiNotConfiguredDesc": "Configure VITE_GEMINI_API_KEY to get AI-powered insights based on your data.",
+      "correlationAnalysis": "🔍 Correlation Analysis",
+      "correlationSubtitle": "Key relationships discovered in your wellness data",
+      "predictiveInsights": "📈 Predictive Insights",
+      "predictiveSubtitle": "AI predictions based on your wellness patterns",
+      "interactiveDashboards": "📊 Interactive Dashboards",
+      "dashboardsSubtitle": "Real-time data visualization with customizable charts",
+      "wellnessReports": "📋 Wellness Reports",
+      "reportsSubtitle": "Your comprehensive wellness summary with goal progress tracking",
+      "recommendation": "Recommendation",
+      "action": "Action",
+      "confidence": "Confidence",
+      "fromLastWeek": "from last week",
+      "stepsToday": "steps today",
+      "glassesToday": "glasses today",
+      "daysThisWeek": "days this week",
+      "nightly": "nightly",
+      "daily": "daily",
+      "defaultCorrelations": {
+        "sleepMood": {
+          "title": "Sleep ↔ Mood",
+          "strength": "Strong Positive",
+          "finding": "Users who sleep 7+ hours report 42% better mood scores the next day",
+          "recommendation": "Maintain consistent 7-8 hour sleep schedule"
+        },
+        "activitySleep": {
+          "title": "Activity ↔ Sleep Quality",
+          "strength": "Moderate Positive",
+          "finding": "10,000+ daily steps associated with 28% better sleep quality",
+          "recommendation": "Exercise earlier in the day for better sleep"
+        },
+        "meditationStress": {
+          "title": "Meditation ↔ Stress",
+          "strength": "Strong Negative",
+          "finding": "15+ minutes daily meditation reduces stress levels by 35%",
+          "recommendation": "Practice meditation regularly for stress management"
+        }
+      },
+      "defaultPredictions": {
+        "sleep": {
+          "title": "Next 7 Days - Sleep",
+          "confidence": "85%",
+          "prediction": "Based on your current trends, sleep quality likely to improve by 15% with consistent bedtime",
+          "action": "Go to bed at same time for next 7 days"
+        },
+        "weight": {
+          "title": "Next Month - Weight Goal",
+          "confidence": "78%",
+          "prediction": "Current nutrition and activity patterns suggest 2-3kg progress toward goal",
+          "action": "Use AI Meal Planner for consistent nutrition"
+        },
+        "mood": {
+          "title": "Next Week - Mood Trend",
+          "confidence": "92%",
+          "prediction": "Meditation habit forming - expect 20% mood improvement with continued practice",
+          "action": "Maintain daily meditation streak"
+        }
+      },
+      "dashboards": {
+        "moodTrend": "Mood Trend",
+        "sleepQuality": "Sleep Quality",
+        "activity": "Activity",
+        "waterIntake": "Water Intake"
+      },
+      "reports": {
+        "dailyMeditation": "Daily Meditation",
+        "sleepGoal": "Sleep Goal",
+        "waterIntakeGoal": "Water Intake",
+        "sevenEightHours": "7-8 hours nightly",
+        "eightGlasses": "8 glasses daily"
+      }
+    },
+    "priorities": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "impacts": {
+      "high": "High Impact",
+      "medium": "Medium Impact",
+      "low": "Low Impact"
+    },
+    "defaultRecommendations": {
+      "sleep": {
+        "title": "Prioritize Consistent Sleep Schedule",
+        "priority": "High Priority",
+        "impact": "High Impact",
+        "duration": "1-2 Weeks",
+        "description": "Your sleep duration of 6.5 hours is below the recommended 7-9 hours for adults, and you've identified 'Improve Sleep' as a goal. Inconsistent sleep can negatively affect mood, energy levels, and overall health. Establishing a regular sleep schedule can improve sleep quality and duration, leading to better mood, focus, and physical health.",
+        "actions": [
+          "Set a consistent bedtime and wake-up time, even on weekends.",
+          "Create a relaxing bedtime routine (e.g., reading, taking a warm bath).",
+          "Avoid caffeine and alcohol before bed.",
+          "Ensure your bedroom is dark, quiet, and cool."
+        ]
+      },
+      "activity": {
+        "title": "Increase Daily Steps Towards Activity Goal",
+        "priority": "Medium Priority",
+        "impact": "Medium Impact",
+        "duration": "2-3 Weeks",
+        "description": "Your daily step count of 4500 is below the recommended 10,000 steps, and you want to 'Be More Active.' Increasing your step count can improve cardiovascular health, boost energy levels, and aid in weight management.",
+        "actions": [
+          "Set a daily step goal that is slightly higher than your current average (e.g., 5000 steps).",
+          "Incorporate short walks into your daily routine (e.g., during lunch breaks, after dinner).",
+          "Take the stairs instead of the elevator whenever possible.",
+          "Find an activity you enjoy, such as dancing or hiking, to make exercise more fun."
+        ]
+      },
+      "stress": {
+        "title": "Incorporate Stress-Reducing Techniques",
+        "priority": "Medium Priority",
+        "impact": "Medium Impact",
+        "duration": "1-2 Weeks",
+        "description": "Your journal entry indicates feeling stressed at work. Managing stress is crucial for overall well-being. Incorporating stress-reducing techniques can improve mood, reduce anxiety, and enhance cognitive function.",
+        "actions": [
+          "Extend your meditation time to 10-15 minutes daily.",
+          "Practice deep breathing exercises for a few minutes each day.",
+          "Take short breaks during work to stretch or walk around.",
+          "Consider engaging in a hobby you enjoy to unwind after work."
+        ]
+      },
+      "nutrition": {
+        "title": "Mindful Calorie Tracking",
+        "priority": "Low Priority",
+        "impact": "Medium Impact",
+        "duration": "Ongoing",
+        "description": "While your calorie intake is within a reasonable range, mindful tracking can help ensure you're meeting your nutritional needs and maintaining a healthy eating pattern. This promotes overall wellness by optimizing energy levels and supporting various bodily functions.",
+        "actions": [
+          "Use a food tracking app or journal to log your meals and snacks.",
+          "Focus on eating whole, unprocessed foods.",
+          "Pay attention to portion sizes.",
+          "Consult a registered dietitian or nutritionist for personalized dietary advice."
+        ]
+      }
+    }
+  },
+  "wellnessReport": {
+    "title": "Wellness Report",
+    "subtitle": "Your personalized health insights for the past {period}",
+    "periods": {
+      "week": "week",
+      "month": "month",
+      "year": "year"
+    },
+    "periodOptions": {
+      "week": "Last 7 Days",
+      "month": "Last 30 Days",
+      "year": "Last Year"
+    },
+    "downloadPDF": "Download PDF",
+    "shareWhatsApp": "Share on WhatsApp",
+    "generating": "Generating...",
+    "preparing": "Preparing...",
+    "overallScore": "Your Overall Wellness Score",
+    "generatedOn": "Generated on {date}",
+    "scoreLabels": {
+      "excellent": "Excellent",
+      "great": "Great",
+      "good": "Good",
+      "fair": "Fair",
+      "needsWork": "Needs Work"
+    },
+    "categories": {
+      "nutrition": "nutrition",
+      "hydration": "hydration",
+      "activity": "activity",
+      "sleep": "sleep",
+      "mood": "mood"
+    },
+    "keyInsights": "Key Insights",
+    "areasForImprovement": "Areas for Improvement",
+    "improvementMessage": "Focus on improving your {areas} for better wellness.",
+    "achievements": "Achievements",
+    "earned": "Earned",
+    "locked": "Locked",
+    "achievementsList": {
+      "wellnessWarrior": {
+        "title": "Wellness Warrior",
+        "description": "7 days of tracking"
+      },
+      "hydrationHero": {
+        "title": "Hydration Hero",
+        "description": "Met water goal 5 days"
+      },
+      "activeLifestyle": {
+        "title": "Active Lifestyle",
+        "description": "30+ min exercise daily"
+      },
+      "sleepChampion": {
+        "title": "Sleep Champion",
+        "description": "7-9 hours sleep consistently"
+      },
+      "goalGetter": {
+        "title": "Goal Getter",
+        "description": "Completed 3 goals"
+      }
+    },
+    "personalizedRecommendations": "Personalized Recommendations",
+    "recommendationsList": {
+      "increaseWater": {
+        "title": "Increase Water Intake",
+        "description": "Aim for 8 glasses (2000ml) of water daily. Set reminders throughout the day.",
+        "category": "Hydration"
+      },
+      "boostActivity": {
+        "title": "Boost Physical Activity",
+        "description": "Try to get at least 30 minutes of moderate exercise daily. Start with a 10-minute walk.",
+        "category": "Activity"
+      },
+      "improveSleep": {
+        "title": "Improve Sleep Quality",
+        "description": "Establish a consistent bedtime routine. Avoid screens 1 hour before bed.",
+        "category": "Sleep"
+      },
+      "balanceDiet": {
+        "title": "Balance Your Diet",
+        "description": "Focus on whole foods, vegetables, and lean proteins. Use the AI food analyzer for guidance.",
+        "category": "Nutrition"
+      }
+    },
+    "priority": "priority",
+    "keepUpWork": "Keep Up the Great Work!",
+    "summaryMessage": "Continue tracking your wellness journey. Small daily improvements lead to significant long-term results. Use the AI Wellness Hub for personalized guidance and support."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have questions or feedback? We'd love to hear from you!",
+    "getInTouch": "Get in Touch",
+    "getInTouchSubtitle": "Send us a message and we'll respond as soon as possible",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "What's this about?",
+    "message": "Message",
+    "messagePlaceholder": "Tell us more...",
+    "sendMessage": "Send Message",
+    "thankYou": "Thank you for your message! We'll get back to you soon.",
+    "otherWays": "Other Ways to Reach Us",
+    "emailLabel": "Email",
+    "responseTime": "We typically respond within 24-48 hours",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "resetPassword": {
+        "question": "How do I reset my password?",
+        "answer": "Go to the sign-in page and click \"Forgot Password\" to receive a reset link via email."
+      },
+      "dataSecure": {
+        "question": "Is my data secure?",
+        "answer": "Yes, we use industry-standard encryption and security practices to protect your information."
+      },
+      "exportData": {
+        "question": "Can I export my data?",
+        "answer": "Yes, you can export your wellness data from your profile settings."
+      }
+    }
+  },
+  "about": {
+    "title": "About Find Your Inner Peace",
+    "subtitle": "Your comprehensive wellness companion for holistic health and mindfulness",
+    "creator": {
+      "name": "Ghada Al-Ani",
+      "title": "Software Engineer | Creator",
+      "bio": "Iraqi software engineer based in UAE, passionate about building technology that improves people's lives. Created Find Your Inner Peace to help others achieve holistic wellness through intelligent, personalized health tracking."
+    },
+    "mission": "Our Mission",
+    "missionStatement": "Empowering you to achieve holistic wellness through technology and mindfulness",
+    "missionDescription": "Find Your Inner Peace is designed to support your journey toward better physical, mental, and emotional health. We combine AI-powered insights with intuitive tools to help you track, understand, and improve your overall wellness.",
+    "features": {
+      "mentalHealth": {
+        "title": "Mental Health",
+        "description": "Track your mood, journal your thoughts, and practice mindfulness with guided meditations and breathing exercises."
+      },
+      "nutrition": {
+        "title": "Nutrition",
+        "description": "Monitor your nutrition, get AI-powered meal plans, and track your eating habits with intelligent food analysis."
+      },
+      "physicalActivity": {
+        "title": "Physical Activity",
+        "description": "Log your workouts, track your sleep, monitor water intake, and maintain an active lifestyle."
+      },
+      "emotionalWellness": {
+        "title": "Emotional Wellness",
+        "description": "Practice self-love, track your emotional patterns, and develop healthy habits for long-term wellbeing."
+      },
+      "aiInsights": {
+        "title": "AI-Powered Insights",
+        "description": "Get personalized recommendations, analyze your wellness data, and receive intelligent insights tailored to your journey."
+      },
+      "journaling": {
+        "title": "Journaling",
+        "description": "Express your thoughts through voice transcription or text, track your journey, and reflect on your growth."
+      }
+    },
+    "featuresTitle": "Features",
+    "highlights": {
+      "comprehensiveTracking": {
+        "title": "Comprehensive Tracking",
+        "description": "Monitor all aspects of your wellness in one place - nutrition, activity, sleep, mood, and more."
+      },
+      "aiAnalysis": {
+        "title": "AI-Powered Analysis",
+        "description": "Get intelligent insights and personalized recommendations based on your unique patterns and goals."
+      },
+      "communitySupport": {
+        "title": "Community Support",
+        "description": "Connect with others on similar wellness journeys through hobbies, habits, and community groups."
+      }
+    }
+  },
+  "subscription": {
+    "title": "Subscription Plans",
+    "subtitle": "Choose the perfect plan for your wellness journey",
+    "fullAccess": "Full Access",
+    "currentPlan": "Current Plan",
+    "activeSubscription": "Active Subscription",
+    "subscribeNow": "Subscribe Now",
+    "weeklyPlan": "Weekly Plan",
+    "monthlyPlan": "Monthly Plan",
+    "yearlyPlan": "Yearly Plan",
+    "monthlySubscription": "Monthly Subscription",
+    "price": "25.67",
+    "currency": "AED",
+    "perWeek": "/week",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "save15": "Save 15%",
+    "save30": "Save 30%",
+    "popular": "Most Popular",
+    "bestValue": "Best Value",
+    "trialActive": "🎉 First Week Free!",
+    "trialDaysRemaining": "{{days}} days remaining in your first week",
+    "trialExpired": "⏰ Free Week Ended",
+    "subscribeToContinue": "Subscribe to continue enjoying all wellness features",
+    "whatsIncluded": "What's included:",
+    "features": [
+      "Unlimited AI wellness insights",
+      "Advanced nutrition analysis with AI",
+      "AI food photo analyzer",
+      "Nutrition label scanner",
+      "Personalized meal recommendations",
+      "Email notifications & reminders",
+      "Advanced analytics & reports",
+      "Priority support",
+      "Export data feature",
+      "Custom goals & habits tracker",
+      "Sleep quality analysis",
+      "Mood pattern insights",
+      "Guided meditation sessions",
+      "Journal & emotion tracking",
+      "Community access",
+      "WhatsApp group features",
+      "Offline PWA access"
+    ],
+    "securePayment": "Secure Payment with Ziina",
+    "securePaymentDesc": "Your payment is processed securely through Ziina, a trusted UAE payment gateway. All transactions are encrypted and protected.",
+    "whySubscribe": "💎 Why Subscribe?",
+    "benefits": {
+      "aiPowered": {
+        "title": "AI-Powered Features",
+        "description": "Get personalized wellness insights, nutrition analysis from photos, and smart recommendations"
+      },
+      "analytics": {
+        "title": "Advanced Analytics",
+        "description": "Track your progress with detailed reports, charts, and trend analysis"
+      },
+      "emailReminders": {
+        "title": "Email Reminders",
+        "description": "Never miss a wellness goal with automated email notifications and reminders"
+      },
+      "completeSuite": {
+        "title": "Complete Wellness Suite",
+        "description": "Access all features: meditation, nutrition, sleep, mood, journal, and more"
+      }
+    },
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "trial": {
+        "question": "Is the first week really free?",
+        "answer": "Yes! Your first week is completely free starting from sign-up. No credit card required. After 7 days, choose a plan to continue."
+      },
+      "cancelAnytime": {
+        "question": "Can I cancel anytime?",
+        "answer": "Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period."
+      },
+      "paymentMethods": {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit/debit cards and digital wallets through Ziina payment gateway (UAE-based)."
+      },
+      "autoCharge": {
+        "question": "Will I be charged automatically?",
+        "answer": "Yes, your subscription will auto-renew based on your chosen plan (weekly/monthly/yearly). You'll receive a reminder 3 days before each billing date."
+      },
+      "noSubscribe": {
+        "question": "What happens if I don't subscribe?",
+        "answer": "After your 7-day trial ends, you'll need an active subscription to access all wellness features."
+      },
+      "paymentSecure": {
+        "question": "Is my payment secure?",
+        "answer": "Absolutely! All payments are processed through Ziina, a trusted UAE payment gateway with bank-level encryption."
+      }
+    },
+    "paymentModal": {
+      "title": "Complete Your Subscription",
+      "subtitle": "Secure payment powered by Ziina",
+      "monthlySubscription": "Monthly Subscription",
+      "fullAccessUnlimited": "Full access to all features",
+      "unlimited": "Unlimited",
+      "totalMonthly": "Total Monthly",
+      "totalDue": "Total Due",
+      "autoRenew": "Auto-renews {{period}}",
+      "nextBillingDate": "Next billing date: {date}",
+      "payWithZiina": "Pay with Ziina",
+      "processing": "Processing...",
+      "securedByZiina": "Secured by Ziina • 256-bit SSL encryption",
+      "successMessage": "✅ Payment window opened! Complete your payment in the new tab. Once done, refresh this page."
+    }
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "subtitle": "Manage your personal information and preferences here.",
+    "sectionTitle": "Personal Information",
+    "sectionSubtitle": "This data helps us personalize your experience and recommendations.",
+    "age": "Age",
+    "gender": "Gender",
+    "select": "Select",
+    "height": "Height (cm)",
+    "weight": "Weight (kg)",
+    "activityLevel": "Activity Level",
+    "goal": "Goal",
+    "mealPlannerTitle": "Preferences for AI Meal Planner (Optional)",
+    "mealPlannerSubtitle": "These preferences help our AI generate personalized meal recommendations for you.",
+    "preferredCuisine": "Preferred Cuisine",
+    "cuisinePlaceholder": "e.g., Italian, Any",
+    "allergies": "Allergies",
+    "allergiesPlaceholder": "e.g., Peanuts, Shellfish",
+    "allergiesHint": "List any food allergies or intolerances",
+    "dislikes": "Dislikes",
+    "dislikesPlaceholder": "e.g., Mushrooms, Olives",
+    "dislikesHint": "Foods you prefer to avoid",
+    "dietaryPreference": "Dietary Preference",
+    "dietaryHint": "Select your dietary restriction or preference",
+    "saveButton": "Save Personal Information",
+    "saving": "Saving...",
+    "saveSuccess": "✓ Personal information saved successfully!",
+    "genders": {
+      "male": "Male",
+      "female": "Female",
+      "nonBinary": "Non-binary",
+      "preferNot": "Prefer not to say"
+    },
+    "activityLevels": {
+      "sedentary": "Sedentary",
+      "lightlyActive": "Lightly Active",
+      "moderatelyActive": "Moderately Active",
+      "veryActive": "Very Active",
+      "extremelyActive": "Extremely Active"
+    },
+    "goals": {
+      "weightLoss": "Weight Loss",
+      "weightGain": "Weight Gain",
+      "muscleBuilding": "Muscle Building",
+      "maintainWeight": "Maintain Weight",
+      "improveFitness": "Improve Fitness",
+      "generalHealth": "General Health"
+    },
+    "dietaryPreferences": {
+      "none": "None",
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "pescatarian": "Pescatarian",
+      "keto": "Keto",
+      "paleo": "Paleo",
+      "glutenFree": "Gluten-Free",
+      "dairyFree": "Dairy-Free",
+      "halal": "Halal",
+      "kosher": "Kosher"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Stay updated with your wellness journey",
+    "tabs": {
+      "list": "Notifications",
+      "email": "Email Settings",
+      "push": "Push Notifications"
+    },
+    "sendAllEmail": "Send All via Email",
+    "noNotifications": "No notifications",
+    "markAsRead": "Mark as read",
+    "delete": "Delete",
+    "emailSettings": {
+      "title": "Email Notification Settings",
+      "configureIn": "Configure your email preferences in the",
+      "profileLink": "Profile → Email Preferences",
+      "section": "section.",
+      "serviceStatus": "Email Service Status",
+      "resendConfigured": "Resend configured and ready",
+      "emailjsConfigured": "EmailJS configured and ready",
+      "notConfigured": "Email service not configured",
+      "notConfiguredWarning": "Email service not configured.",
+      "configureLink": "Configure in Profile → Email Preferences"
+    },
+    "types": {
+      "goalAchieved": "Goal Achieved!",
+      "reminder": "Reminder",
+      "lowActivity": "Low Activity",
+      "moodInsights": "Mood Insights"
+    },
+    "messages": {
+      "waterGoal": "You completed your daily water intake goal",
+      "eveningMeditation": "Time for your evening meditation session",
+      "noActivity": "You haven't logged any activity today",
+      "weeklyReport": "Your weekly mood report is ready"
+    },
+    "time": {
+      "hoursAgo": "{{count}} hours ago",
+      "dayAgo": "1 day ago",
+      "daysAgo": "{{count}} days ago"
+    },
+    "alerts": {
+      "setEmail": "Please set your email address in Profile > Email Preferences",
+      "confirmSendAll": "Send all notifications to {{email}}?",
+      "emailSentSuccess": "✅ Email sent successfully to {{email}}{{service}}",
+      "emailSentCount": "✅ Successfully sent {{count}} email(s) to {{email}} via {{service}}!",
+      "emailSentPartial": "Sent {{success}} email(s) successfully via {{service}}. {{fail}} failed.",
+      "noServiceConfigured": "No email service configured. Please set up Resend or EmailJS in your .env file."
+    },
+    "pushSettings": {
+      "title": "Notification Settings",
+      "subtitle": "Manage your push notifications and wellness reminders",
+      "status": "Status",
+      "statusLabels": {
+        "enabled": "Enabled",
+        "blocked": "Blocked",
+        "notSet": "Not Set",
+        "notSupported": "Not Supported"
+      },
+      "notSupported": "Not Supported",
+      "notSupportedDesc": "Your browser doesn't support push notifications.",
+      "blocked": "Notifications Blocked",
+      "blockedDesc": "You've blocked notifications. To enable them, click the lock icon in your browser's address bar and allow notifications.",
+      "enableTitle": "Enable Push Notifications",
+      "enableDesc": "Get timely reminders for meditation, mood check-ins, and wellness activities.",
+      "enableButton": "Enable Notifications",
+      "enabling": "Enabling...",
+      "preferences": "Notification Preferences",
+      "dailyReminders": "Daily wellness reminders",
+      "meditationAlerts": "Meditation session alerts",
+      "moodPrompts": "Mood check-in prompts",
+      "milestones": "Progress milestones",
+      "testDebug": "Test & Debug",
+      "sendTest": "Send Test Notification",
+      "sent": "Sent!",
+      "refreshToken": "Refresh Token",
+      "fcmToken": "FCM Registration Token",
+      "fcmTokenDesc": "Use this token to send test notifications from Firebase Console",
+      "copyToken": "Copy token",
+      "info": "Notifications are sent via Firebase Cloud Messaging. You can manage browser notification permissions in your browser settings.",
+      "testNotificationTitle": "Test Notification",
+      "testNotificationBody": "This is a test notification from your wellness app!",
+      "tokenRefreshed": "Token refreshed successfully!",
+      "tokenRefreshFailed": "Failed to refresh token",
+      "httpsRequired": "⚠️ Push notifications require HTTPS. Please access the app via the deployed URL (https://)",
+      "enabledSuccess": "✅ Push notifications enabled successfully!",
+      "enabledFailed": "❌ Failed to enable notifications. Please check your browser settings and ensure notifications are not blocked.",
+      "enabledError": "❌ Error enabling notifications",
+      "permissionNotGranted": "⚠️ Notification permission not granted. Please enable notifications first.",
+      "testFailed": "❌ Failed to send test notification",
+      "requirements": "Requirements for Push Notifications",
+      "requirementsList": [
+        "✅ Access app via HTTPS (deployed URL)",
+        "✅ Allow notifications in browser (click lock icon → Site Settings)",
+        "✅ Use a modern browser (Chrome, Firefox, Edge, Safari)",
+        "✅ Service worker must be registered (automatic)"
+      ]
+    }
+  },
+  "wearableDevices": {
+    "title": "Wearable Devices",
+    "subtitle": "Connect your fitness trackers and smartwatches to automatically sync health data",
+    "connectedDevices": "Connected Devices",
+    "availableDevices": "Available Devices",
+    "manualImport": "Manual Import",
+    "connected": "Connected",
+    "disconnect": "Disconnect",
+    "syncNow": "Sync Now",
+    "connect": "Connect",
+    "cantFindDevice": "Can't find your device?",
+    "manualImportDesc": "Manually import your health data from JSON, CSV, or XML files exported from your device or app.",
+    "importDataFile": "Import Data File",
+    "lastSync": "Last Sync",
+    "never": "Never",
+    "connectedOn": "Connected",
+    "howItWorks": "💡 How Wearable Sync Works",
+    "tips": {
+      "autoSync": "Automatic Sync:",
+      "autoSyncDesc": "Data syncs automatically when you open the app",
+      "manualSync": "Manual Sync:",
+      "manualSyncDesc": "Click \"Sync Now\" to pull latest data anytime",
+      "dataMapping": "Data Mapping:",
+      "dataMappingDesc": "Health data automatically populates your wellness trackers",
+      "privacy": "Privacy:",
+      "privacyDesc": "Your data stays on your device - no cloud storage",
+      "offline": "Offline Support:",
+      "offlineDesc": "Import data files when offline"
+    },
+    "devices": {
+      "appleWatch": {
+        "name": "Apple Watch",
+        "desc": "Sync activity, heart rate, sleep, and workouts",
+        "setup": "Apple Health integration"
+      },
+      "fitbit": {
+        "name": "Fitbit",
+        "desc": "Track steps, heart rate, sleep, and exercise",
+        "setup": "Fitbit API connection"
+      },
+      "garmin": {
+        "name": "Garmin",
+        "desc": "Advanced fitness metrics and performance data",
+        "setup": "Garmin Connect"
+      },
+      "samsungHealth": {
+        "name": "Samsung Health",
+        "desc": "Comprehensive health and fitness tracking",
+        "setup": "Samsung Health SDK"
+      },
+      "googleFit": {
+        "name": "Google Fit",
+        "desc": "Aggregated data from multiple sources",
+        "setup": "Google Fit API"
+      },
+      "whoop": {
+        "name": "WHOOP",
+        "desc": "Recovery, strain, and sleep optimization",
+        "setup": "WHOOP API"
+      }
+    },
+    "messages": {
+      "alreadyConnected": "{{device}} is already connected",
+      "connecting": "Connecting to {{device}}...",
+      "connectedSuccess": "✅ {{device}} connected successfully!",
+      "connectionFailed": "❌ Failed to connect to {{device}}",
+      "disconnected": "{{device}} disconnected",
+      "syncing": "Syncing {{device}}...",
+      "syncSuccess": "✅ {{device}} synced successfully! {{count}} items imported.",
+      "importing": "Importing data...",
+      "importSuccess": "✅ Data imported successfully!",
+      "importError": "❌ Failed to import data. Invalid format.",
+      "noDataFound": "⚠️ No health data found in file",
+      "zipNotSupported": "⚠️ Please extract the ZIP file first and upload the export.xml file inside",
+      "invalidJson": "❌ Invalid JSON file. Make sure it's exported correctly from your health app.",
+      "unsupportedFormat": "❌ Unsupported file format. Please use JSON, CSV, or XML",
+      "readError": "❌ Failed to read file. Please try again.",
+      "refreshToSee": "Refresh to see data",
+      "viewImportedData": "✅ Data imported successfully! Refresh the page to see it in Sleep Tracker and Activity Tracker?",
+      "items": "items",
+      "autoReloading": "Auto-reloading to display data..."
+    },
+    "autoSync": {
+      "title": "Automatic Sync",
+      "enabled": "Syncs every 5 minutes for all connected devices",
+      "disabled": "Manual sync only",
+      "enabledMessage": "✅ Auto-sync enabled! Data will sync every 5 minutes.",
+      "disabledMessage": "Auto-sync disabled. Use \"Sync Now\" to manually sync data."
+    },
+    "apiSetup": {
+      "title": "🔧 Automatic Sync Setup (Optional)",
+      "notConfigured": "API credentials not configured. Automatic sync requires API setup.",
+      "configureNow": "Configure APIs",
+      "instructions": "To enable automatic sync for Google Fit, Fitbit, etc., you need to:",
+      "steps": [
+        "1. Get API credentials from Google Cloud Console / Fitbit Developer",
+        "2. Add to .env file: VITE_GOOGLE_FIT_CLIENT_ID, VITE_FITBIT_CLIENT_ID",
+        "3. Redeploy the app",
+        "4. Connect your devices!"
+      ],
+      "manualWorks": "✅ Manual import works without any setup!",
+      "manualInstructions": "Export health data from your phone's health app and upload it here."
+    }
+  },
+  "dataBackup": {
+    "title": "Data Backup & Recovery",
+    "subtitle": "Protect your wellness data with automatic and manual backups",
+    "autoBackup": "Automatic Backup",
+    "autoBackupDesc": "Automatic backups are created every 5 minutes and before you close the app.",
+    "manualBackup": "Manual Backup",
+    "manualBackupDesc": "Create a backup in browser storage that persists until you clear it manually.",
+    "downloadBackup": "Download Backup File",
+    "downloadBackupDesc": "Download all your wellness data as a JSON file. Keep it safe for future recovery.",
+    "restoreFromFile": "Restore from File",
+    "restoreFromFileDesc": "Upload a previously downloaded backup file to restore all your data.",
+    "status": "Status",
+    "active": "✓ Active",
+    "available": "✓ Available",
+    "noBackup": "⚠ No backup",
+    "noBackupYet": "⚠ No backup yet",
+    "lastBackup": "Last Backup",
+    "created": "Created",
+    "never": "Never",
+    "restoreAutoBackup": "Restore Auto-Backup",
+    "createManualBackup": "Create Manual Backup",
+    "downloadBackupNow": "Download Backup Now",
+    "uploadRestore": "Upload & Restore Backup",
+    "features": {
+      "allData": "All wellness data included",
+      "portable": "Portable JSON format",
+      "crossDevice": "Works across devices"
+    },
+    "warning": "This will overwrite current data",
+    "bestPractices": "💡 Backup Best Practices",
+    "tips": {
+      "regularDownloads": "Regular Downloads:",
+      "regularDownloadsDesc": "Download a backup file weekly for extra safety",
+      "safeStorage": "Safe Storage:",
+      "safeStorageDesc": "Store backup files in a secure location (cloud drive, USB)",
+      "beforeChanges": "Before Changes:",
+      "beforeChangesDesc": "Create a manual backup before major changes",
+      "deviceTransfer": "Device Transfer:",
+      "deviceTransferDesc": "Use backup files to move data between devices",
+      "autoBackup": "Auto-Backup:",
+      "autoBackupDesc": "Runs automatically - no action needed!"
+    },
+    "messages": {
+      "downloadSuccess": "✅ Backup downloaded successfully!",
+      "downloadError": "❌ Failed to download backup",
+      "restoreSuccess": "✅ Backup restored successfully! Please refresh the page.",
+      "restoreError": "❌ Failed to restore backup",
+      "invalidFile": "❌ Invalid backup file",
+      "manualBackupCreated": "✅ Manual backup created in browser storage",
+      "createError": "❌ Failed to create backup",
+      "noAutoBackup": "⚠️ No auto-backup found",
+      "autoBackupRestored": "✅ Auto-backup restored! Please refresh the page.",
+      "autoRestoreError": "❌ Failed to restore auto-backup"
+    }
+  },
+  "webAnalytics": {
+    "title": "Web Analytics",
+    "subtitle": "Track your website's performance and user engagement",
+    "timeRanges": {
+      "24h": "Last 24 Hours",
+      "7d": "Last 7 Days",
+      "30d": "Last 30 Days",
+      "90d": "Last 90 Days"
+    },
+    "refresh": "Refresh",
+    "viewFullAnalytics": "View Full Analytics",
+    "usersOnline": "users online right now",
+    "loading": "Loading analytics data...",
+    "stats": {
+      "totalVisitors": "Total Visitors",
+      "pageViews": "Page Views",
+      "avgSession": "Avg. Session Duration",
+      "bounceRate": "Bounce Rate",
+      "vsLastPeriod": "vs last period"
+    },
+    "topPages": "Top Pages",
+    "views": "views",
+    "visitors": "visitors",
+    "deviceTypes": "Device Types",
+    "devices": "Devices",
+    "mobile": "Mobile",
+    "desktop": "Desktop",
+    "tablet": "Tablet",
+    "topCountries": "Top Countries",
+    "browserDistribution": "Browser Distribution",
+    "infoTitle": "✅ Real-Time Analytics Tracking Active",
+    "infoDesc": "Your app is tracking REAL visitor data via Vercel Analytics (automatic) and Google Analytics 4 (G-LLTC9KQSY8). This page shows sample visualization. View actual data:",
+    "learnMore": "Vercel Analytics Dashboard →",
+    "ga4Link": "Google Analytics 4 Dashboard"
+  },
+  "userStats": {
+    "title": "User Statistics",
+    "subtitle": "Real-time user analytics and engagement metrics",
+    "refresh": "Refresh",
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Users",
+    "last7Days": "Last 7 days",
+    "growthRate": "Growth Rate",
+    "vsLastWeek": "vs last week",
+    "engagementRate": "Engagement Rate",
+    "firebaseConnected": "Firebase Connected",
+    "firebaseConnectedDesc": "Your app is tracking real user data from Firebase Authentication",
+    "project": "Project",
+    "authEnabled": "Auth Enabled",
+    "realTimeData": "Real-time Data",
+    "usersByCountry": "Users by Country",
+    "users": "users",
+    "noGeographicData": "No geographic data available yet. Sign-ups are being tracked!",
+    "mostActiveUsers": "Most Active Users",
+    "activities": "activities",
+    "noActivityData": "No activity data yet. User actions are being tracked!",
+    "signUpsTrend": "Sign-Ups Trend (Last 14 Days)",
+    "noSignUpData": "No sign-up data yet. New registrations will appear here!",
+    "howItWorks": "💡 How User Tracking Works",
+    "step1Title": "Automatic Tracking",
+    "step1Desc": "Every sign-up, sign-in, and user action is automatically tracked and stored",
+    "step2Title": "Real-Time Updates",
+    "step2Desc": "Stats update instantly as users interact with your app",
+    "step3Title": "Privacy First",
+    "step3Desc": "All data is stored securely with Firebase Authentication and local storage"
+  },
+  "install": {
+    "installApp": "Install App",
+    "installed": "App Installed",
+    "title": "Install Find Your Inner Peace",
+    "description": "Install our app for faster access, offline support, and a native app experience!",
+    "installNow": "Install Now",
+    "iosTitle": "Install on iPhone/iPad",
+    "iosStep1": "Tap the Share button at the bottom of Safari",
+    "iosStep2": "Scroll down and tap 'Add to Home Screen'",
+    "iosStep3": "Tap 'Add' in the top right corner",
+    "shareIcon": "Share Icon",
+    "addToHomeScreen": "Add to Home Screen",
+    "benefits": {
+      "title": "Why Install?",
+      "offline": "Works offline",
+      "faster": "Faster loading",
+      "homeScreen": "Access from home screen",
+      "notifications": "Push notifications"
+    }
+  },
+  "subscriptionGate": {
+    "title": "🔒 Subscription Required",
+    "trialExpiredMessage": "Your first free week has ended. Subscribe to continue your wellness journey!",
+    "subscriptionRequired": "An active subscription is required to access this feature.",
+    "trialPeriod": "Free Week",
+    "days": "days",
+    "unlockFeatures": "✨ Unlock All Features",
+    "benefit1": "Unlimited AI wellness insights & recommendations",
+    "benefit2": "Advanced nutrition analysis & meal tracking",
+    "benefit3": "Complete meditation & mindfulness library",
+    "benefit4": "Full access to all tracking & analytics",
+    "viewPlans": "View Subscription Plans",
+    "startingFrom": "Plans starting from 10 AED/week"
+  },
+  "meredithShirk": {
+    "title": "Meredith Shirk Meal Plans",
+    "subtitle": "Expert nutrition guidance and delicious healthy recipes from fitness expert Meredith Shirk",
+    "tabs": {
+      "mealPlans": "Meal Plans",
+      "recipes": "Recipes"
+    },
+    "plansSection": {
+      "title": "Choose Your Meal Plan",
+      "subtitle": "Select a personalized meal plan based on your wellness goals"
+    },
+    "recipesSection": {
+      "title": "Healthy Recipes",
+      "subtitle": "Browse our collection of nutritious and delicious recipes"
+    },
+    "plans": {
+      "weightLoss": {
+        "name": "Weight Loss Plan",
+        "description": "A balanced, calorie-controlled plan designed to help you lose weight healthily while maintaining energy levels",
+        "duration": "7 days"
+      },
+      "muscleGain": {
+        "name": "Muscle Gain Plan",
+        "description": "High-protein, nutrient-dense meals to support muscle growth and recovery from workouts",
+        "duration": "7 days"
+      },
+      "balanced": {
+        "name": "Balanced Wellness Plan",
+        "description": "A well-rounded meal plan for general health and wellness maintenance",
+        "duration": "7 days"
+      },
+      "keto": {
+        "name": "Keto Diet Plan",
+        "description": "Low-carb, high-fat ketogenic diet for rapid weight loss and improved energy",
+        "duration": "7 days"
+      },
+      "vegan": {
+        "name": "Plant-Based Vegan Plan",
+        "description": "100% plant-based meals rich in nutrients and protein from whole food sources",
+        "duration": "7 days"
+      },
+      "mediterranean": {
+        "name": "Mediterranean Diet Plan",
+        "description": "Heart-healthy Mediterranean diet with fresh vegetables, olive oil, and lean proteins",
+        "duration": "7 days"
+      }
+    },
+    "recipes": {
+      "greenSmoothie": {
+        "name": "Green Power Smoothie Bowl",
+        "ingredients": [
+          "2 cups fresh spinach",
+          "1 frozen banana",
+          "1/2 cup frozen mango chunks",
+          "1/2 cup almond milk",
+          "1 tbsp chia seeds",
+          "Toppings: granola, berries, coconut flakes"
+        ],
+        "instructions": [
+          "Add spinach, banana, mango, and almond milk to blender",
+          "Blend until smooth and creamy",
+          "Pour into a bowl",
+          "Top with chia seeds, granola, berries, and coconut flakes",
+          "Serve immediately"
+        ]
+      },
+      "grilledChicken": {
+        "name": "Lemon Herb Grilled Chicken Salad",
+        "ingredients": [
+          "2 chicken breasts",
+          "2 tbsp olive oil",
+          "Juice of 1 lemon",
+          "2 cloves garlic, minced",
+          "Fresh herbs (rosemary, thyme)",
+          "Mixed salad greens",
+          "Cherry tomatoes",
+          "Cucumber"
+        ],
+        "instructions": [
+          "Marinate chicken in olive oil, lemon juice, garlic, and herbs for 30 minutes",
+          "Preheat grill to medium-high heat",
+          "Grill chicken for 6-7 minutes per side until cooked through",
+          "Let chicken rest for 5 minutes, then slice",
+          "Arrange salad greens, tomatoes, and cucumber on plates",
+          "Top with sliced grilled chicken and drizzle with extra lemon juice"
+        ]
+      },
+      "bakedSalmon": {
+        "name": "Baked Salmon with Asparagus",
+        "ingredients": [
+          "2 salmon fillets",
+          "1 bunch asparagus",
+          "2 tbsp olive oil",
+          "2 cloves garlic, minced",
+          "Lemon slices",
+          "Salt and pepper to taste",
+          "Fresh dill"
+        ],
+        "instructions": [
+          "Preheat oven to 400°F (200°C)",
+          "Place salmon and asparagus on a baking sheet",
+          "Drizzle with olive oil and sprinkle with garlic, salt, and pepper",
+          "Top salmon with lemon slices and dill",
+          "Bake for 15-20 minutes until salmon is cooked through",
+          "Serve immediately with lemon wedges"
+        ]
+      },
+      "proteinPancakes": {
+        "name": "Protein-Packed Pancakes",
+        "ingredients": [
+          "2 eggs",
+          "1 scoop vanilla protein powder",
+          "1/2 cup oat flour",
+          "1/2 cup almond milk",
+          "1 tsp baking powder",
+          "1 tsp vanilla extract",
+          "Toppings: berries, Greek yogurt, honey"
+        ],
+        "instructions": [
+          "Mix all ingredients in a bowl until smooth",
+          "Heat a non-stick pan over medium heat",
+          "Pour 1/4 cup batter for each pancake",
+          "Cook for 2-3 minutes until bubbles form",
+          "Flip and cook for another 2 minutes",
+          "Top with berries, yogurt, and a drizzle of honey"
+        ]
+      },
+      "quinoaBowl": {
+        "name": "Mediterranean Quinoa Buddha Bowl",
+        "ingredients": [
+          "1 cup cooked quinoa",
+          "1 cup chickpeas, roasted",
+          "1 cup cherry tomatoes, halved",
+          "1 cucumber, diced",
+          "1/4 cup feta cheese",
+          "1/4 cup olives",
+          "2 tbsp hummus",
+          "Lemon tahini dressing"
+        ],
+        "instructions": [
+          "Cook quinoa according to package instructions",
+          "Roast chickpeas with olive oil and spices at 400°F for 20 minutes",
+          "Arrange quinoa in a bowl",
+          "Add chickpeas, tomatoes, cucumber, feta, and olives",
+          "Add a dollop of hummus",
+          "Drizzle with lemon tahini dressing and serve"
+        ]
+      },
+      "zucchiniNoodles": {
+        "name": "Zucchini Noodles with Marinara",
+        "ingredients": [
+          "3 medium zucchini, spiralized",
+          "2 cups marinara sauce (low-sugar)",
+          "2 cloves garlic, minced",
+          "1 tbsp olive oil",
+          "Fresh basil",
+          "Parmesan cheese (optional)",
+          "Red pepper flakes"
+        ],
+        "instructions": [
+          "Spiralize zucchini into noodles",
+          "Heat olive oil in a large pan",
+          "Sauté garlic for 1 minute",
+          "Add zucchini noodles and cook for 2-3 minutes",
+          "Add marinara sauce and heat through",
+          "Top with fresh basil, parmesan, and red pepper flakes"
+        ]
+      },
+      "chiaPudding": {
+        "name": "Overnight Chia Seed Pudding",
+        "ingredients": [
+          "1/4 cup chia seeds",
+          "1 cup almond milk",
+          "1 tbsp maple syrup",
+          "1/2 tsp vanilla extract",
+          "Toppings: fresh berries, nuts, coconut"
+        ],
+        "instructions": [
+          "Mix chia seeds, almond milk, maple syrup, and vanilla in a jar",
+          "Stir well to prevent clumping",
+          "Refrigerate overnight or for at least 4 hours",
+          "Stir before serving",
+          "Top with fresh berries, nuts, and coconut flakes"
+        ]
+      },
+      "turkeyMeatballs": {
+        "name": "Turkey Meatballs with Vegetables",
+        "ingredients": [
+          "1 lb ground turkey",
+          "1/4 cup breadcrumbs",
+          "1 egg",
+          "2 cloves garlic, minced",
+          "Italian herbs",
+          "Mixed vegetables (broccoli, carrots, bell peppers)",
+          "Marinara sauce"
+        ],
+        "instructions": [
+          "Preheat oven to 375°F (190°C)",
+          "Mix turkey, breadcrumbs, egg, garlic, and herbs",
+          "Form into 12-15 meatballs",
+          "Place on a baking sheet and bake for 20-25 minutes",
+          "Steam or roast vegetables",
+          "Serve meatballs with vegetables and marinara sauce"
+        ]
+      }
+    },
+    "common": {
+      "kcalPerDay": "kcal/day",
+      "kcal": "kcal",
+      "servings": "servings",
+      "viewPlan": "View Plan",
+      "hide": "Hide Plan",
+      "weeklyMeals": "Weekly Meal Schedule",
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snacks": "Snacks",
+      "all": "All",
+      "searchRecipes": "Search recipes...",
+      "viewRecipe": "View Recipe",
+      "hideRecipe": "Hide Recipe",
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "nutrition": "Nutrition Info",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "fiber": "Fiber",
+      "noRecipes": "No recipes found. Try adjusting your search or filters."
+    },
+    "filters": {
+      "category": "Meal Type",
+      "cuisine": "Cuisine",
+      "goal": "Your Goal",
+      "calories": "Calorie Range",
+      "allGoals": "All Goals",
+      "weightLoss": "Weight Loss",
+      "muscleGain": "Muscle Gain",
+      "maintenance": "Maintenance",
+      "health": "General Health",
+      "mediterranean": "Mediterranean",
+      "asian": "Asian",
+      "mexican": "Mexican",
+      "italian": "Italian",
+      "american": "American"
+    }
+  }
+}
+
+

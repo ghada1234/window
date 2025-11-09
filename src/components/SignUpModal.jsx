@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { X, AlertCircle, CheckCircle } from 'lucide-react'
-import { getJSON, setJSON } from '../utils/storage'
-import safeStorage from '../utils/storage'
+import { signUp, signInWithGoogle } from '../utils/firebaseAuth'
+import { trackSignUp, trackUserActivity } from '../utils/userStats'
+import { initializeTrial } from '../utils/subscription'
+import { useTranslation } from 'react-i18next'
 import './AuthModal.css'
 
 const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
+  const { t } = useTranslation()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,8 +16,8 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const validatePassword = (pwd) => {
-    // At least 8 characters, one letter and one number
-    return pwd.length >= 8 && /[a-zA-Z]/.test(pwd) && /[0-9]/.test(pwd)
+    // At least 6 characters (Firebase requirement)
+    return pwd.length >= 6
   }
 
   const validateEmail = (email) => {
@@ -38,7 +41,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
     }
 
     if (!validatePassword(password)) {
-      setError('Password must be at least 8 characters long and contain both letters and numbers')
+      setError('Password must be at least 6 characters long')
       return
     }
 
@@ -50,50 +53,21 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
     setIsLoading(true)
 
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const result = await signUp(email, password, name.trim())
 
-      // Check if user already exists
-      const users = getJSON('users', [])
-      const userExists = users.some(u => u.email === email)
-
-      if (userExists) {
-        setError('An account with this email already exists')
-        setIsLoading(false)
-        return
+      if (result.success) {
+        console.log('✅ Account created:', result.user.email)
+        // Track new user sign-up
+        trackSignUp(result.user.uid, result.user.email, 'email')
+        trackUserActivity(result.user.uid, 'sign_up')
+        // Initialize 7-day trial
+        initializeTrial(result.user.uid)
+        console.log('✅ 7-day trial activated')
+        // Show welcome message or send welcome email
+        onSuccess()
+      } else {
+        setError(result.error)
       }
-
-      // Create new user
-      const newUser = {
-        id: Date.now().toString(),
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        password: password, // In production, this should be hashed
-        createdAt: new Date().toISOString()
-      }
-
-      users.push(newUser)
-      setJSON('users', users)
-
-      // Auto sign in after sign up
-      safeStorage.setItem('isLoggedIn', 'true')
-      setJSON('currentUser', {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email
-      })
-
-      // Send welcome email (async, don't wait)
-      try {
-        const { sendWelcomeEmail } = await import('../utils/resendNotifications')
-        sendWelcomeEmail(newUser.email, newUser.name).catch(err => {
-          console.log('Welcome email failed (non-critical):', err)
-        })
-      } catch (e) {
-        // Resend not configured, skip
-      }
-
-      onSuccess()
     } catch (err) {
       setError('An error occurred. Please try again.')
       console.error('Sign up error:', err)
@@ -102,11 +76,39 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true)
+    setError('')
+
+    try {
+      const result = await signInWithGoogle()
+
+      if (result.success) {
+        console.log('✅ Signed up with Google:', result.user.email)
+        // Track Google sign-up
+        trackSignUp(result.user.uid, result.user.email, 'google')
+        trackUserActivity(result.user.uid, 'google_sign_up')
+        // Initialize 7-day trial
+        initializeTrial(result.user.uid)
+        console.log('✅ 7-day trial activated')
+        onSuccess()
+      } else {
+        setError(result.error)
+      }
+    } catch (err) {
+      setError('Google sign-in failed. Please try again.')
+      console.error('Google sign-in error:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
   return (
     <div className="modal-overlay">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2 className="modal-title">Sign Up</h2>
-        <p className="modal-subtitle">Create your account to start your wellness journey.</p>
+        <h2 className="modal-title">{t('auth.signUp.title')}</h2>
+        <p className="modal-subtitle">{t('auth.signUp.subtitle')}</p>
         
         {error && (
           <div className="auth-error-message">
@@ -117,7 +119,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="signup-name">Full Name</label>
+            <label htmlFor="signup-name">{t('auth.signUp.name')}</label>
             <input
               id="signup-name"
               type="text"
@@ -126,13 +128,13 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
                 setName(e.target.value)
                 setError('')
               }}
-              placeholder="Enter your full name"
+              placeholder={t('auth.signUp.namePlaceholder')}
               required
               disabled={isLoading}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="signup-email">Email</label>
+            <label htmlFor="signup-email">{t('auth.signUp.email')}</label>
             <input
               id="signup-email"
               type="email"
@@ -141,13 +143,13 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
                 setEmail(e.target.value)
                 setError('')
               }}
-              placeholder="Enter your email"
+              placeholder={t('auth.signUp.emailPlaceholder')}
               required
               disabled={isLoading}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="signup-password">Password</label>
+            <label htmlFor="signup-password">{t('auth.signUp.password')}</label>
             <input
               id="signup-password"
               type="password"
@@ -156,7 +158,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
                 setPassword(e.target.value)
                 setError('')
               }}
-              placeholder="Create a password (min. 8 chars, letters & numbers)"
+              placeholder={t('auth.signUp.passwordPlaceholder')}
               required
               disabled={isLoading}
             />
@@ -169,14 +171,14 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
                   </span>
                 ) : (
                   <span className="password-weak">
-                    Password must be at least 8 characters with letters and numbers
+                    Password must be at least 6 characters
                   </span>
                 )}
               </div>
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="signup-confirm">Confirm Password</label>
+            <label htmlFor="signup-confirm">{t('auth.signUp.confirmPassword')}</label>
             <input
               id="signup-confirm"
               type="password"
@@ -185,7 +187,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
                 setConfirmPassword(e.target.value)
                 setError('')
               }}
-              placeholder="Confirm your password"
+              placeholder={t('auth.signUp.confirmPasswordPlaceholder')}
               required
               disabled={isLoading}
             />
@@ -193,7 +195,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
               <div className="password-hint">
                 <span className="password-valid">
                   <CheckCircle size={14} />
-                  Passwords match
+                  {t('auth.signUp.passwordMatch')}
                 </span>
               </div>
             )}
@@ -206,21 +208,41 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
             {isLoading ? (
               <>
                 <div className="spinner-small"></div>
-                <span>Creating account...</span>
+                <span>{t('auth.signUp.creating')}</span>
               </>
             ) : (
-              'Sign Up'
+              t('auth.signUp.button')
             )}
           </button>
+
+          <div className="auth-divider">
+            <span>{t('auth.signUp.or')}</span>
+          </div>
+
+          <button
+            type="button"
+            className="btn-google-signin"
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+              <path d="M9.003 18c2.43 0 4.467-.806 5.956-2.18L12.05 13.56c-.806.54-1.836.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.96v2.332C2.44 15.983 5.485 18 9.003 18z" fill="#34A853"/>
+              <path d="M3.964 10.712c-.18-.54-.282-1.117-.282-1.71 0-.593.102-1.17.282-1.71V4.96H.957C.347 6.175 0 7.55 0 9.002c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+              <path d="M9.003 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.464.891 11.428 0 9.003 0 5.485 0 2.44 2.017.96 4.958L3.967 7.29c.708-2.127 2.692-3.71 5.036-3.71z" fill="#EA4335"/>
+            </svg>
+            {t('auth.signUp.continueWithGoogle')}
+          </button>
+
           <p className="auth-switch">
-            Already have an account?{' '}
+            {t('auth.signUp.haveAccount')}{' '}
             <button 
               type="button" 
               className="auth-link" 
               onClick={onSwitchToSignIn}
               disabled={isLoading}
             >
-              Sign In
+              {t('auth.signUp.signInLink')}
             </button>
           </p>
         </form>

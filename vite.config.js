@@ -20,25 +20,25 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'pwa-64x64.png',
+            src: 'sun.jpg',
             sizes: '64x64',
-            type: 'image/png'
+            type: 'image/jpeg'
           },
           {
-            src: 'pwa-192x192.png',
+            src: 'sun.jpg',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/jpeg'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'sun.jpg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/jpeg',
             purpose: 'any'
           },
           {
-            src: 'maskable-icon-512x512.png',
+            src: 'sun.jpg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/jpeg',
             purpose: 'maskable'
           }
         ],
@@ -49,21 +49,21 @@ export default defineConfig({
             short_name: 'Dashboard',
             description: 'View your wellness dashboard',
             url: '/dashboard',
-            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+            icons: [{ src: 'sun.jpg', sizes: '192x192', type: 'image/jpeg' }]
           },
           {
             name: 'Nutrition',
             short_name: 'Nutrition',
             description: 'Track your nutrition',
             url: '/body/nutrition',
-            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+            icons: [{ src: 'sun.jpg', sizes: '192x192', type: 'image/jpeg' }]
           },
           {
             name: 'Meditation',
             short_name: 'Meditation',
             description: 'Start meditation practice',
             url: '/mind/practices',
-            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+            icons: [{ src: 'sun.jpg', sizes: '192x192', type: 'image/jpeg' }]
           }
         ]
       },

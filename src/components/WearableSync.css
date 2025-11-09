@@ -446,3 +446,116 @@
   }
 }
 
+
+/* Debug Section */
+.debug-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--border-color);
+}
+
+.debug-toggle-btn {
+  padding: 0.75rem 1.5rem;
+  background: #f3f4f6;
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.debug-toggle-btn:hover {
+  background: #e5e7eb;
+  border-color: var(--text-secondary);
+}
+
+.debug-panel {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #fafafa;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.debug-panel h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.debug-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.debug-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.debug-item strong {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.debug-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.debug-data-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.debug-data-preview strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.debug-code {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+.force-refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.force-refresh-btn:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+}

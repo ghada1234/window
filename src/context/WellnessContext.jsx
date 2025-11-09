@@ -132,16 +132,56 @@ export const WellnessProvider = ({ children }) => {
     setActivities(prev => [activity, ...prev])
   }
 
+  const updateActivity = (activityId, updates) => {
+    setActivities(prev => prev.map(activity => 
+      activity.id === activityId ? { ...activity, ...updates } : activity
+    ))
+  }
+
+  const deleteActivity = (activityId) => {
+    setActivities(prev => prev.filter(activity => activity.id !== activityId))
+  }
+
   const addSleepLog = (log) => {
     setSleepLogs(prev => [log, ...prev])
+  }
+
+  const updateSleepLog = (logId, updates) => {
+    setSleepLogs(prev => prev.map(log => 
+      log.id === logId ? { ...log, ...updates } : log
+    ))
+  }
+
+  const deleteSleepLog = (logId) => {
+    setSleepLogs(prev => prev.filter(log => log.id !== logId))
   }
 
   const addMoodLog = (mood) => {
     setMoodLogs(prev => [mood, ...prev])
   }
 
+  const updateMoodLog = (moodId, updates) => {
+    setMoodLogs(prev => prev.map(mood => 
+      mood.id === moodId ? { ...mood, ...updates } : mood
+    ))
+  }
+
+  const deleteMoodLog = (moodId) => {
+    setMoodLogs(prev => prev.filter(mood => mood.id !== moodId))
+  }
+
   const addJournalEntry = (entry) => {
     setJournalEntries(prev => [entry, ...prev])
+  }
+
+  const updateJournalEntry = (entryId, updates) => {
+    setJournalEntries(prev => prev.map(entry => 
+      entry.id === entryId ? { ...entry, ...updates } : entry
+    ))
+  }
+
+  const deleteJournalEntry = (entryId) => {
+    setJournalEntries(prev => prev.filter(entry => entry.id !== entryId))
   }
 
   const addNutritionEntry = (entry) => {
@@ -157,6 +197,42 @@ export const WellnessProvider = ({ children }) => {
     }))
   }
 
+  const updateNutritionEntry = (entryId, updates) => {
+    setNutrition(prev => {
+      const oldEntry = prev.entries.find(e => e.id === entryId) || {}
+      const updatedEntries = prev.entries.map(entry => 
+        entry.id === entryId ? { ...entry, ...updates } : entry
+      )
+      
+      return {
+        ...prev,
+        calories: prev.calories - (oldEntry.calories || 0) + (updates.calories || oldEntry.calories || 0),
+        protein: prev.protein - (oldEntry.protein || 0) + (updates.protein || oldEntry.protein || 0),
+        carbs: prev.carbs - (oldEntry.carbs || 0) + (updates.carbs || oldEntry.carbs || 0),
+        fat: prev.fat - (oldEntry.fat || 0) + (updates.fat || oldEntry.fat || 0),
+        fiber: prev.fiber - (oldEntry.fiber || 0) + (updates.fiber || oldEntry.fiber || 0),
+        sugar: prev.sugar - (oldEntry.sugar || 0) + (updates.sugar || oldEntry.sugar || 0),
+        entries: updatedEntries
+      }
+    })
+  }
+
+  const deleteNutritionEntry = (entryId) => {
+    setNutrition(prev => {
+      const entryToDelete = prev.entries.find(e => e.id === entryId) || {}
+      return {
+        ...prev,
+        calories: Math.max(0, prev.calories - (entryToDelete.calories || 0)),
+        protein: Math.max(0, prev.protein - (entryToDelete.protein || 0)),
+        carbs: Math.max(0, prev.carbs - (entryToDelete.carbs || 0)),
+        fat: Math.max(0, prev.fat - (entryToDelete.fat || 0)),
+        fiber: Math.max(0, prev.fiber - (entryToDelete.fiber || 0)),
+        sugar: Math.max(0, prev.sugar - (entryToDelete.sugar || 0)),
+        entries: prev.entries.filter(entry => entry.id !== entryId)
+      }
+    })
+  }
+
   const resetDailyNutrition = () => {
     setNutrition(prev => ({
       ...prev,
@@ -167,6 +243,17 @@ export const WellnessProvider = ({ children }) => {
       fiber: 0,
       sugar: 0
     }))
+  }
+
+  const deleteWaterEntry = (entryId) => {
+    setWaterIntake(prev => {
+      const entryToDelete = prev.entries.find(e => e.id === entryId) || {}
+      return {
+        ...prev,
+        glasses: Math.max(0, prev.glasses - (entryToDelete.glasses || 0)),
+        entries: prev.entries.filter(entry => entry.id !== entryId)
+      }
+    })
   }
 
   const addHabit = (habit) => {
@@ -343,16 +430,27 @@ export const WellnessProvider = ({ children }) => {
         setWaterGoal,
         addWater,
         addWaterEntry,
+        deleteWaterEntry,
         activities,
         addActivity,
+        updateActivity,
+        deleteActivity,
         sleepLogs,
         addSleepLog,
+        updateSleepLog,
+        deleteSleepLog,
         moodLogs,
         addMoodLog,
+        updateMoodLog,
+        deleteMoodLog,
         journalEntries,
         addJournalEntry,
+        updateJournalEntry,
+        deleteJournalEntry,
         nutrition,
         addNutritionEntry,
+        updateNutritionEntry,
+        deleteNutritionEntry,
         resetDailyNutrition,
         getDailyStats,
         habits,

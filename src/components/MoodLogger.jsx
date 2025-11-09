@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useWellness } from '../context/WellnessContext'
 import { Heart } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './MoodLogger.css'
 
 const MoodLogger = () => {
+  const { t } = useTranslation()
   const { addMoodLog } = useWellness()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [mood, setMood] = useState('')
@@ -42,19 +44,19 @@ const MoodLogger = () => {
         <div className="mood-logger-header">
           <Heart size={24} />
           <div>
-            <h3>Log Your Mood</h3>
-            <p>Check in with your emotions to understand your mental landscape.</p>
+            <h3>{t('dashboard.logYourMood')}</h3>
+            <p>{t('dashboard.moodSubtitle')}</p>
           </div>
         </div>
         <button className="log-mood-btn" onClick={() => setIsModalOpen(true)}>
-          Log Mood
+          {t('dashboard.logMood')}
         </button>
       </div>
 
       {isModalOpen && (
         <div className="mood-modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="mood-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Log Your Mood</h3>
+            <h3>{t('dashboard.logYourMood')}</h3>
             <form onSubmit={handleLogMood}>
               <div className="mood-select-group">
                 <label>How are you feeling?</label>

@@ -13,9 +13,11 @@ import {
   RefreshCw,
   ExternalLink
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './WebAnalytics.css'
 
 const WebAnalytics = () => {
+  const { t } = useTranslation()
   const [timeRange, setTimeRange] = useState('7d')
   const [analyticsData, setAnalyticsData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -88,7 +90,7 @@ const WebAnalytics = () => {
         <h3 className="stat-value">{value}</h3>
         {trend && (
           <p className={`stat-trend ${trend.startsWith('+') ? 'positive' : trend.startsWith('-') ? 'negative' : ''}`}>
-            {trend} vs last period
+            {trend} {t('webAnalytics.stats.vsLastPeriod')}
           </p>
         )}
       </div>
@@ -100,7 +102,7 @@ const WebAnalytics = () => {
       <div className="analytics-container">
         <div className="analytics-loading">
           <div className="spinner"></div>
-          <p>Loading analytics data...</p>
+          <p>{t('webAnalytics.loading')}</p>
         </div>
       </div>
     )
@@ -113,10 +115,10 @@ const WebAnalytics = () => {
         <div>
           <h1 className="analytics-title">
             <BarChart3 size={32} />
-            Web Analytics
+            {t('webAnalytics.title')}
           </h1>
           <p className="analytics-subtitle">
-            Track your website's performance and user engagement
+            {t('webAnalytics.subtitle')}
           </p>
         </div>
         <div className="analytics-actions">
@@ -125,14 +127,14 @@ const WebAnalytics = () => {
             onChange={(e) => setTimeRange(e.target.value)}
             className="time-range-select"
           >
-            <option value="24h">Last 24 Hours</option>
-            <option value="7d">Last 7 Days</option>
-            <option value="30d">Last 30 Days</option>
-            <option value="90d">Last 90 Days</option>
+            <option value="24h">{t('webAnalytics.timeRanges.24h')}</option>
+            <option value="7d">{t('webAnalytics.timeRanges.7d')}</option>
+            <option value="30d">{t('webAnalytics.timeRanges.30d')}</option>
+            <option value="90d">{t('webAnalytics.timeRanges.90d')}</option>
           </select>
           <button className="refresh-btn" onClick={loadAnalyticsData}>
             <RefreshCw size={18} />
-            Refresh
+            {t('webAnalytics.refresh')}
           </button>
           <a 
             href="https://vercel.com/ghada-rabees-projects/window/analytics" 
@@ -141,7 +143,7 @@ const WebAnalytics = () => {
             className="vercel-analytics-btn"
           >
             <ExternalLink size={18} />
-            View Full Analytics
+            {t('webAnalytics.viewFullAnalytics')}
           </a>
         </div>
       </div>
@@ -149,35 +151,35 @@ const WebAnalytics = () => {
       {/* Real-time Visitors */}
       <div className="realtime-banner">
         <Activity size={20} className="pulse-icon" />
-        <strong>{analyticsData.realtimeVisitors}</strong> users online right now
+        <strong>{analyticsData.realtimeVisitors}</strong> {t('webAnalytics.usersOnline')}
       </div>
 
       {/* Overview Stats */}
       <div className="analytics-grid">
         <StatCard
           icon={Users}
-          title="Total Visitors"
+          title={t('webAnalytics.stats.totalVisitors')}
           value={analyticsData.overview.totalVisitors.toLocaleString()}
           trend={analyticsData.overview.trends.visitors}
           color="#6366f1"
         />
         <StatCard
           icon={Eye}
-          title="Page Views"
+          title={t('webAnalytics.stats.pageViews')}
           value={analyticsData.overview.pageViews.toLocaleString()}
           trend={analyticsData.overview.trends.pageViews}
           color="#10b981"
         />
         <StatCard
           icon={Clock}
-          title="Avg. Session Duration"
+          title={t('webAnalytics.stats.avgSession')}
           value={analyticsData.overview.avgSessionDuration}
           trend={analyticsData.overview.trends.duration}
           color="#f59e0b"
         />
         <StatCard
           icon={TrendingUp}
-          title="Bounce Rate"
+          title={t('webAnalytics.stats.bounceRate')}
           value={analyticsData.overview.bounceRate}
           trend={analyticsData.overview.trends.bounceRate}
           color="#ef4444"
@@ -189,7 +191,7 @@ const WebAnalytics = () => {
         <div className="analytics-card analytics-card-large">
           <h3 className="card-title">
             <MousePointer size={20} />
-            Top Pages
+            {t('webAnalytics.topPages')}
           </h3>
           <div className="top-pages-list">
             {analyticsData.topPages.map((page, index) => (
@@ -198,7 +200,7 @@ const WebAnalytics = () => {
                 <div className="page-info">
                   <p className="page-path">{page.path}</p>
                   <p className="page-stats">
-                    {page.views.toLocaleString()} views • {page.visitors.toLocaleString()} visitors
+                    {page.views.toLocaleString()} {t('webAnalytics.views')} • {page.visitors.toLocaleString()} {t('webAnalytics.visitors')}
                   </p>
                 </div>
                 <div className="page-bar-container">
@@ -216,7 +218,7 @@ const WebAnalytics = () => {
         <div className="analytics-card">
           <h3 className="card-title">
             <Smartphone size={20} />
-            Device Types
+            {t('webAnalytics.deviceTypes')}
           </h3>
           <div className="device-chart">
             <div className="donut-chart">
@@ -245,23 +247,23 @@ const WebAnalytics = () => {
                 />
               </svg>
               <div className="donut-center">
-                <p className="donut-label">Devices</p>
+                <p className="donut-label">{t('webAnalytics.devices')}</p>
               </div>
             </div>
             <div className="device-legend">
               <div className="legend-item">
                 <Smartphone size={16} color="#6366f1" />
-                <span>Mobile</span>
+                <span>{t('webAnalytics.mobile')}</span>
                 <strong>{analyticsData.devices.mobile}%</strong>
               </div>
               <div className="legend-item">
                 <Monitor size={16} color="#10b981" />
-                <span>Desktop</span>
+                <span>{t('webAnalytics.desktop')}</span>
                 <strong>{analyticsData.devices.desktop}%</strong>
               </div>
               <div className="legend-item">
                 <Monitor size={16} color="#f59e0b" />
-                <span>Tablet</span>
+                <span>{t('webAnalytics.tablet')}</span>
                 <strong>{analyticsData.devices.tablet}%</strong>
               </div>
             </div>
@@ -274,7 +276,7 @@ const WebAnalytics = () => {
         <div className="analytics-card">
           <h3 className="card-title">
             <Globe size={20} />
-            Top Countries
+            {t('webAnalytics.topCountries')}
           </h3>
           <div className="countries-list">
             {analyticsData.countries.map((country, index) => (
@@ -291,7 +293,7 @@ const WebAnalytics = () => {
         <div className="analytics-card">
           <h3 className="card-title">
             <Globe size={20} />
-            Browser Distribution
+            {t('webAnalytics.browserDistribution')}
           </h3>
           <div className="browsers-list">
             {analyticsData.browsers.map((browser, index) => (
@@ -316,17 +318,45 @@ const WebAnalytics = () => {
       <div className="analytics-info-banner">
         <div className="info-icon">ℹ️</div>
         <div>
-          <h4>Live Analytics Powered by Vercel</h4>
-          <p>
-            This dashboard shows simulated data for demonstration. Once deployed, Vercel Analytics will track real visitor data automatically.
+          <h4>{t('webAnalytics.infoTitle')}</h4>
+          <p style={{ marginBottom: '12px' }}>
+            {t('webAnalytics.infoDesc')}
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <a 
-              href="https://vercel.com/docs/analytics" 
+              href="https://vercel.com/ghada-rabees-projects/window/analytics" 
               target="_blank" 
               rel="noopener noreferrer"
+              style={{ 
+                color: '#667eea', 
+                textDecoration: 'none', 
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
             >
-              Learn more about Vercel Analytics →
+              <ExternalLink size={16} />
+              {t('webAnalytics.learnMore')}
             </a>
-          </p>
+            <span style={{ color: '#999' }}>•</span>
+            <a 
+              href="https://analytics.google.com/analytics/web/#/p573737393475/reports/intelligenthome" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ 
+                color: '#667eea', 
+                textDecoration: 'none', 
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <ExternalLink size={16} />
+              {t('webAnalytics.ga4Link')}
+            </a>
+          </div>
         </div>
       </div>
     </div>

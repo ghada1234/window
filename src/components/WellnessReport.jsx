@@ -20,9 +20,11 @@ import {
 } from 'lucide-react'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
+import { useTranslation } from 'react-i18next'
 import './WellnessReport.css'
 
 const WellnessReport = () => {
+  const { t } = useTranslation()
   const wellnessContext = useWellness()
   const wellnessData = wellnessContext?.wellnessData || {
     nutrition: [],
@@ -242,11 +244,12 @@ const WellnessReport = () => {
         .map(([category]) => category)
       
       if (improvements.length > 0) {
+        const translatedImprovements = improvements.map(cat => t(`wellnessReport.categories.${cat}`)).join(', ')
         insights.push({
           type: 'warning',
           icon: AlertCircle,
-          title: 'Areas for Improvement',
-          message: `Focus on improving your ${improvements.join(', ')} for better wellness.`
+          title: t('wellnessReport.areasForImprovement'),
+          message: t('wellnessReport.improvementMessage', { areas: translatedImprovements })
         })
       }
 
@@ -277,11 +280,11 @@ const WellnessReport = () => {
 
   const generateAchievements = () => {
     return [
-      { icon: Heart, title: 'Wellness Warrior', description: '7 days of tracking', earned: true },
-      { icon: Droplet, title: 'Hydration Hero', description: 'Met water goal 5 days', earned: true },
-      { icon: Activity, title: 'Active Lifestyle', description: '30+ min exercise daily', earned: false },
-      { icon: Moon, title: 'Sleep Champion', description: '7-9 hours sleep consistently', earned: true },
-      { icon: Target, title: 'Goal Getter', description: 'Completed 3 goals', earned: false }
+      { icon: Heart, title: t('wellnessReport.achievementsList.wellnessWarrior.title'), description: t('wellnessReport.achievementsList.wellnessWarrior.description'), earned: true },
+      { icon: Droplet, title: t('wellnessReport.achievementsList.hydrationHero.title'), description: t('wellnessReport.achievementsList.hydrationHero.description'), earned: true },
+      { icon: Activity, title: t('wellnessReport.achievementsList.activeLifestyle.title'), description: t('wellnessReport.achievementsList.activeLifestyle.description'), earned: false },
+      { icon: Moon, title: t('wellnessReport.achievementsList.sleepChampion.title'), description: t('wellnessReport.achievementsList.sleepChampion.description'), earned: true },
+      { icon: Target, title: t('wellnessReport.achievementsList.goalGetter.title'), description: t('wellnessReport.achievementsList.goalGetter.description'), earned: false }
     ]
   }
 
@@ -290,50 +293,50 @@ const WellnessReport = () => {
 
     if (scores.hydration < 80) {
       recommendations.push({
-        category: 'Hydration',
+        category: t('wellnessReport.recommendationsList.increaseWater.category'),
         icon: Droplet,
-        title: 'Increase Water Intake',
-        description: 'Aim for 8 glasses (2000ml) of water daily. Set reminders throughout the day.',
+        title: t('wellnessReport.recommendationsList.increaseWater.title'),
+        description: t('wellnessReport.recommendationsList.increaseWater.description'),
         priority: 'high'
       })
     }
 
     if (scores.activity < 80) {
       recommendations.push({
-        category: 'Activity',
+        category: t('wellnessReport.recommendationsList.boostActivity.category'),
         icon: Activity,
-        title: 'Boost Physical Activity',
-        description: 'Try to get at least 30 minutes of moderate exercise daily. Start with a 10-minute walk.',
+        title: t('wellnessReport.recommendationsList.boostActivity.title'),
+        description: t('wellnessReport.recommendationsList.boostActivity.description'),
         priority: 'high'
       })
     }
 
     if (scores.sleep < 80) {
       recommendations.push({
-        category: 'Sleep',
+        category: t('wellnessReport.recommendationsList.improveSleep.category'),
         icon: Moon,
-        title: 'Improve Sleep Quality',
-        description: 'Establish a consistent bedtime routine. Avoid screens 1 hour before bed.',
+        title: t('wellnessReport.recommendationsList.improveSleep.title'),
+        description: t('wellnessReport.recommendationsList.improveSleep.description'),
         priority: 'medium'
       })
     }
 
     if (scores.nutrition < 80) {
       recommendations.push({
-        category: 'Nutrition',
+        category: t('wellnessReport.recommendationsList.balanceDiet.category'),
         icon: Heart,
-        title: 'Balance Your Diet',
-        description: 'Focus on whole foods, vegetables, and lean proteins. Use the AI food analyzer for guidance.',
+        title: t('wellnessReport.recommendationsList.balanceDiet.title'),
+        description: t('wellnessReport.recommendationsList.balanceDiet.description'),
         priority: 'medium'
       })
     }
 
     if (scores.mood < 70) {
       recommendations.push({
-        category: 'Mental Health',
+        category: t('wellnessReport.categories.mood'),
         icon: Brain,
-        title: 'Practice Self-Care',
-        description: 'Try meditation, journaling, or breathing exercises. Connect with the AI wellness chat for support.',
+        title: t('wellnessReport.recommendationsList.practiceSelfCare.title', { defaultValue: 'Practice Self-Care' }),
+        description: t('wellnessReport.recommendationsList.practiceSelfCare.description', { defaultValue: 'Try meditation, journaling, or breathing exercises. Connect with the AI wellness chat for support.' }),
         priority: 'high'
       })
     }
@@ -348,10 +351,10 @@ const WellnessReport = () => {
   }
 
   const getScoreLabel = (score) => {
-    if (score >= 85) return 'Excellent'
-    if (score >= 70) return 'Good'
-    if (score >= 50) return 'Fair'
-    return 'Needs Improvement'
+    if (score >= 85) return t('wellnessReport.scoreLabels.excellent')
+    if (score >= 70) return t('wellnessReport.scoreLabels.good')
+    if (score >= 50) return t('wellnessReport.scoreLabels.fair')
+    return t('wellnessReport.scoreLabels.needsWork')
   }
 
   const handleDownload = async () => {
@@ -541,9 +544,9 @@ const WellnessReport = () => {
             <FileText size={32} />
           </div>
           <div>
-            <h1 className="report-title">Wellness Report</h1>
+            <h1 className="report-title">{t('wellnessReport.title')}</h1>
             <p className="report-subtitle">
-              Your personalized health insights for the past {reportPeriod}
+              {t('wellnessReport.subtitle', { period: t(`wellnessReport.periods.${reportPeriod}`) })}
             </p>
           </div>
         </div>
@@ -553,9 +556,9 @@ const WellnessReport = () => {
             onChange={(e) => setReportPeriod(e.target.value)}
             className="period-select"
           >
-            <option value="week">Last 7 Days</option>
-            <option value="month">Last 30 Days</option>
-            <option value="year">Last Year</option>
+            <option value="week">{t('wellnessReport.periodOptions.week')}</option>
+            <option value="month">{t('wellnessReport.periodOptions.month')}</option>
+            <option value="year">{t('wellnessReport.periodOptions.year')}</option>
           </select>
           <button 
             className="download-btn" 
@@ -565,12 +568,12 @@ const WellnessReport = () => {
             {exporting ? (
               <>
                 <div className="spinner-small"></div>
-                Generating...
+                {t('wellnessReport.generating')}
               </>
             ) : (
               <>
                 <Download size={18} />
-                Download PDF
+                {t('wellnessReport.downloadPDF')}
               </>
             )}
           </button>
@@ -582,12 +585,12 @@ const WellnessReport = () => {
             {exporting ? (
               <>
                 <div className="spinner-small"></div>
-                Preparing...
+                {t('wellnessReport.preparing')}
               </>
             ) : (
               <>
                 <MessageCircle size={18} />
-                Share on WhatsApp
+                {t('wellnessReport.shareWhatsApp')}
               </>
             )}
           </button>
@@ -624,12 +627,12 @@ const WellnessReport = () => {
           </div>
         </div>
         <div className="score-details">
-          <h2>Your Overall Wellness Score</h2>
-          <p>Generated on {report.generatedDate}</p>
+          <h2>{t('wellnessReport.overallScore')}</h2>
+          <p>{t('wellnessReport.generatedOn', { date: report.generatedDate })}</p>
           <div className="score-breakdown">
             {Object.entries(report.scores).map(([category, score]) => (
               <div key={category} className="score-item">
-                <span className="category-name">{category}</span>
+                <span className="category-name">{t(`wellnessReport.categories.${category}`)}</span>
                 <div className="score-bar-container">
                   <div 
                     className="score-bar" 
@@ -651,7 +654,7 @@ const WellnessReport = () => {
         <div className="report-section">
           <h3 className="section-title">
             <Sparkles size={20} />
-            Key Insights
+            {t('wellnessReport.keyInsights')}
           </h3>
           <div className="insights-grid">
             {report.insights.map((insight, index) => (
@@ -673,7 +676,7 @@ const WellnessReport = () => {
       <div className="report-section">
         <h3 className="section-title">
           <Award size={20} />
-          Achievements
+          {t('wellnessReport.achievements')}
         </h3>
         <div className="achievements-grid">
           {report.achievements.map((achievement, index) => (
@@ -689,7 +692,7 @@ const WellnessReport = () => {
               {achievement.earned && (
                 <div className="earned-badge">
                   <Award size={16} />
-                  Earned
+                  {t('wellnessReport.earned')}
                 </div>
               )}
             </div>
@@ -702,7 +705,7 @@ const WellnessReport = () => {
         <div className="report-section">
           <h3 className="section-title">
             <Target size={20} />
-            Personalized Recommendations
+            {t('wellnessReport.personalizedRecommendations')}
           </h3>
           <div className="recommendations-list">
             {report.recommendations.map((rec, index) => (
@@ -714,7 +717,7 @@ const WellnessReport = () => {
                   <div className="rec-header">
                     <h4>{rec.title}</h4>
                     <span className={`priority-badge ${rec.priority}`}>
-                      {rec.priority} priority
+                      {t(`habitsGoals.priorities.${rec.priority}`)} {t('wellnessReport.priority')}
                     </span>
                   </div>
                   <p>{rec.description}</p>
@@ -732,15 +735,16 @@ const WellnessReport = () => {
           <BarChart3 size={24} />
         </div>
         <div className="footer-content">
-          <h4>Keep Up the Great Work!</h4>
+          <h4>{t('wellnessReport.keepUpWork')}</h4>
           <p>
-            Continue tracking your wellness journey. Small daily improvements lead to significant long-term results.
-            Use the AI Wellness Hub for personalized guidance and support.
+            {t('wellnessReport.summaryMessage')}
           </p>
         </div>
       </div>
     </div>
   )
 }
+
+export default WellnessReport
 
 export default WellnessReport

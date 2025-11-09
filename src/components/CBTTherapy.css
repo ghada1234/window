@@ -1,0 +1,730 @@
+.cbt-therapy-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Info Banner */
+.cbt-info-banner {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.cbt-info-banner strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.cbt-info-banner p {
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+/* Tabs */
+.cbt-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.cbt-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cbt-tab:hover {
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.cbt-tab.active {
+  color: #8b5cf6;
+  border-bottom-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.05);
+}
+
+/* Content */
+.cbt-content {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.content-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.content-header h2 {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.content-header p {
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.cbt-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cbt-primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+}
+
+.cbt-primary-btn.large {
+  padding: 14px 32px;
+  font-size: 1.05rem;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.cbt-secondary-btn {
+  padding: 10px 20px;
+  background: white;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cbt-secondary-btn:hover {
+  background: #f9fafb;
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+/* Empty State */
+.cbt-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  border: 2px dashed #d1d5db;
+  color: #6b7280;
+}
+
+.cbt-empty-state svg {
+  margin-bottom: 1rem;
+  color: #9ca3af;
+}
+
+/* Thought Records */
+.thought-records-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.thought-record-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+
+.thought-record-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.record-date {
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.delete-icon-btn {
+  padding: 6px;
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.delete-icon-btn:hover {
+  background: #fee2e2;
+}
+
+.record-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.record-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.record-section.alternative {
+  background: #f0fdf4;
+  padding: 1rem;
+  border-radius: 8px;
+  border-bottom: none;
+  border: 2px solid #10b981;
+}
+
+.record-section h4 {
+  font-size: 0.9rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.record-section p {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.emotion-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #fef3c7;
+  border-radius: 8px;
+}
+
+.emotion-label {
+  font-weight: 600;
+  color: #92400e;
+  min-width: 100px;
+}
+
+.intensity-bar {
+  flex: 1;
+  height: 8px;
+  background: #fde68a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.intensity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #dc2626 100%);
+  transition: width 0.3s;
+}
+
+.intensity-fill.positive {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.intensity-value {
+  font-weight: 700;
+  color: #92400e;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Grounding Techniques */
+.grounding-techniques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.technique-card {
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.technique-card.featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-color: #0ea5e9;
+}
+
+.technique-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #8b5cf6;
+}
+
+.technique-icon {
+  font-size: 48px;
+  margin-bottom: 1rem;
+}
+
+.technique-card h3 {
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.technique-card p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.technique-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.step-item {
+  padding: 10px 12px;
+  background: rgba(139, 92, 246, 0.05);
+  border-left: 3px solid #8b5cf6;
+  border-radius: 4px;
+  text-align: left;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Exercise History */
+.exercise-history {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.exercise-history h3 {
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.history-date {
+  margin-left: auto;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* Relaxation */
+.relaxation-guide {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.pmr-instructions h3 {
+  font-size: 1.3rem;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.pmr-instructions > p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.muscle-groups {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.muscle-group-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border-radius: 10px;
+  border: 2px solid #e9d5ff;
+  transition: all 0.2s;
+}
+
+.muscle-group-card:hover {
+  border-color: #8b5cf6;
+  transform: translateX(8px);
+}
+
+.group-emoji {
+  font-size: 32px;
+}
+
+.group-info h4 {
+  font-size: 1rem;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+}
+
+.group-info p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Behavioral Activation */
+.activation-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.activation-card {
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+
+.activation-card.completed {
+  background: #f0fdf4;
+  border-color: #10b981;
+  opacity: 0.8;
+}
+
+.activation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.activation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.checkbox-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: white;
+}
+
+.checkbox-btn:hover {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.activation-card.completed .checkbox-btn {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.activity-title {
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.activation-card.completed .activity-title {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+.activity-schedule {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+  flex-wrap: wrap;
+}
+
+.activity-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.metric-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.metric-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6 0%, #6366f1 100%);
+  transition: width 0.3s;
+}
+
+.metric span:last-child {
+  font-size: 0.85rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Modal */
+.cbt-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+  padding: 1rem;
+}
+
+.cbt-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+
+.cbt-modal h2 {
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.modal-subtitle {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.form-group input[type="range"] {
+  width: 100%;
+  accent-color: #8b5cf6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+/* RTL Support */
+html[dir="rtl"] .cbt-info-banner,
+html[dir="rtl"] .content-header {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] .step-item {
+  border-left: none;
+  border-right: 3px solid #8b5cf6;
+  text-align: right;
+}
+
+html[dir="rtl"] .history-date {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .muscle-group-card:hover {
+  transform: translateX(-8px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cbt-therapy-page {
+    padding: 1rem;
+  }
+
+  .cbt-tabs {
+    gap: 8px;
+  }
+
+  .cbt-tab {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .content-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cbt-primary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grounding-techniques {
+    grid-template-columns: 1fr;
+  }
+
+  .technique-card.featured {
+    grid-column: 1;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .activation-plans-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cbt-modal {
+    padding: 1.5rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+

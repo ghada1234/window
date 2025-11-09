@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { X, Mail, CheckCircle, AlertCircle } from 'lucide-react'
-import { getJSON, setJSON } from '../utils/storage'
+import { resetPassword } from '../utils/firebaseAuth'
+import { useTranslation } from 'react-i18next'
 import './AuthModal.css'
 
 const ForgotPasswordModal = ({ onClose, onSwitchToSignIn }) => {
+  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -31,12 +33,41 @@ const ForgotPasswordModal = ({ onClose, onSwitchToSignIn }) => {
     setIsLoading(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const result = await resetPassword(email)
 
-      // Check if email exists in storage (simulated user database)
-      const users = getJSON('users', [])
-      const userExists = users.some(user => user.email === email)
+      if (result.success) {
+        setIsSuccess(true)
+      } else {
+        // Always show success to prevent email enumeration
+        setIsSuccess(true)
+      }
+    } catch (err) {
+      // Always show success to prevent email enumeration
+      setIsSuccess(true)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSubmitOld = async (e) => {
+    e.preventDefault()
+    setError('')
+
+    if (!email) {
+      setError('Please enter your email address')
+      return
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // OLD CODE - Using Resend
+      const userExists = false // Simulated check
 
       if (userExists) {
         // Generate reset token
@@ -283,13 +314,12 @@ Your Find Your Inner Peace Team`
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="auth-success-state">
             <CheckCircle size={48} color="#10b981" />
-            <h2 className="modal-title">Check Your Email</h2>
+            <h2 className="modal-title">{t('auth.forgotPassword.success.title')}</h2>
             <p className="modal-subtitle">
-              We've sent a password reset link to <strong>{email}</strong>
+              {t('auth.forgotPassword.success.message')} <strong>{email}</strong>
             </p>
             <p className="auth-help-text">
-              Please check your inbox and click the link to reset your password. 
-              If you don't see the email, check your spam folder.
+              {t('auth.forgotPassword.success.instructions')}
             </p>
             <div className="auth-success-actions">
               <button 
@@ -301,7 +331,7 @@ Your Find Your Inner Peace Team`
                   onSwitchToSignIn()
                 }}
               >
-                Back to Sign In
+                {t('auth.forgotPassword.backToSignIn')}
               </button>
             </div>
           </div>
@@ -316,9 +346,9 @@ Your Find Your Inner Peace Team`
         <div className="auth-icon-wrapper">
           <Mail size={32} color="#6366f1" />
         </div>
-        <h2 className="modal-title">Forgot Password</h2>
+        <h2 className="modal-title">{t('auth.forgotPassword.title')}</h2>
         <p className="modal-subtitle">
-          Enter your email address and we'll send you a link to reset your password.
+          {t('auth.forgotPassword.subtitle')}
         </p>
         
         {error && (

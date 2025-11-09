@@ -1,13 +1,24 @@
-import { useState, useEffect } from 'react'
-import { User, Mail, Calendar, Target, Award, Settings, LogOut, Bell, CheckCircle, AlertCircle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { User, Mail, Calendar, Target, Award, Settings, LogOut, Bell, CheckCircle, AlertCircle, Camera, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { getEmailPreferences, saveEmailPreferences, isEmailJSConfigured } from '../utils/emailNotifications'
 import { isResendConfigured } from '../utils/resendNotifications'
-import safeStorage from '../utils/storage'
+import { signOut as logout, getCurrentUser } from '../utils/firebaseAuth'
+import { getJSON, setJSON } from '../utils/storage'
 import './Profile.css'
 
 const Profile = () => {
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  
+  // Achievement mapping for translation
+  const achievementMap = {
+    'First Week Complete': 'firstWeek',
+    'Meditation Master': 'meditationMaster',
+    'Nutrition Expert': 'nutritionExpert'
+  }
+  
   const [user] = useState({
     name: 'John Doe',
     email: 'ghadaabdulaziz1@gmail.com',
@@ -19,6 +30,25 @@ const Profile = () => {
 
   const [emailPrefs, setEmailPrefs] = useState(getEmailPreferences())
   const [showEmailSettings, setShowEmailSettings] = useState(false)
+  const [profileImage, setProfileImage] = useState(null)
+  const [showImageOptions, setShowImageOptions] = useState(false)
+  const fileInputRef = useRef(null)
+
+  useEffect(() => {
+    // Load profile image from localStorage
+    const savedImage = getJSON('profileImage', null)
+    setProfileImage(savedImage)
+    
+    // Close image options when clicking outside
+    const handleClickOutside = (event) => {
+      if (showImageOptions && !event.target.closest('.profile-avatar-container')) {
+        setShowImageOptions(false)
+      }
+    }
+    
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [showImageOptions])
 
   useEffect(() => {
     // Update email in preferences if user email exists
@@ -53,73 +83,152 @@ const Profile = () => {
     saveEmailPreferences(updated)
   }
 
-  const handleLogout = () => {
-    safeStorage.removeItem('isLoggedIn')
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert(t('profile.invalidImageType'))
+        return
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert(t('profile.imageTooLarge'))
+        return
+      }
+
+      // Convert to base64
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64Image = reader.result
+        setProfileImage(base64Image)
+        setJSON('profileImage', base64Image)
+        setShowImageOptions(false)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleRemoveImage = () => {
+    setProfileImage(null)
+    setJSON('profileImage', null)
+    setShowImageOptions(false)
+  }
+
+  const handleChangeImage = () => {
+    fileInputRef.current?.click()
+    setShowImageOptions(false)
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      console.log('✅ Logged out successfully')
+      navigate('/landing')
+    } catch (error) {
+      console.error('Logout error:', error)
+      // Still navigate to landing even if logout fails
     navigate('/landing')
+    }
   }
 
   return (
     <div className="profile-page">
       <header className="page-header">
-        <h1>Profile</h1>
-        <p>Manage your account settings and view your wellness journey</p>
+        <h1>{t('profile.title')}</h1>
+        <p>{t('profile.subtitle')}</p>
       </header>
 
       <div className="profile-content">
         <div className="profile-card">
-          <div className="profile-avatar">
+          <div className="profile-avatar-container">
+            <div className="profile-avatar" onClick={() => setShowImageOptions(true)}>
+              {profileImage ? (
+                <img src={profileImage} alt={t('profile.profilePicture')} className="profile-image" />
+              ) : (
             <User size={48} />
+              )}
+              <div className="avatar-overlay">
+                <Camera size={24} />
+              </div>
+            </div>
+            <input 
+              ref={fileInputRef}
+              type="file" 
+              accept="image/*" 
+              onChange={handleImageUpload}
+              style={{ display: 'none' }}
+            />
+            
+            {showImageOptions && (
+              <div className="image-options-menu">
+                <button className="option-btn" onClick={handleChangeImage}>
+                  <Camera size={16} />
+                  {profileImage ? t('profile.changePhoto') : t('profile.uploadPhoto')}
+                </button>
+                {profileImage && (
+                  <button className="option-btn remove" onClick={handleRemoveImage}>
+                    <X size={16} />
+                    {t('profile.removePhoto')}
+                  </button>
+                )}
+                <button className="option-btn cancel" onClick={() => setShowImageOptions(false)}>
+                  {t('common.cancel')}
+                </button>
+              </div>
+            )}
           </div>
           <h2>{user.name}</h2>
           <p className="profile-email">{user.email}</p>
           <div className="profile-stats">
             <div className="stat-item">
               <Calendar size={20} />
-              <span>Member since {new Date(user.memberSince).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+              <span>{t('profile.memberSince')} {new Date(user.memberSince).toLocaleDateString(i18n.language === 'ar' ? 'ar-AE' : 'en-US', { month: 'long', year: 'numeric' })}</span>
             </div>
             <div className="stat-item">
               <Target size={20} />
-              <span>{user.goalsCompleted} Goals Completed</span>
+              <span>{user.goalsCompleted} {t('profile.goalsCompleted')}</span>
             </div>
             <div className="stat-item">
               <Award size={20} />
-              <span>{user.currentStreak} Day Streak</span>
+              <span>{user.currentStreak} {t('profile.currentStreak')}</span>
             </div>
           </div>
         </div>
 
         <div className="profile-section">
-          <h3>Settings</h3>
+          <h3>{t('profile.settings')}</h3>
           <div className="settings-list">
             <button 
               className="settings-item"
               onClick={() => navigate('/profile/personal-info')}
             >
               <User size={20} />
-              <span>Personal Information</span>
+              <span>{t('profile.personalInformation')}</span>
             </button>
             <button className="settings-item">
               <Settings size={20} />
-              <span>Account Settings</span>
+              <span>{t('profile.accountSettings')}</span>
             </button>
             <button 
               className="settings-item"
               onClick={() => setShowEmailSettings(!showEmailSettings)}
             >
               <Mail size={20} />
-              <span>Email Preferences</span>
+              <span>{t('profile.emailPreferences')}</span>
               {showEmailSettings ? ' ▼' : ' ▶'}
             </button>
             <button className="settings-item">
               <Target size={20} />
-              <span>Goals & Preferences</span>
+              <span>{t('profile.goalsPreferences')}</span>
             </button>
           </div>
 
           {/* Email Notification Settings */}
           {showEmailSettings && (
             <div className="email-settings-card">
-              <h4>Email Notification Settings</h4>
+              <h4>{t('profile.emailSettings.title')}</h4>
               
               {/* Email Service Configuration Status */}
               {isResendConfigured() ? (
@@ -135,9 +244,9 @@ const Profile = () => {
                 }}>
                   <CheckCircle size={24} color="#10b981" />
                   <div>
-                    <strong style={{ color: '#065f46', fontSize: '15px' }}>✅ Resend Email Service Active</strong>
+                    <strong style={{ color: '#065f46', fontSize: '15px' }}>{t('profile.emailSettings.resendActive')}</strong>
                     <p style={{ color: '#047857', fontSize: '13px', margin: '5px 0 0 0' }}>
-                      Professional email delivery powered by Resend
+                      {t('profile.emailSettings.resendDesc')}
                     </p>
                   </div>
                 </div>
@@ -154,9 +263,9 @@ const Profile = () => {
                 }}>
                   <CheckCircle size={24} color="#3b82f6" />
                   <div>
-                    <strong style={{ color: '#1e40af', fontSize: '15px' }}>EmailJS Configured</strong>
+                    <strong style={{ color: '#1e40af', fontSize: '15px' }}>{t('profile.emailSettings.emailjsConfigured')}</strong>
                     <p style={{ color: '#1e3a8a', fontSize: '13px', margin: '5px 0 0 0' }}>
-                      Email delivery via EmailJS
+                      {t('profile.emailSettings.emailjsDesc')}
                     </p>
                   </div>
                 </div>
@@ -170,7 +279,7 @@ const Profile = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                     <AlertCircle size={20} color="#f59e0b" />
-                    <strong style={{ color: '#92400e' }}>No Email Service Configured</strong>
+                    <strong style={{ color: '#92400e' }}>{t('profile.emailSettings.noServiceConfigured')}</strong>
                   </div>
                   <p style={{ color: '#78350f', fontSize: '14px', marginBottom: '15px' }}>
                     To send real emails, configure Resend (recommended) or EmailJS:
@@ -213,36 +322,36 @@ const Profile = () => {
                     checked={emailPrefs.enabled}
                     onChange={(e) => handleEmailPreferenceChange('enabled', e.target.checked)}
                   />
-                  <span>Enable Email Notifications</span>
+                    <span>{t('profile.emailSettings.enableEmailNotifications')}</span>
                 </label>
               </div>
 
               <div className="email-setting-item">
-                <label>Email Address</label>
+                <label>{t('profile.emailSettings.emailAddress')}</label>
                 <input
                   type="email"
                   value={emailPrefs.email || user.email}
                   onChange={(e) => handleEmailChange(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={t('profile.emailSettings.emailPlaceholder')}
                   className="email-input"
                 />
               </div>
 
               <div className="email-setting-item">
-                <label>Notification Frequency</label>
+                <label>{t('profile.emailSettings.notificationFrequency')}</label>
                 <select
                   value={emailPrefs.frequency}
                   onChange={(e) => handleEmailPreferenceChange('frequency', e.target.value)}
                   className="email-select"
                 >
-                  <option value="immediate">Immediate</option>
-                  <option value="daily">Daily Digest</option>
-                  <option value="weekly">Weekly Summary</option>
+                  <option value="immediate">{t('profile.emailSettings.frequencies.immediate')}</option>
+                  <option value="daily">{t('profile.emailSettings.frequencies.daily')}</option>
+                  <option value="weekly">{t('profile.emailSettings.frequencies.weekly')}</option>
                 </select>
               </div>
 
               <div className="email-types-section">
-                <label>Notification Types</label>
+                <label>{t('profile.emailSettings.notificationTypes')}</label>
                 <div className="email-types-grid">
                   <label className="email-type-toggle">
                     <input
@@ -250,7 +359,7 @@ const Profile = () => {
                       checked={emailPrefs.types.goal}
                       onChange={(e) => handleNotificationTypeChange('goal', e.target.checked)}
                     />
-                    <span>Goal Achievements</span>
+                    <span>{t('profile.emailSettings.types.goalAchievements')}</span>
                   </label>
                   <label className="email-type-toggle">
                     <input
@@ -258,7 +367,7 @@ const Profile = () => {
                       checked={emailPrefs.types.reminder}
                       onChange={(e) => handleNotificationTypeChange('reminder', e.target.checked)}
                     />
-                    <span>Reminders</span>
+                    <span>{t('profile.emailSettings.types.reminders')}</span>
                   </label>
                   <label className="email-type-toggle">
                     <input
@@ -266,7 +375,7 @@ const Profile = () => {
                       checked={emailPrefs.types.achievement}
                       onChange={(e) => handleNotificationTypeChange('achievement', e.target.checked)}
                     />
-                    <span>Achievements</span>
+                    <span>{t('profile.emailSettings.types.achievements')}</span>
                   </label>
                   <label className="email-type-toggle">
                     <input
@@ -274,7 +383,7 @@ const Profile = () => {
                       checked={emailPrefs.types.report}
                       onChange={(e) => handleNotificationTypeChange('report', e.target.checked)}
                     />
-                    <span>Reports</span>
+                    <span>{t('profile.emailSettings.types.reports')}</span>
                   </label>
                   <label className="email-type-toggle">
                     <input
@@ -282,7 +391,7 @@ const Profile = () => {
                       checked={emailPrefs.types.insight}
                       onChange={(e) => handleNotificationTypeChange('insight', e.target.checked)}
                     />
-                    <span>Insights</span>
+                    <span>{t('profile.emailSettings.types.insights')}</span>
                   </label>
                   <label className="email-type-toggle">
                     <input
@@ -290,7 +399,7 @@ const Profile = () => {
                       checked={emailPrefs.types.warning}
                       onChange={(e) => handleNotificationTypeChange('warning', e.target.checked)}
                     />
-                    <span>Warnings</span>
+                    <span>{t('profile.emailSettings.types.warnings')}</span>
                   </label>
                 </div>
               </div>
@@ -353,21 +462,28 @@ const Profile = () => {
         </div>
 
         <div className="profile-section">
-          <h3>Achievements</h3>
+          <h3>{t('profile.achievements')}</h3>
           <div className="achievements-list">
-            {user.achievements.map((achievement, index) => (
+            {user.achievements.map((achievement, index) => {
+              // Translate achievements using mapping
+              const achievementKey = achievementMap[achievement]
+              const translatedAchievement = achievementKey 
+                ? t(`profile.achievementsList.${achievementKey}`)
+                : achievement
+              return (
               <div key={index} className="achievement-badge">
                 <Award size={20} />
-                <span>{achievement}</span>
+                  <span>{translatedAchievement}</span>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
         <div className="profile-actions">
           <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={20} />
-            <span>Log Out</span>
+            <span>{t('profile.logout')}</span>
           </button>
         </div>
       </div>

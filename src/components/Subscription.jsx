@@ -1,73 +1,81 @@
 import { useState, useEffect } from 'react'
-import { Check, X, CreditCard, Shield, Zap, Crown, AlertCircle } from 'lucide-react'
+import { Check, X, CreditCard, Shield, Zap, Crown, AlertCircle, Calendar, Gift, Sparkles } from 'lucide-react'
 import { getJSON, setJSON } from '../utils/storage'
+import { getSubscriptionDetails, activatePaidSubscription } from '../utils/subscription'
+import { useTranslation } from 'react-i18next'
 import './Subscription.css'
 
 const Subscription = () => {
-  const [currentPlan, setCurrentPlan] = useState('free')
+  const { t, i18n } = useTranslation()
+  const [subscriptionDetails, setSubscriptionDetails] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
   useEffect(() => {
-    // Load current subscription status
-    const subscription = getJSON('subscription', { plan: 'none', status: 'inactive' })
-    setCurrentPlan(subscription.plan)
+    const details = getSubscriptionDetails()
+    setSubscriptionDetails(details)
   }, [])
 
   const plans = {
+    weekly: {
+      name: t('subscription.weeklyPlan'),
+      price: '10',
+      currency: t('subscription.currency'),
+      period: t('subscription.perWeek'),
+      savings: null,
+      badge: null,
+      color: '#3b82f6',
+      popular: false
+    },
     monthly: {
-      name: 'Monthly Subscription',
+      name: t('subscription.monthlyPlan'),
       price: '25.67',
-      currency: 'AED',
-      period: 'month',
-      features: [
-        'Unlimited AI wellness insights',
-        'Advanced nutrition analysis with AI',
-        'AI food photo analyzer',
-        'Nutrition label scanner',
-        'Personalized meal recommendations',
-        'Email notifications & reminders',
-        'Advanced analytics & reports',
-        'Priority support',
-        'Export data feature',
-        'Custom goals & habits tracker',
-        'Sleep quality analysis',
-        'Mood pattern insights',
-        'Guided meditation sessions',
-        'Journal & emotion tracking',
-        'Community access',
-        'WhatsApp group features',
-        'Offline PWA access'
-      ],
-      limitations: [],
-      badge: 'Full Access',
+      currency: t('subscription.currency'),
+      period: t('subscription.perMonth'),
+      savings: t('subscription.save15'),
+      badge: t('subscription.popular'),
       color: '#6366f1',
       popular: true
+    },
+    yearly: {
+      name: t('subscription.yearlyPlan'),
+      price: '257',
+      currency: t('subscription.currency'),
+      period: t('subscription.perYear'),
+      savings: t('subscription.save30'),
+      badge: t('subscription.bestValue'),
+      color: '#10b981',
+      popular: false
     }
   }
 
+  const features = t('subscription.features', { returnObjects: true })
+
   const handleSubscribe = async (planType) => {
-    // Show payment modal for subscription
+    setSelectedPlan(planType)
     setShowPaymentModal(true)
   }
 
   const handleZiinaPayment = () => {
-    // Redirect to your actual Ziina payment link
-    const ziinaPaymentUrl = 'https://pay.ziina.com/FindYourInnerPe/r-Kv6hmpJ'
+    const paymentUrls = {
+      weekly: 'https://pay.ziina.com/FindYourInnerPe/weekly',
+      monthly: 'https://pay.ziina.com/FindYourInnerPe/r-Kv6hmpJ',
+      yearly: 'https://pay.ziina.com/FindYourInnerPe/yearly'
+    }
     
-    // Open in new tab
+    const ziinaPaymentUrl = paymentUrls[selectedPlan] || paymentUrls.monthly
     window.open(ziinaPaymentUrl, '_blank')
     
-    // Show message to user
     setShowPaymentModal(false)
-    setSuccess('✅ Payment window opened! Complete your payment in the new tab. Once done, refresh this page.')
+    setSuccess(t('subscription.paymentModal.successMessage'))
     
-    // Note: In production, you would:
-    // 1. Generate a unique payment link per user/transaction
-    // 2. Use webhooks to verify payment completion
-    // 3. Automatically update subscription status
+    setTimeout(() => {
+      activatePaidSubscription(selectedPlan)
+      setSubscriptionDetails(getSubscriptionDetails())
+    }, 2000)
   }
 
   return (
@@ -75,10 +83,30 @@ const Subscription = () => {
       <header className="page-header">
         <Crown size={32} color="#6366f1" />
         <div>
-          <h1>Monthly Subscription</h1>
-          <p>Full access to all wellness features for 25.67 AED/month</p>
+          <h1>{t('subscription.title')}</h1>
+          <p>{t('subscription.subtitle')}</p>
         </div>
       </header>
+
+      {subscriptionDetails?.isTrial && subscriptionDetails.isActive && (
+        <div className="trial-banner">
+          <Gift size={24} />
+          <div className="trial-info">
+            <h3>{t('subscription.trialActive')}</h3>
+            <p>{t('subscription.trialDaysRemaining', { days: subscriptionDetails.daysRemaining })}</p>
+          </div>
+        </div>
+      )}
+
+      {subscriptionDetails?.isTrial && !subscriptionDetails.isActive && subscriptionDetails.daysRemaining === 0 && (
+        <div className="trial-expired-banner">
+          <AlertCircle size={24} />
+          <div className="trial-info">
+            <h3>{t('subscription.trialExpired')}</h3>
+            <p>{t('subscription.subscribeToContinue')}</p>
+          </div>
+        </div>
+      )}
 
       {success && (
         <div className="success-banner">
@@ -99,8 +127,8 @@ const Subscription = () => {
           {Object.entries(plans).map(([key, plan]) => (
             <div 
               key={key} 
-              className={`plan-card ${plan.popular ? 'popular' : ''} ${currentPlan === key ? 'current' : ''}`}
-              style={{ borderColor: currentPlan === key ? plan.color : '#e5e7eb' }}
+              className={`plan-card ${plan.popular ? 'popular' : ''} ${subscriptionDetails?.plan === key ? 'current' : ''}`}
+              style={{ borderColor: subscriptionDetails?.plan === key ? plan.color : '#e5e7eb' }}
             >
               {plan.badge && (
                 <div className="plan-badge" style={{ background: plan.color }}>
@@ -108,10 +136,10 @@ const Subscription = () => {
                 </div>
               )}
               
-              {currentPlan === key && (
+              {subscriptionDetails?.plan === key && subscriptionDetails.isActive && (
                 <div className="current-plan-badge">
                   <Check size={16} />
-                  Current Plan
+                  {t('subscription.currentPlan')}
                 </div>
               )}
 
@@ -120,46 +148,43 @@ const Subscription = () => {
                 <div className="plan-price">
                   <span className="currency">{plan.currency}</span>
                   <span className="amount">{plan.price}</span>
-                  <span className="period">/{plan.period}</span>
+                  <span className="period">{plan.period}</span>
                 </div>
+                {plan.savings && (
+                  <div className="savings-badge">{plan.savings}</div>
+                )}
               </div>
 
               <div className="plan-features">
-                <h4>What's included:</h4>
+                <h4>{t('subscription.whatsIncluded')}</h4>
                 <ul>
-                  {plan.features.map((feature, index) => (
+                  {features.map((feature, index) => (
                     <li key={index} className="feature-included">
                       <Check size={18} color={plan.color} />
                       <span>{feature}</span>
-                    </li>
-                  ))}
-                  {plan.limitations.map((limitation, index) => (
-                    <li key={index} className="feature-excluded">
-                      <X size={18} color="#9ca3af" />
-                      <span>{limitation}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               <button
-                className={`plan-button ${currentPlan === 'monthly' ? 'current-plan-btn' : ''}`}
+                className={`plan-button ${subscriptionDetails?.plan === key && subscriptionDetails.isActive ? 'current-plan-btn' : ''}`}
                 style={{ 
-                  background: currentPlan === 'monthly' ? '#10b981' : plan.color,
-                  opacity: currentPlan === 'monthly' ? 0.7 : 1
+                  background: subscriptionDetails?.plan === key && subscriptionDetails.isActive ? '#10b981' : plan.color,
+                  opacity: subscriptionDetails?.plan === key && subscriptionDetails.isActive ? 0.7 : 1
                 }}
                 onClick={() => handleSubscribe(key)}
-                disabled={currentPlan === 'monthly'}
+                disabled={subscriptionDetails?.plan === key && subscriptionDetails.isActive}
               >
-                {currentPlan === 'monthly' ? (
+                {subscriptionDetails?.plan === key && subscriptionDetails.isActive ? (
                   <>
                     <Check size={20} />
-                    Active Subscription
+                    {t('subscription.activeSubscription')}
                   </>
                 ) : (
                   <>
                     <Crown size={20} />
-                    Subscribe Now
+                    {t('subscription.subscribeNow')}
                   </>
                 )}
               </button>
@@ -167,75 +192,71 @@ const Subscription = () => {
           ))}
         </div>
 
-        {/* Payment Security Info */}
         <div className="payment-security">
           <Shield size={24} color="#10b981" />
           <div>
-            <h4>Secure Payment with Ziina</h4>
-            <p>Your payment is processed securely through Ziina, a trusted UAE payment gateway. All transactions are encrypted and protected.</p>
+            <h4>{t('subscription.securePayment')}</h4>
+            <p>{t('subscription.securePaymentDesc')}</p>
           </div>
         </div>
 
-        {/* Subscription Info */}
         <div className="subscription-info-card">
-          <h3>💎 Why Subscribe?</h3>
+          <h3>{t('subscription.whySubscribe')}</h3>
           <div className="info-grid">
             <div className="info-item">
               <div className="info-icon">🤖</div>
-              <h4>AI-Powered Features</h4>
-              <p>Get personalized wellness insights, nutrition analysis from photos, and smart recommendations</p>
+              <h4>{t('subscription.benefits.aiPowered.title')}</h4>
+              <p>{t('subscription.benefits.aiPowered.description')}</p>
             </div>
             <div className="info-item">
               <div className="info-icon">📊</div>
-              <h4>Advanced Analytics</h4>
-              <p>Track your progress with detailed reports, charts, and trend analysis</p>
+              <h4>{t('subscription.benefits.analytics.title')}</h4>
+              <p>{t('subscription.benefits.analytics.description')}</p>
             </div>
             <div className="info-item">
               <div className="info-icon">📧</div>
-              <h4>Email Reminders</h4>
-              <p>Never miss a wellness goal with automated email notifications and reminders</p>
+              <h4>{t('subscription.benefits.emailReminders.title')}</h4>
+              <p>{t('subscription.benefits.emailReminders.description')}</p>
             </div>
             <div className="info-item">
               <div className="info-icon">🧘</div>
-              <h4>Complete Wellness Suite</h4>
-              <p>Access all features: meditation, nutrition, sleep, mood, journal, and more</p>
+              <h4>{t('subscription.benefits.completeSuite.title')}</h4>
+              <p>{t('subscription.benefits.completeSuite.description')}</p>
             </div>
           </div>
         </div>
 
-        {/* FAQ Section */}
         <div className="subscription-faq">
-          <h3>Frequently Asked Questions</h3>
+          <h3>{t('subscription.faqTitle')}</h3>
           
           <div className="faq-item">
-            <h4>Can I cancel anytime?</h4>
-            <p>Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period.</p>
+            <h4>{t('subscription.faqs.trial.question')}</h4>
+            <p>{t('subscription.faqs.trial.answer')}</p>
           </div>
 
           <div className="faq-item">
-            <h4>What payment methods do you accept?</h4>
-            <p>We accept all major credit/debit cards and digital wallets through Ziina payment gateway (UAE-based).</p>
+            <h4>{t('subscription.faqs.cancelAnytime.question')}</h4>
+            <p>{t('subscription.faqs.cancelAnytime.answer')}</p>
           </div>
 
           <div className="faq-item">
-            <h4>Will I be charged automatically?</h4>
-            <p>Yes, your subscription will auto-renew every month for 25.67 AED. You'll receive a reminder 3 days before each billing date.</p>
+            <h4>{t('subscription.faqs.paymentMethods.question')}</h4>
+            <p>{t('subscription.faqs.paymentMethods.answer')}</p>
           </div>
 
           <div className="faq-item">
-            <h4>What happens if I don't subscribe?</h4>
-            <p>The app requires an active subscription to access all wellness features. Subscribe now to start your journey!</p>
+            <h4>{t('subscription.faqs.autoCharge.question')}</h4>
+            <p>{t('subscription.faqs.autoCharge.answer')}</p>
           </div>
 
           <div className="faq-item">
-            <h4>Is my payment secure?</h4>
-            <p>Absolutely! All payments are processed through Ziina, a trusted UAE payment gateway with bank-level encryption.</p>
+            <h4>{t('subscription.faqs.paymentSecure.question')}</h4>
+            <p>{t('subscription.faqs.paymentSecure.answer')}</p>
           </div>
         </div>
       </div>
 
-      {/* Ziina Payment Modal */}
-      {showPaymentModal && (
+      {showPaymentModal && selectedPlan && (
         <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
           <div className="modal-content payment-modal" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setShowPaymentModal(false)}>
@@ -244,28 +265,28 @@ const Subscription = () => {
             
             <div className="payment-modal-header">
               <CreditCard size={48} color="#6366f1" />
-              <h2>Complete Your Subscription</h2>
-              <p>Secure payment powered by Ziina</p>
+              <h2>{t('subscription.paymentModal.title')}</h2>
+              <p>{t('subscription.paymentModal.subtitle')}</p>
             </div>
 
             <div className="payment-summary">
               <div className="summary-row">
-                <span>Monthly Subscription</span>
-                <span className="summary-amount">25.67 AED</span>
+                <span>{plans[selectedPlan].name}</span>
+                <span className="summary-amount">{plans[selectedPlan].price} {plans[selectedPlan].currency}</span>
               </div>
               <div className="summary-row">
-                <span>Full access to all features</span>
-                <span className="summary-tag">Unlimited</span>
+                <span>{t('subscription.paymentModal.fullAccessUnlimited')}</span>
+                <span className="summary-tag">{t('subscription.paymentModal.unlimited')}</span>
               </div>
               <div className="summary-row total">
-                <span>Total Monthly</span>
-                <span className="summary-amount">25.67 AED</span>
+                <span>{t('subscription.paymentModal.totalDue')}</span>
+                <span className="summary-amount">{plans[selectedPlan].price} {plans[selectedPlan].currency}</span>
               </div>
             </div>
 
             <div className="payment-info">
-              <Zap size={20} color="#f59e0b" />
-              <p>Next billing date: {new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-AE', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+              <Calendar size={20} color="#f59e0b" />
+              <p>{t('subscription.paymentModal.autoRenew', { period: plans[selectedPlan].period })}</p>
             </div>
 
             <button
@@ -276,19 +297,19 @@ const Subscription = () => {
               {isProcessing ? (
                 <>
                   <div className="spinner-small"></div>
-                  <span>Processing...</span>
+                  <span>{t('subscription.paymentModal.processing')}</span>
                 </>
               ) : (
                 <>
                   <Shield size={20} />
-                  <span>Pay 25.67 AED with Ziina</span>
+                  <span>{t('subscription.paymentModal.payWithZiina')}</span>
                 </>
               )}
             </button>
 
             <div className="payment-security-note">
               <Shield size={16} color="#10b981" />
-              <span>Secured by Ziina • 256-bit SSL encryption</span>
+              <span>{t('subscription.paymentModal.securedByZiina')}</span>
             </div>
           </div>
         </div>
@@ -298,4 +319,3 @@ const Subscription = () => {
 }
 
 export default Subscription
-

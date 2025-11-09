@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useWellness } from '../context/WellnessContext'
 import { Palette, Plus, X, Edit2, Trash2, Clock, Calendar } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './Hobbies.css'
 
 const Hobbies = () => {
+  const { t, i18n } = useTranslation()
   const { hobbies, addHobby, updateHobby, deleteHobby } = useWellness()
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingHobby, setEditingHobby] = useState(null)
@@ -15,12 +17,12 @@ const Hobbies = () => {
   })
 
   const categories = [
-    { value: 'creative', label: 'Creative' },
-    { value: 'physical', label: 'Physical' },
-    { value: 'social', label: 'Social' },
-    { value: 'mindful', label: 'Mindful' },
-    { value: 'educational', label: 'Educational' },
-    { value: 'other', label: 'Other' }
+    { value: 'creative', label: t('hobbies.categories.creative') },
+    { value: 'physical', label: t('hobbies.categories.physical') },
+    { value: 'social', label: t('hobbies.categories.social') },
+    { value: 'mindful', label: t('hobbies.categories.mindful') },
+    { value: 'educational', label: t('hobbies.categories.educational') },
+    { value: 'other', label: t('hobbies.categories.other') }
   ]
 
   const handleSubmit = (e) => {
@@ -73,15 +75,15 @@ const Hobbies = () => {
     <div className="hobbies-page">
       <div className="page-header">
         <div>
-          <h1>Hobbies</h1>
-          <p>Track your stress-relief hobbies and creative activities</p>
+          <h1>{t('hobbies.title')}</h1>
+          <p>{t('hobbies.subtitle')}</p>
         </div>
         <button 
           className="add-hobby-btn"
           onClick={() => setShowAddForm(true)}
         >
           <Plus size={20} />
-          Add Hobby
+          {t('hobbies.addHobby')}
         </button>
       </div>
 
@@ -89,34 +91,34 @@ const Hobbies = () => {
         <div className="hobby-form-overlay">
           <div className="hobby-form-card">
             <div className="hobby-form-header">
-              <h2>{editingHobby ? 'Edit Hobby' : 'Add New Hobby'}</h2>
+              <h2>{editingHobby ? t('hobbies.editHobby') : t('hobbies.addNewHobby')}</h2>
               <button className="close-btn" onClick={handleCancel}>
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Hobby Name *</label>
+                <label>{t('hobbies.hobbyName')} *</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g., Painting, Reading, Gardening"
+                  placeholder={t('hobbies.hobbyNamePlaceholder')}
                   required
                 />
               </div>
               <div className="form-group">
-                <label>Description</label>
+                <label>{t('hobbies.description')}</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Describe this hobby and why you enjoy it..."
+                  placeholder={t('hobbies.descriptionPlaceholder')}
                   rows="3"
                 />
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Category</label>
+                  <label>{t('hobbies.category')}</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -127,24 +129,24 @@ const Hobbies = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Frequency</label>
+                  <label>{t('hobbies.frequency')}</label>
                   <select
                     value={formData.frequency}
                     onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
                   >
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="occasional">Occasional</option>
+                    <option value="daily">{t('hobbies.frequencies.daily')}</option>
+                    <option value="weekly">{t('hobbies.frequencies.weekly')}</option>
+                    <option value="monthly">{t('hobbies.frequencies.monthly')}</option>
+                    <option value="occasional">{t('hobbies.frequencies.occasional')}</option>
                   </select>
                 </div>
               </div>
               <div className="form-actions">
                 <button type="button" className="cancel-btn" onClick={handleCancel}>
-                  Cancel
+                  {t('hobbies.cancel')}
                 </button>
                 <button type="submit" className="save-btn">
-                  {editingHobby ? 'Update Hobby' : 'Create Hobby'}
+                  {editingHobby ? t('hobbies.updateHobby') : t('hobbies.createHobby')}
                 </button>
               </div>
             </form>
@@ -155,10 +157,10 @@ const Hobbies = () => {
       {hobbies.length === 0 ? (
         <div className="empty-state">
           <Palette size={64} />
-          <h2>No hobbies yet</h2>
-          <p>Start tracking your hobbies and activities!</p>
+          <h2>{t('hobbies.noHobbies')}</h2>
+          <p>{t('hobbies.startTracking')}</p>
           <button className="add-first-hobby-btn" onClick={() => setShowAddForm(true)}>
-            Add Your First Hobby
+            {t('hobbies.addFirstHobby')}
           </button>
         </div>
       ) : (
@@ -196,11 +198,11 @@ const Hobbies = () => {
               <div className="hobby-meta">
                 <div className="meta-item">
                   <Clock size={14} />
-                  <span>{hobby.frequency}</span>
+                  <span>{t(`hobbies.frequencies.${hobby.frequency}`)}</span>
                 </div>
                 <div className="meta-item">
                   <Calendar size={14} />
-                  <span>Started {new Date(hobby.createdAt).toLocaleDateString()}</span>
+                  <span>{t('hobbies.started')} {new Date(hobby.createdAt).toLocaleDateString(i18n.language === 'ar' ? 'ar-AE' : 'en-US')}</span>
                 </div>
               </div>
             </div>

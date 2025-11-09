@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import safeStorage from './utils/storage'
+import { onAuthChange } from './utils/firebaseAuth'
 import { initGA, trackPageView } from './utils/googleAnalytics'
 import { WellnessProvider } from './context/WellnessContext'
 import LandingPage from './components/LandingPage'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
 import Nutrition from './components/Nutrition'
+import MeredithShirkMealPlan from './components/MeredithShirkMealPlan'
 import WaterLog from './components/WaterLog'
 import ActivityTracker from './components/ActivityTracker'
 import SleepTracker from './components/SleepTracker'
-import MindPractices from './components/MindPractices'
+// import MindPractices from './components/MindPractices' - Removed
 import Journal from './components/Journal'
 import AIWellnessHub from './components/AIWellnessHub'
 import HabitsGoals from './components/HabitsGoals'
@@ -33,15 +34,49 @@ import WebAnalytics from './components/WebAnalytics'
 import WellnessReport from './components/WellnessReport'
 import DataBackup from './components/DataBackup'
 import WearableSync from './components/WearableSync'
+import OAuthCallback from './components/OAuthCallback'
+import NotificationPrompt from './components/NotificationPrompt/NotificationPrompt'
+import LanguageSwitcher from './components/LanguageSwitcher/LanguageSwitcher'
+import InstallPrompt from './components/InstallPrompt'
+import SubscriptionGate from './components/SubscriptionGate'
+import VoiceJournal from './components/VoiceJournal'
+import CBTTherapy from './components/CBTTherapy'
+import SocialFeed from './components/SocialFeed'
+import UserStats from './components/UserStats'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import './App.css'
 
 // Protected Route wrapper - redirects to landing if not logged in
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = safeStorage.getItem('isLoggedIn') === 'true'
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const unsubscribe = onAuthChange((currentUser) => {
+      setUser(currentUser)
+      setLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  if (loading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100vh',
+        fontSize: '18px',
+        color: '#667eea'
+      }}>
+        Loading...
+      </div>
+    )
+  }
   
-  if (!isLoggedIn) {
+  if (!user) {
     return <Navigate to="/landing" replace />
   }
   
@@ -90,18 +125,25 @@ function App() {
           {/* Password reset page - accessible without login */}
           <Route path="/reset-password" element={<ResetPassword />} />
           
+          {/* OAuth callback - accessible without login */}
+          <Route path="/oauth/callback" element={<OAuthCallback />} />
+          
           {/* Protected routes - require login */}
           <Route path="/*" element={
             <ProtectedRoute>
+              <SubscriptionGate>
               <div className="app">
+                  <LanguageSwitcher />
+                  <NotificationPrompt />
+                  <InstallPrompt />
                 <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
                 <main className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                   <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/mind/practices" element={<MindPractices />} />
                     <Route path="/mind/journal" element={<Journal />} />
                     <Route path="/mind/emotions" element={<EmotionInsights />} />
                     <Route path="/body/nutrition" element={<Nutrition />} />
+                    <Route path="/body/meal-plans" element={<MeredithShirkMealPlan />} />
                     <Route path="/body/water" element={<WaterLog />} />
                     <Route path="/body/activity" element={<ActivityTracker />} />
                     <Route path="/body/sleep" element={<SleepTracker />} />
@@ -118,13 +160,18 @@ function App() {
                     <Route path="/info/about" element={<About />} />
                     <Route path="/info/contact" element={<Contact />} />
                     <Route path="/analytics" element={<WebAnalytics />} />
+                    <Route path="/user-stats" element={<UserStats />} />
                     <Route path="/wellness-report" element={<WellnessReport />} />
                     <Route path="/data-backup" element={<DataBackup />} />
                     <Route path="/wearable-sync" element={<WearableSync />} />
+                    <Route path="/mind/voice-journal" element={<VoiceJournal />} />
+                    <Route path="/mind/cbt-therapy" element={<CBTTherapy />} />
+                    <Route path="/community/social" element={<SocialFeed />} />
                     <Route path="*" element={<Navigate to="/dashboard" replace />} />
                   </Routes>
                 </main>
               </div>
+              </SubscriptionGate>
             </ProtectedRoute>
           } />
         </Routes>

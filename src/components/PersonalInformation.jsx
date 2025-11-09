@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { User, Save, Calendar, Activity, Target, UtensilsCrossed } from 'lucide-react'
 import { getJSON, setJSON } from '../utils/storage'
+import { useTranslation } from 'react-i18next'
 import './PersonalInformation.css'
 
 const PersonalInformation = () => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState(() => {
     return getJSON('personalInformation', {
       age: 30,
@@ -60,10 +62,42 @@ const PersonalInformation = () => {
     }
   }
 
-  const genders = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
-  const activityLevels = ['Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extremely Active']
-  const goals = ['Weight Loss', 'Weight Gain', 'Muscle Building', 'Maintain Weight', 'Improve Fitness', 'General Health']
-  const dietaryPreferences = ['None', 'Vegan', 'Vegetarian', 'Pescatarian', 'Keto', 'Paleo', 'Gluten-Free', 'Dairy-Free', 'Halal', 'Kosher']
+  const genders = [
+    { value: 'Male', label: t('personalInfo.genders.male') },
+    { value: 'Female', label: t('personalInfo.genders.female') },
+    { value: 'Non-binary', label: t('personalInfo.genders.nonBinary') },
+    { value: 'Prefer not to say', label: t('personalInfo.genders.preferNot') }
+  ]
+  
+  const activityLevels = [
+    { value: 'Sedentary', label: t('personalInfo.activityLevels.sedentary') },
+    { value: 'Lightly Active', label: t('personalInfo.activityLevels.lightlyActive') },
+    { value: 'Moderately Active', label: t('personalInfo.activityLevels.moderatelyActive') },
+    { value: 'Very Active', label: t('personalInfo.activityLevels.veryActive') },
+    { value: 'Extremely Active', label: t('personalInfo.activityLevels.extremelyActive') }
+  ]
+  
+  const goals = [
+    { value: 'Weight Loss', label: t('personalInfo.goals.weightLoss') },
+    { value: 'Weight Gain', label: t('personalInfo.goals.weightGain') },
+    { value: 'Muscle Building', label: t('personalInfo.goals.muscleBuilding') },
+    { value: 'Maintain Weight', label: t('personalInfo.goals.maintainWeight') },
+    { value: 'Improve Fitness', label: t('personalInfo.goals.improveFitness') },
+    { value: 'General Health', label: t('personalInfo.goals.generalHealth') }
+  ]
+  
+  const dietaryPreferences = [
+    { value: 'None', label: t('personalInfo.dietaryPreferences.none') },
+    { value: 'Vegan', label: t('personalInfo.dietaryPreferences.vegan') },
+    { value: 'Vegetarian', label: t('personalInfo.dietaryPreferences.vegetarian') },
+    { value: 'Pescatarian', label: t('personalInfo.dietaryPreferences.pescatarian') },
+    { value: 'Keto', label: t('personalInfo.dietaryPreferences.keto') },
+    { value: 'Paleo', label: t('personalInfo.dietaryPreferences.paleo') },
+    { value: 'Gluten-Free', label: t('personalInfo.dietaryPreferences.glutenFree') },
+    { value: 'Dairy-Free', label: t('personalInfo.dietaryPreferences.dairyFree') },
+    { value: 'Halal', label: t('personalInfo.dietaryPreferences.halal') },
+    { value: 'Kosher', label: t('personalInfo.dietaryPreferences.kosher') }
+  ]
 
   return (
     <div className="personal-information-page">
@@ -71,8 +105,8 @@ const PersonalInformation = () => {
         <div className="header-content">
           <User size={32} />
           <div>
-            <h1>Personal Information</h1>
-            <p>Manage your personal information and preferences here.</p>
+            <h1>{t('personalInfo.title')}</h1>
+            <p>{t('personalInfo.subtitle')}</p>
           </div>
         </div>
       </header>
@@ -80,8 +114,8 @@ const PersonalInformation = () => {
       <div className="personal-info-content">
         <div className="info-section-card">
           <div className="section-header">
-            <h2>Personal Information</h2>
-            <p>This data helps us personalize your experience and recommendations.</p>
+            <h2>{t('personalInfo.sectionTitle')}</h2>
+            <p>{t('personalInfo.sectionSubtitle')}</p>
           </div>
 
           <form onSubmit={handleSave} className="personal-info-form">
@@ -89,7 +123,7 @@ const PersonalInformation = () => {
               <div className="form-group">
                 <label htmlFor="age">
                   <Calendar size={18} />
-                  Age
+                  {t('personalInfo.age')}
                 </label>
                 <input
                   type="number"
@@ -105,7 +139,7 @@ const PersonalInformation = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="gender">Gender</label>
+                <label htmlFor="gender">{t('personalInfo.gender')}</label>
                 <select
                   id="gender"
                   name="gender"
@@ -113,16 +147,16 @@ const PersonalInformation = () => {
                   onChange={handleChange}
                   className="select-input"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('personalInfo.select')}</option>
                   {genders.map(gender => (
-                    <option key={gender} value={gender}>{gender}</option>
+                    <option key={gender.value} value={gender.value}>{gender.label}</option>
                   ))}
                 </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="height">
-                  Height (cm)
+                  {t('personalInfo.height')}
                 </label>
                 <input
                   type="number"
@@ -139,7 +173,7 @@ const PersonalInformation = () => {
 
               <div className="form-group">
                 <label htmlFor="weight">
-                  Weight (kg)
+                  {t('personalInfo.weight')}
                 </label>
                 <input
                   type="number"
@@ -158,7 +192,7 @@ const PersonalInformation = () => {
               <div className="form-group">
                 <label htmlFor="activityLevel">
                   <Activity size={18} />
-                  Activity Level
+                  {t('personalInfo.activityLevel')}
                 </label>
                 <select
                   id="activityLevel"
@@ -167,9 +201,9 @@ const PersonalInformation = () => {
                   onChange={handleChange}
                   className="select-input"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('personalInfo.select')}</option>
                   {activityLevels.map(level => (
-                    <option key={level} value={level}>{level}</option>
+                    <option key={level.value} value={level.value}>{level.label}</option>
                   ))}
                 </select>
               </div>
@@ -177,7 +211,7 @@ const PersonalInformation = () => {
               <div className="form-group">
                 <label htmlFor="goal">
                   <Target size={18} />
-                  Goal
+                  {t('personalInfo.goal')}
                 </label>
                 <select
                   id="goal"
@@ -186,9 +220,9 @@ const PersonalInformation = () => {
                   onChange={handleChange}
                   className="select-input"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('personalInfo.select')}</option>
                   {goals.map(goal => (
-                    <option key={goal} value={goal}>{goal}</option>
+                    <option key={goal.value} value={goal.value}>{goal.label}</option>
                   ))}
                 </select>
               </div>
@@ -198,51 +232,51 @@ const PersonalInformation = () => {
             <div className="meal-planner-section">
               <div className="section-header">
                 <UtensilsCrossed size={20} />
-                <h3>Preferences for AI Meal Planner (Optional)</h3>
+                <h3>{t('personalInfo.mealPlannerTitle')}</h3>
               </div>
-              <p className="section-subtitle">These preferences help our AI generate personalized meal recommendations for you.</p>
+              <p className="section-subtitle">{t('personalInfo.mealPlannerSubtitle')}</p>
 
               <div className="form-grid">
                 <div className="form-group full-width">
-                  <label htmlFor="preferredCuisine">Preferred Cuisine</label>
+                  <label htmlFor="preferredCuisine">{t('personalInfo.preferredCuisine')}</label>
                   <input
                     type="text"
                     id="preferredCuisine"
                     name="preferredCuisine"
                     value={formData.preferredCuisine}
                     onChange={handleChange}
-                    placeholder="e.g., Italian, Any"
+                    placeholder={t('personalInfo.cuisinePlaceholder')}
                   />
                 </div>
 
                 <div className="form-group full-width">
-                  <label htmlFor="allergies">Allergies</label>
+                  <label htmlFor="allergies">{t('personalInfo.allergies')}</label>
                   <input
                     type="text"
                     id="allergies"
                     name="allergies"
                     value={formData.allergies}
                     onChange={handleChange}
-                    placeholder="e.g., Peanuts, Shellfish"
+                    placeholder={t('personalInfo.allergiesPlaceholder')}
                   />
-                  <small className="form-hint">List any food allergies or intolerances</small>
+                  <small className="form-hint">{t('personalInfo.allergiesHint')}</small>
                 </div>
 
                 <div className="form-group full-width">
-                  <label htmlFor="dislikes">Dislikes</label>
+                  <label htmlFor="dislikes">{t('personalInfo.dislikes')}</label>
                   <input
                     type="text"
                     id="dislikes"
                     name="dislikes"
                     value={formData.dislikes}
                     onChange={handleChange}
-                    placeholder="e.g., Mushrooms, Olives"
+                    placeholder={t('personalInfo.dislikesPlaceholder')}
                   />
-                  <small className="form-hint">Foods you prefer to avoid</small>
+                  <small className="form-hint">{t('personalInfo.dislikesHint')}</small>
                 </div>
 
                 <div className="form-group full-width">
-                  <label htmlFor="dietaryPreference">Dietary Preference</label>
+                  <label htmlFor="dietaryPreference">{t('personalInfo.dietaryPreference')}</label>
                   <select
                     id="dietaryPreference"
                     name="dietaryPreference"
@@ -250,12 +284,12 @@ const PersonalInformation = () => {
                     onChange={handleChange}
                     className="select-input"
                   >
-                    <option value="">None</option>
-                    {dietaryPreferences.filter(p => p !== 'None').map(pref => (
-                      <option key={pref} value={pref}>{pref}</option>
+                    <option value="">{t('personalInfo.dietaryPreferences.none')}</option>
+                    {dietaryPreferences.filter(p => p.value !== 'None').map(pref => (
+                      <option key={pref.value} value={pref.value}>{pref.label}</option>
                     ))}
                   </select>
-                  <small className="form-hint">Select your dietary restriction or preference</small>
+                  <small className="form-hint">{t('personalInfo.dietaryHint')}</small>
                 </div>
               </div>
             </div>
@@ -269,18 +303,18 @@ const PersonalInformation = () => {
                 {isSaving ? (
                   <>
                     <div className="spinner-small"></div>
-                    <span>Saving...</span>
+                    <span>{t('personalInfo.saving')}</span>
                   </>
                 ) : (
                   <>
                     <Save size={20} />
-                    <span>Save Personal Information</span>
+                    <span>{t('personalInfo.saveButton')}</span>
                   </>
                 )}
               </button>
               {saveSuccess && (
                 <div className="save-success-message">
-                  ✓ Personal information saved successfully!
+                  {t('personalInfo.saveSuccess')}
                 </div>
               )}
             </div>

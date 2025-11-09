@@ -1,4 +1,5 @@
 import { useWellness } from '../context/WellnessContext'
+import { useTranslation } from 'react-i18next'
 import StatsCard from './StatsCard'
 import WaterIntake from './WaterIntake'
 import DailyGoals from './DailyGoals'
@@ -9,24 +10,26 @@ import './Dashboard.css'
 
 const Dashboard = () => {
   const { getDailyStats } = useWellness()
+  const { t, i18n } = useTranslation()
   const stats = getDailyStats()
 
   const getCurrentDate = () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    return new Date().toLocaleDateString('en-US', options)
+    const locale = i18n.language === 'ar' ? 'ar-AE' : 'en-US'
+    return new Date().toLocaleDateString(locale, options)
   }
 
   const dashboardStats = [
-    { label: 'Last Sleep', value: stats.sleep || '8.25h', icon: '😴' },
-    { label: 'Last Nutrition', value: stats.calories.toString(), subtitle: 'Calories consumed', icon: '🍎' },
-    { label: 'Last Activity', value: stats.activity || '0 min', subtitle: 'Workout time', icon: '💪' },
-    { label: 'Last Mood', value: stats.mood || 'Good', subtitle: "How you're feeling", icon: '😊' }
+    { label: t('dashboard.lastSleep'), value: stats.sleep || '8.25h', icon: '😴' },
+    { label: t('dashboard.lastNutrition'), value: stats.calories.toString(), subtitle: t('dashboard.caloriesConsumed'), icon: '🍎' },
+    { label: t('dashboard.lastActivity'), value: stats.activity || '0 min', subtitle: t('dashboard.workoutTime'), icon: '💪' },
+    { label: t('dashboard.lastMood'), value: stats.mood || t('dashboard.good'), subtitle: t('dashboard.howFeeling'), icon: '😊' }
   ]
 
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>Welcome Back!</h1>
+        <h1>{t('dashboard.welcome')}</h1>
         <p className="dashboard-date">{getCurrentDate()}</p>
       </header>
 

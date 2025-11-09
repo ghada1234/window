@@ -1,51 +1,72 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database } from 'lucide-react'
+import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './Sidebar.css'
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { t, i18n } = useTranslation()
 
+  // Re-create menu items when language changes
   const menuItems = [
-    { icon: Home, label: 'Dashboard', path: '/dashboard' },
-    { icon: Brain, label: 'Mind', children: [
-      { label: 'Mind Practices', path: '/mind/practices' },
-      { label: 'Journal', path: '/mind/journal' },
-      { label: 'Emotion Insights', path: '/mind/emotions' }
+    { icon: Home, label: t('nav.dashboard'), path: '/dashboard' },
+    { icon: Brain, label: t('nav.mind'), children: [
+      { label: t('sidebar.journal'), path: '/mind/journal' },
+      { label: t('sidebar.voiceJournal'), path: '/mind/voice-journal' },
+      { label: t('sidebar.cbtTherapy'), path: '/mind/cbt-therapy' },
+      { label: t('sidebar.emotionInsights'), path: '/mind/emotions' }
     ]},
-    { icon: Apple, label: 'Body', children: [
-      { label: 'Nutrition', path: '/body/nutrition' },
-      { label: 'Water Log', path: '/body/water' },
-      { icon: Activity, label: 'Activity', path: '/body/activity' },
-      { icon: Moon, label: 'Sleep', path: '/body/sleep' }
+    { icon: Apple, label: t('nav.body'), children: [
+      { label: t('sidebar.nutrition'), path: '/body/nutrition' },
+      { icon: ChefHat, label: t('sidebar.meredithShirk'), path: '/body/meal-plans' },
+      { label: t('sidebar.waterLog'), path: '/body/water' },
+      { icon: Activity, label: t('sidebar.activity'), path: '/body/activity' },
+      { icon: Moon, label: t('sidebar.sleep'), path: '/body/sleep' }
     ]},
-    { icon: Heart, label: 'Wellness', children: [
-      { label: 'Mood', path: '/wellness/mood' },
-      { label: 'Self Love', path: '/wellness/self-love' }
+    { icon: Heart, label: t('nav.wellness'), children: [
+      { label: t('sidebar.mood'), path: '/wellness/mood' },
+      { label: t('sidebar.selfLove'), path: '/wellness/self-love' }
     ]},
-    { icon: Users, label: 'Community', children: [
-      { label: 'WhatsApp Groups', path: '/community/whatsapp-groups' },
-      { icon: Palette, label: 'Hobbies', path: '/community/hobbies' }
+    { icon: Users, label: t('nav.community'), children: [
+      { icon: Share2, label: t('sidebar.social'), path: '/community/social' },
+      { label: t('sidebar.whatsappGroups'), path: '/community/whatsapp-groups' },
+      { icon: Palette, label: t('sidebar.hobbies'), path: '/community/hobbies' }
     ]},
-    { icon: Target, label: 'Habits & Goals', path: '/habits-goals' },
-    { icon: Sparkles, label: 'AI Hub', path: '/ai-hub' },
-    { icon: ClipboardList, label: 'Wellness Report', path: '/wellness-report' },
-    { icon: BarChart3, label: 'Web Analytics', path: '/analytics' },
-    { icon: Database, label: 'Data Backup', path: '/data-backup' },
-    { icon: Activity, label: 'Wearable Devices', path: '/wearable-sync' },
-    { icon: UserCircle, label: 'Profile', children: [
-      { label: 'Profile', path: '/profile' },
-      { label: 'Personal Information', path: '/profile/personal-info' },
-      { icon: Crown, label: 'Subscription', path: '/subscription' }
+    { icon: Target, label: t('sidebar.habitsGoals'), path: '/habits-goals' },
+    { icon: Sparkles, label: t('sidebar.aiHub'), path: '/ai-hub' },
+    { icon: ClipboardList, label: t('sidebar.wellnessReport'), path: '/wellness-report' },
+    { icon: BarChart3, label: t('sidebar.webAnalytics'), path: '/analytics' },
+    { icon: Users, label: t('sidebar.userStats'), path: '/user-stats' },
+    { icon: Database, label: t('sidebar.dataBackup'), path: '/data-backup' },
+    { icon: Activity, label: t('sidebar.wearableDevices'), path: '/wearable-sync' },
+    { icon: Bell, label: t('nav.notifications'), path: '/notifications' },
+    { icon: UserCircle, label: t('nav.profile'), children: [
+      { label: t('nav.profile'), path: '/profile' },
+      { label: t('sidebar.personalInfo'), path: '/profile/personal-info' },
+      { icon: Crown, label: t('nav.subscription'), path: '/subscription' }
     ]},
-    { icon: Info, label: 'Info', children: [
-      { label: 'About', path: '/info/about' },
-      { label: 'Contact', path: '/info/contact' }
+    { icon: Info, label: t('sidebar.about'), children: [
+      { label: t('sidebar.about'), path: '/info/about' },
+      { label: t('sidebar.contact'), path: '/info/contact' }
     ]}
   ]
 
   const [expandedItems, setExpandedItems] = useState({})
+
+  // Force re-render when language changes
+  const [, forceUpdate] = useState({})
+  
+  React.useEffect(() => {
+    const handleLanguageChange = () => {
+      forceUpdate({})
+    }
+    i18n.on('languageChanged', handleLanguageChange)
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange)
+    }
+  }, [i18n])
 
   const toggleExpanded = (label) => {
     setExpandedItems(prev => ({
@@ -61,8 +82,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </button>
       <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header" onClick={() => navigate('/dashboard')}>
-          <img src="/sun.jpg" alt="Logo" className="sidebar-logo-img" />
-          <h2>Find Your Inner Peace</h2>
+          <img src="/sun.jpg" alt={t('app.name')} className="sidebar-logo-img" />
+          <h2>{t('app.name')}</h2>
         </div>
         <nav className="sidebar-nav">
           {menuItems.map((item, index) => {

@@ -748,31 +748,387 @@
     padding: 1rem;
   }
 
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .page-header p {
+    font-size: 0.875rem;
+  }
+
   .hub-tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
   }
 
   .tab-btn {
     white-space: nowrap;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .tab-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .section-header h2 {
+    font-size: 1.375rem;
+  }
+
+  .section-header p {
+    font-size: 0.875rem;
+  }
+
+  .recommendation-card {
+    padding: 1.25rem;
   }
 
   .recommendation-header {
     flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .recommendation-title {
+    font-size: 1.25rem;
+    min-width: unset;
   }
 
   .recommendation-meta {
     width: 100%;
+    justify-content: flex-start;
+  }
+
+  .recommendation-duration {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.875rem;
+  }
+
+  .actions-list li {
+    font-size: 0.875rem;
   }
 
   .recommendation-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .add-plan-btn,
   .tell-more-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Chat Interface */
+  .chat-container {
+    height: 500px;
+  }
+
+  .chat-messages {
+    padding: 1rem;
+  }
+
+  .chat-message {
+    padding: 0.75rem;
+  }
+
+  .message-text {
+    font-size: 0.875rem;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .chat-input-container {
+    padding: 0.875rem;
+    gap: 0.5rem;
+  }
+
+  .chat-input {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .send-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Insights Section */
+  .correlation-cards,
+  .predictive-cards {
+    gap: 1rem;
+  }
+
+  .correlation-card,
+  .predictive-card {
+    padding: 1.25rem;
+  }
+
+  .correlation-title {
+    font-size: 0.875rem;
+  }
+
+  .correlation-finding,
+  .predictive-text {
+    font-size: 0.875rem;
+  }
+
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1.25rem;
+  }
+
+  .metric-value {
+    font-size: 1.75rem;
+  }
+
+  .reports-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .report-goal-card {
+    padding: 1.25rem;
+  }
+
+  /* Refresh button responsive */
+  .refresh-recommendations-btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.813rem !important;
+  }
+
+  .refresh-recommendations-btn span {
+    display: none;
+  }
+
+  .refresh-recommendations-btn svg {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-wellness-hub {
+    padding: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.813rem;
+  }
+
+  .recommendation-card {
+    padding: 1rem;
+  }
+
+  .recommendation-title {
+    font-size: 1.125rem;
+  }
+
+  .chat-container {
+    height: 450px;
+  }
+
+  .send-btn span {
+    display: none;
+  }
+
+  .send-btn {
+    padding: 0.75rem;
+  }
+}
+
+/* Spinner Animation */
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+    font-size: 1.25rem;
+    min-width: unset;
+  }
+
+  .recommendation-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .recommendation-duration {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.875rem;
+  }
+
+  .actions-list li {
+    font-size: 0.875rem;
+  }
+
+  .recommendation-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .add-plan-btn,
+  .tell-more-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Chat Interface */
+  .chat-container {
+    height: 500px;
+  }
+
+  .chat-messages {
+    padding: 1rem;
+  }
+
+  .chat-message {
+    padding: 0.75rem;
+  }
+
+  .message-text {
+    font-size: 0.875rem;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .chat-input-container {
+    padding: 0.875rem;
+    gap: 0.5rem;
+  }
+
+  .chat-input {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .send-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Insights Section */
+  .correlation-cards,
+  .predictive-cards {
+    gap: 1rem;
+  }
+
+  .correlation-card,
+  .predictive-card {
+    padding: 1.25rem;
+  }
+
+  .correlation-title {
+    font-size: 0.875rem;
+  }
+
+  .correlation-finding,
+  .predictive-text {
+    font-size: 0.875rem;
+  }
+
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1.25rem;
+  }
+
+  .metric-value {
+    font-size: 1.75rem;
+  }
+
+  .reports-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .report-goal-card {
+    padding: 1.25rem;
+  }
+
+  /* Refresh button responsive */
+  .refresh-recommendations-btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.813rem !important;
+  }
+
+  .refresh-recommendations-btn span {
+    display: none;
+  }
+
+  .refresh-recommendations-btn svg {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-wellness-hub {
+    padding: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.813rem;
+  }
+
+  .recommendation-card {
+    padding: 1rem;
+  }
+
+  .recommendation-title {
+    font-size: 1.125rem;
+  }
+
+  .chat-container {
+    height: 450px;
+  }
+
+  .send-btn span {
+    display: none;
+  }
+
+  .send-btn {
+    padding: 0.75rem;
   }
 }
 

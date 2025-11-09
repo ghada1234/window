@@ -2,9 +2,11 @@ import { useState, useMemo, useRef } from 'react'
 import { useWellness } from '../context/WellnessContext'
 import { Apple, Heart, Search, Camera, ScanLine, TrendingUp, TrendingDown, Brain, Lightbulb, AlertCircle } from 'lucide-react'
 import { analyzeFoodImage, analyzeNutritionLabel, isGeminiConfigured } from '../utils/gemini'
+import { useTranslation } from 'react-i18next'
 import './Nutrition.css'
 
 const Nutrition = () => {
+  const { t } = useTranslation()
   const { nutrition, addNutritionEntry, moodLogs } = useWellness()
   const [preMealMood, setPreMealMood] = useState('')
   const [postMealMood, setPostMealMood] = useState('')
@@ -21,12 +23,12 @@ const Nutrition = () => {
   const geminiConfigured = isGeminiConfigured()
   
   const nutritionStats = [
-    { label: 'Calories', value: nutrition.calories.toFixed(0), unit: '', key: 'calories' },
-    { label: 'Protein', value: nutrition.protein.toFixed(0), unit: 'g', key: 'protein' },
-    { label: 'Carbs', value: nutrition.carbs.toFixed(0), unit: 'g', key: 'carbs' },
-    { label: 'Fat', value: nutrition.fat.toFixed(0), unit: 'g', key: 'fat' },
-    { label: 'Fiber', value: nutrition.fiber.toFixed(0), unit: 'g', key: 'fiber' },
-    { label: 'Sugar', value: nutrition.sugar.toFixed(0), unit: 'g', key: 'sugar' }
+    { label: t('nutrition.calories'), value: nutrition.calories.toFixed(0), unit: '', key: 'calories' },
+    { label: t('nutrition.protein'), value: nutrition.protein.toFixed(0), unit: 'g', key: 'protein' },
+    { label: t('nutrition.carbs'), value: nutrition.carbs.toFixed(0), unit: 'g', key: 'carbs' },
+    { label: t('nutrition.fat'), value: nutrition.fat.toFixed(0), unit: 'g', key: 'fat' },
+    { label: t('nutrition.fiber'), value: nutrition.fiber.toFixed(0), unit: 'g', key: 'fiber' },
+    { label: t('nutrition.sugar'), value: nutrition.sugar.toFixed(0), unit: 'g', key: 'sugar' }
   ]
 
   const moods = ['😊 Happy', '😌 Calm', '😰 Anxious', '😔 Sad', '😠 Angry', '😴 Tired']
@@ -112,14 +114,14 @@ const Nutrition = () => {
         tips: 'Focus on nutrient-dense foods to combat fatigue'
       },
       '😐 Okay': {
-        title: 'Balanced Nutrition',
+        title: t('nutrition.balancedNutrition'),
         foods: [
-          { name: 'Colorful vegetables', reason: 'Variety of nutrients' },
-          { name: 'Whole grains', reason: 'Steady energy' },
-          { name: 'Lean proteins', reason: 'Muscle and brain health' },
-          { name: 'Healthy fats', reason: 'Avocado, nuts, olive oil' }
+          { name: t('nutrition.colorfulVegetables'), reason: t('nutrition.varietyNutrients') },
+          { name: t('nutrition.wholeGrains'), reason: t('nutrition.steadyEnergy') },
+          { name: t('nutrition.leanProteins'), reason: t('nutrition.muscleHealth') },
+          { name: t('nutrition.healthyFats'), reason: t('nutrition.fatsExample') }
         ],
-        tips: 'Maintain a balanced diet with variety'
+        tips: t('nutrition.balancedDesc')
       }
     }
 
@@ -136,13 +138,13 @@ const Nutrition = () => {
   // Current mood-based recommendations (general)
   const moodBasedRecommendations = useMemo(() => {
     return getRecommendationsForMood(currentMood)
-  }, [currentMood])
+  }, [currentMood, t])
 
   // Pre-meal mood recommendations
   const preMealRecommendations = useMemo(() => {
     if (!preMealMood) return null
     return getRecommendationsForMood(preMealMood)
-  }, [preMealMood])
+  }, [preMealMood, t])
 
   // Post-meal mood recommendations (for next meal)
   const postMealRecommendations = useMemo(() => {
@@ -155,7 +157,7 @@ const Nutrition = () => {
     if (nutrition.entries.length === 0 || moodLogs.length === 0) {
       return {
         patterns: [],
-        summary: 'Start logging your meals and moods to discover patterns and correlations.',
+        summary: t('nutrition.startLoggingMeals'),
         correlations: []
       }
     }
@@ -526,8 +528,8 @@ const Nutrition = () => {
   return (
     <div className="nutrition-page">
       <header className="page-header">
-        <h1>Nutrition Tracker</h1>
-        <p>Log your meals, track your intake, and discover nutritional insights.</p>
+        <h1>{t('nutrition.title')}</h1>
+        <p>{t('nutrition.subtitle')}</p>
       </header>
 
       {/* Pre-Meal Mood Recommendations */}
@@ -577,11 +579,11 @@ const Nutrition = () => {
       {/* General Mood-Based Food Recommendations */}
       <section className="mood-recommendations general-rec">
         <div className="recommendation-header">
-          <h2><Lightbulb size={24} /> General Recommendations Based on Your Current Mood</h2>
-          <p className="current-mood-display">Current Mood: <span className="mood-badge">{currentMood}</span></p>
+          <h2><Lightbulb size={24} /> {t('nutrition.generalRecommendations')}</h2>
+          <p className="current-mood-display">{t('nutrition.currentMood')} <span className="mood-badge">{currentMood}</span></p>
           {!preMealMood && !latestPostMealMood && (
             <p className="recommendation-hint">
-              💡 <strong>Tip:</strong> Use the "Pre-Meal Check-in" and "Post-Meal Check-in" buttons below to get personalized recommendations based on your emotional state around meals!
+              {t('nutrition.tipMessage')}
             </p>
           )}
         </div>
@@ -601,8 +603,8 @@ const Nutrition = () => {
 
       {/* Emotional Insights Section */}
       <section className="emotional-insights">
-        <h2><Brain size={24} /> Emotional Insights: Food & Mood Correlation</h2>
-        <p>Discover patterns between your eating habits and emotional state.</p>
+        <h2><Brain size={24} /> {t('nutrition.emotionalInsights')}</h2>
+        <p>{t('nutrition.emotionalDesc')}</p>
         
         <div className="insights-card">
           <p className="insights-summary">{emotionalInsights.summary}</p>
@@ -638,16 +640,16 @@ const Nutrition = () => {
 
       {/* Emotional Check-in Section */}
       <section className="emotional-checkin">
-        <h2>Emotional Check-in</h2>
-        <p>Track your emotional state before and after meals to understand your relationship with food.</p>
+        <h2>{t('nutrition.emotionalCheckin')}</h2>
+        <p>{t('nutrition.checkinDesc')}</p>
         <div className="checkin-buttons">
           <button className="checkin-btn pre-meal" onClick={handlePreMealCheckin}>
             <Heart size={20} />
-            <span>Pre-Meal Check-in</span>
+            <span>{t('nutrition.preMealCheckin')}</span>
           </button>
           <button className="checkin-btn post-meal" onClick={handlePostMealCheckin}>
             <Heart size={20} />
-            <span>Post-Meal Check-in</span>
+            <span>{t('nutrition.postMealCheckin')}</span>
           </button>
         </div>
         
@@ -696,8 +698,8 @@ const Nutrition = () => {
 
       {/* Today's Nutrition */}
       <section className="nutrition-stats">
-        <h2>Today's Nutrition</h2>
-        <p>Your daily intake progress</p>
+        <h2>{t('nutrition.todayNutrition')}</h2>
+        <p>{t('nutrition.dailyProgress')}</p>
         <div className="stats-grid">
           {nutritionStats.map((stat, index) => (
             <div key={index} className="nutrition-stat-card">
@@ -710,8 +712,8 @@ const Nutrition = () => {
 
       {/* AI Food Analysis */}
       <section className="ai-food-analysis">
-        <h2>AI Food Analysis</h2>
-        <p>Upload a photo, search for foods, or scan nutrition labels to get AI-powered nutritional analysis</p>
+        <h2>{t('nutrition.aiFoodAnalysis')}</h2>
+        <p>{t('nutrition.aiDesc')}</p>
         
         {/* Gemini API Configuration Status */}
         {!geminiConfigured && (
@@ -769,13 +771,13 @@ const Nutrition = () => {
             <div className="analysis-icon">
               <Search size={32} />
             </div>
-            <h3>🔍 Search Food Database</h3>
-            <p>Search our comprehensive food database for nutritional information.</p>
+            <h3>{t('nutrition.searchDatabase')}</h3>
+            <p>{t('nutrition.searchDesc')}</p>
             <div className="search-input-group">
               <div className="search-wrapper">
                 <input
                   type="text"
-                  placeholder="e.g., grilled chicken breast, banana, quinoa..."
+                  placeholder={t('nutrition.searchPlaceholder')}
                   value={foodSearch}
                   onChange={(e) => handleFoodSearchChange(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearchFood()}
@@ -895,8 +897,8 @@ const Nutrition = () => {
             <div className="analysis-icon">
               <Camera size={32} />
             </div>
-            <h3>📸 Analyze Food Photo</h3>
-            <p>Upload a photo of your food to get instant AI-powered nutritional analysis using Google Gemini.</p>
+            <h3>{t('nutrition.analyzePhoto')}</h3>
+            <p>{t('nutrition.analyzePhotoDesc')}</p>
             <button 
               className="photo-btn" 
               onClick={handleAnalyzePhoto}
@@ -911,7 +913,7 @@ const Nutrition = () => {
               ) : (
                 <>
                   <Camera size={20} />
-                  <span>📸 Upload Photo</span>
+                  <span>{t('nutrition.uploadPhoto')}</span>
                 </>
               )}
             </button>
@@ -930,8 +932,8 @@ const Nutrition = () => {
             <div className="analysis-icon">
               <ScanLine size={32} />
             </div>
-            <h3>🏷️ Scan Nutrition Label</h3>
-            <p>Upload a photo of a nutrition label to extract detailed nutritional information using Gemini AI.</p>
+            <h3>{t('nutrition.scanLabel')}</h3>
+            <p>{t('nutrition.scanLabelDesc')}</p>
             <button 
               className="scan-btn"
               onClick={handleScanLabel}
@@ -946,7 +948,7 @@ const Nutrition = () => {
               ) : (
                 <>
                   <ScanLine size={20} />
-                  <span>🏷️ Upload Label Photo</span>
+                  <span>{t('nutrition.uploadLabel')}</span>
                 </>
               )}
             </button>

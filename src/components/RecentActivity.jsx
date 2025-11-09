@@ -1,18 +1,41 @@
 import { Activity, Moon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './RecentActivity.css'
 
 const RecentActivity = () => {
+  const { t } = useTranslation()
+  
   const activities = [
-    { icon: Activity, text: "Logged 'Cycling' activity", time: '10 days ago' },
-    { icon: Moon, text: 'Logged 8.25h of sleep', time: '11 days ago' },
-    { icon: Moon, text: 'Logged 8.25h of sleep', time: '11 days ago' },
-    { icon: Activity, text: "Completed 'Box Breathing (4-7-8) – Relaxation and Focus' breathing", time: '1 months ago' },
-    { icon: Activity, text: "Completed 'undefined' meditation", time: '1 months ago' }
+    { 
+      icon: Activity, 
+      text: `${t('dashboard.logged')} '${t('dashboard.cycling')}' ${t('sidebar.activity')}`, 
+      time: `10 ${t('dashboard.daysAgo')}` 
+    },
+    { 
+      icon: Moon, 
+      text: `${t('dashboard.logged')} 8.25h ${t('dashboard.of')} ${t('sidebar.sleep')}`, 
+      time: `11 ${t('dashboard.daysAgo')}` 
+    },
+    { 
+      icon: Moon, 
+      text: `${t('dashboard.logged')} 8.25h ${t('dashboard.of')} ${t('sidebar.sleep')}`, 
+      time: `11 ${t('dashboard.daysAgo')}` 
+    },
+    { 
+      icon: Activity, 
+      text: `${t('dashboard.completed')} 'Box Breathing (4-7-8) – Relaxation and Focus' ${t('dashboard.breathing')}`, 
+      time: `1 ${t('dashboard.monthsAgo')}` 
+    },
+    { 
+      icon: Activity, 
+      text: `${t('dashboard.completed')} 'undefined' ${t('dashboard.meditation')}`, 
+      time: `1 ${t('dashboard.monthsAgo')}` 
+    }
   ]
 
   return (
     <div className="recent-activity">
-      <h3>Recent Activity</h3>
+      <h3>{t('dashboard.recentActivity')}</h3>
       <div className="activity-timeline">
         {activities.map((activity, index) => {
           const Icon = activity.icon

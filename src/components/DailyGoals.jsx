@@ -1,18 +1,21 @@
 import { CheckCircle, Droplet, Footprints, BookOpen } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import './DailyGoals.css'
 
 const DailyGoals = () => {
+  const { t } = useTranslation()
+  
   const goals = [
-    { icon: CheckCircle, label: 'Meditate', current: 0, target: 10, unit: 'minutes', message: '10 minutes more to go' },
-    { icon: Droplet, label: 'Drink Water', current: 0, target: 8, unit: 'glasses', message: '8 glasses more to go' },
-    { icon: Footprints, label: 'Walk', current: 0, target: 30, unit: 'minutes', message: '30 minutes more to go' },
-    { icon: BookOpen, label: 'Journal', current: 0, target: 1, unit: 'entry', message: '1 entry more to go' }
+    { icon: CheckCircle, label: t('dashboard.meditate'), current: 0, target: 10, unit: t('dashboard.minutes'), targetNum: 10 },
+    { icon: Droplet, label: t('dashboard.drinkWater'), current: 0, target: 8, unit: t('dashboard.glasses'), targetNum: 8 },
+    { icon: Footprints, label: t('dashboard.walk'), current: 0, target: 30, unit: t('dashboard.minutes'), targetNum: 30 },
+    { icon: BookOpen, label: t('dashboard.journal'), current: 0, target: 1, unit: t('dashboard.entry'), targetNum: 1 }
   ]
 
   return (
     <div className="daily-goals">
-      <h3>Daily Goals</h3>
-      <p className="daily-goals-subtitle">Stay on track with your wellness targets for today.</p>
+      <h3>{t('dashboard.dailyGoals')}</h3>
+      <p className="daily-goals-subtitle">{t('dashboard.goalsSubtitle')}</p>
       <div className="goals-list">
         {goals.map((goal, index) => {
           const Icon = goal.icon
@@ -33,7 +36,7 @@ const DailyGoals = () => {
                 <div className="goal-stats">
                   <span>{goal.current} / {goal.target} {goal.unit}</span>
                 </div>
-                <div className="goal-message">{goal.message}</div>
+                <div className="goal-message">{goal.targetNum} {goal.unit} {t('dashboard.moreToGo')}</div>
               </div>
             </div>
           )
