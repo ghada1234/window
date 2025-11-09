@@ -191,7 +191,7 @@ const MeredithShirkMealPlan = () => {
     // Breakfast - International
     {
       id: 1,
-      name: t('meredithShirk.recipes.greenSmoothie.name'),
+      name: 'Green Smoothie Bowl',
       category: 'breakfast',
       cuisine: 'american',
       goal: 'weightLoss',
@@ -201,13 +201,13 @@ const MeredithShirkMealPlan = () => {
       calories: 150,
       difficulty: 'Easy',
       rating: 4.8,
-      ingredients: t('meredithShirk.recipes.greenSmoothie.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.greenSmoothie.instructions', { returnObjects: true }),
+      ingredients: ['1 cup spinach', '1 frozen banana', '1/2 cup almond milk', '1 tbsp chia seeds', '1/2 avocado', 'Fresh berries', 'Granola'],
+      instructions: ['Blend spinach, banana, almond milk until smooth', 'Add avocado and chia seeds', 'Blend until creamy', 'Pour into bowl', 'Top with berries and granola', 'Serve immediately'],
       nutrition: { protein: '5g', carbs: '28g', fat: '3g', fiber: '6g' }
     },
     {
       id: 4,
-      name: t('meredithShirk.recipes.proteinPancakes.name'),
+      name: 'Protein Pancakes',
       category: 'breakfast',
       cuisine: 'american',
       goal: 'muscleGain',
@@ -217,8 +217,8 @@ const MeredithShirkMealPlan = () => {
       calories: 280,
       difficulty: 'Easy',
       rating: 4.6,
-      ingredients: t('meredithShirk.recipes.proteinPancakes.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.proteinPancakes.instructions', { returnObjects: true }),
+      ingredients: ['1 cup oat flour', '1 scoop protein powder', '2 eggs', '1/2 cup milk', '1 banana mashed', '1 tsp baking powder', 'Honey', 'Berries for topping'],
+      instructions: ['Mix dry ingredients', 'Whisk eggs, milk, and mashed banana', 'Combine wet and dry ingredients', 'Heat griddle with butter', 'Pour batter and cook until bubbles form', 'Flip and cook until golden', 'Serve with honey and berries'],
       nutrition: { protein: '24g', carbs: '32g', fat: '6g', fiber: '4g' }
     },
     {
@@ -256,7 +256,7 @@ const MeredithShirkMealPlan = () => {
     // Lunch - International
     {
       id: 2,
-      name: t('meredithShirk.recipes.grilledChicken.name'),
+      name: 'Grilled Chicken Salad',
       category: 'lunch',
       cuisine: 'mediterranean',
       goal: 'muscleGain',
@@ -266,13 +266,13 @@ const MeredithShirkMealPlan = () => {
       calories: 320,
       difficulty: 'Medium',
       rating: 4.9,
-      ingredients: t('meredithShirk.recipes.grilledChicken.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.grilledChicken.instructions', { returnObjects: true }),
+      ingredients: ['400g chicken breast', 'Mixed greens', 'Cherry tomatoes', 'Cucumber', 'Red onion', 'Feta cheese', 'Olive oil', 'Lemon juice', 'Herbs', 'Salt and pepper'],
+      instructions: ['Season and grill chicken breast', 'Slice when cooked and rested', 'Chop all vegetables', 'Toss greens with olive oil and lemon', 'Arrange vegetables on greens', 'Top with sliced chicken', 'Crumble feta on top', 'Season to taste'],
       nutrition: { protein: '42g', carbs: '8g', fat: '12g', fiber: '2g' }
     },
     {
       id: 5,
-      name: t('meredithShirk.recipes.quinoaBowl.name'),
+      name: 'Quinoa Buddha Bowl',
       category: 'lunch',
       cuisine: 'mediterranean',
       goal: 'health',
@@ -282,8 +282,8 @@ const MeredithShirkMealPlan = () => {
       calories: 420,
       difficulty: 'Medium',
       rating: 4.8,
-      ingredients: t('meredithShirk.recipes.quinoaBowl.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.quinoaBowl.instructions', { returnObjects: true }),
+      ingredients: ['1 cup quinoa', '1 can chickpeas', 'Sweet potato', 'Kale', 'Avocado', 'Tahini', 'Lemon', 'Olive oil', 'Cumin', 'Paprika'],
+      instructions: ['Cook quinoa according to package', 'Roast sweet potato cubes', 'Roast chickpeas with spices', 'Massage kale with lemon', 'Assemble bowl with all ingredients', 'Make tahini dressing', 'Drizzle dressing over bowl', 'Top with avocado'],
       nutrition: { protein: '18g', carbs: '52g', fat: '14g', fiber: '8g' }
     },
     {
@@ -337,7 +337,7 @@ const MeredithShirkMealPlan = () => {
     // Dinner - International
     {
       id: 3,
-      name: t('meredithShirk.recipes.bakedSalmon.name'),
+      name: 'Baked Salmon with Asparagus',
       category: 'dinner',
       cuisine: 'mediterranean',
       goal: 'health',
@@ -347,13 +347,13 @@ const MeredithShirkMealPlan = () => {
       calories: 380,
       difficulty: 'Easy',
       rating: 4.7,
-      ingredients: t('meredithShirk.recipes.bakedSalmon.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.bakedSalmon.instructions', { returnObjects: true }),
+      ingredients: ['2 salmon fillets', '1 bunch asparagus', '2 cloves garlic', 'Lemon', 'Olive oil', 'Dill', 'Salt and pepper', 'Cherry tomatoes'],
+      instructions: ['Preheat oven to 400°F', 'Season salmon with salt, pepper, and dill', 'Trim asparagus', 'Arrange salmon and asparagus on baking sheet', 'Drizzle with olive oil and lemon juice', 'Add garlic and tomatoes', 'Bake for 15-18 minutes', 'Serve with lemon wedges'],
       nutrition: { protein: '40g', carbs: '5g', fat: '22g', fiber: '3g' }
     },
     {
       id: 6,
-      name: t('meredithShirk.recipes.zucchiniNoodles.name'),
+      name: 'Zucchini Noodles with Marinara',
       category: 'dinner',
       cuisine: 'italian',
       goal: 'weightLoss',
@@ -363,13 +363,13 @@ const MeredithShirkMealPlan = () => {
       calories: 220,
       difficulty: 'Easy',
       rating: 4.5,
-      ingredients: t('meredithShirk.recipes.zucchiniNoodles.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.zucchiniNoodles.instructions', { returnObjects: true }),
+      ingredients: ['3 medium zucchini', '2 cups marinara sauce', '2 cloves garlic', 'Fresh basil', 'Parmesan cheese', 'Olive oil', 'Red pepper flakes', 'Salt'],
+      instructions: ['Spiralize zucchini into noodles', 'Heat marinara sauce with garlic', 'Sauté zucchini noodles briefly', 'Combine with sauce', 'Top with fresh basil', 'Sprinkle parmesan', 'Add red pepper flakes', 'Serve immediately'],
       nutrition: { protein: '12g', carbs: '18g', fat: '10g', fiber: '5g' }
     },
     {
       id: 8,
-      name: t('meredithShirk.recipes.turkeyMeatballs.name'),
+      name: 'Turkey Meatballs with Vegetables',
       category: 'dinner',
       cuisine: 'american',
       goal: 'muscleGain',
@@ -379,8 +379,8 @@ const MeredithShirkMealPlan = () => {
       calories: 290,
       difficulty: 'Medium',
       rating: 4.9,
-      ingredients: t('meredithShirk.recipes.turkeyMeatballs.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.turkeyMeatballs.instructions', { returnObjects: true }),
+      ingredients: ['500g ground turkey', '1 egg', 'Breadcrumbs', 'Garlic', 'Onion', 'Mixed vegetables', 'Tomato sauce', 'Italian herbs', 'Parmesan'],
+      instructions: ['Mix turkey with egg, breadcrumbs, and herbs', 'Form into meatballs', 'Bake at 375°F for 20 minutes', 'Sauté vegetables', 'Heat tomato sauce', 'Combine meatballs with sauce', 'Serve with vegetables', 'Garnish with parmesan'],
       nutrition: { protein: '32g', carbs: '12g', fat: '14g', fiber: '3g' }
     },
     {
@@ -434,7 +434,7 @@ const MeredithShirkMealPlan = () => {
     // Snacks
     {
       id: 7,
-      name: t('meredithShirk.recipes.chiaPudding.name'),
+      name: 'Chia Seed Pudding',
       category: 'snacks',
       cuisine: 'american',
       goal: 'health',
@@ -444,8 +444,8 @@ const MeredithShirkMealPlan = () => {
       calories: 180,
       difficulty: 'Easy',
       rating: 4.7,
-      ingredients: t('meredithShirk.recipes.chiaPudding.ingredients', { returnObjects: true }),
-      instructions: t('meredithShirk.recipes.chiaPudding.instructions', { returnObjects: true }),
+      ingredients: ['1/4 cup chia seeds', '1 cup almond milk', '1 tbsp maple syrup', '1/2 tsp vanilla extract', 'Fresh berries', 'Sliced almonds', 'Coconut flakes'],
+      instructions: ['Mix chia seeds with almond milk', 'Add maple syrup and vanilla', 'Stir well and refrigerate overnight', 'Stir again in the morning', 'Top with fresh berries', 'Add almonds and coconut', 'Serve chilled'],
       nutrition: { protein: '6g', carbs: '22g', fat: '8g', fiber: '10g' }
     },
     {
