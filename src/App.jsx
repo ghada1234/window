@@ -96,7 +96,10 @@ const AnalyticsTracker = () => {
 }
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  // Start with sidebar closed on mobile, open on desktop
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    return window.innerWidth > 768
+  })
 
   // Initialize Google Analytics on mount
   useEffect(() => {
@@ -105,6 +108,18 @@ function App() {
       initGA(gaId)
     }
   }, [])
+
+  // Handle window resize to auto-close sidebar on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768 && sidebarOpen) {
+        setSidebarOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [sidebarOpen])
 
   return (
     <WellnessProvider>
