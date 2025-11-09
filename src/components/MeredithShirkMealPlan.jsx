@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChefHat, Clock, Users, Flame, BookOpen, Star, ChevronDown, ChevronUp, ShoppingCart, Filter, Search, TrendingUp, Target, Activity } from 'lucide-react'
+import { ChefHat, Clock, Users, Flame, BookOpen, Star, ChevronDown, ChevronUp, ShoppingCart, Filter, Search, TrendingUp, Target, Activity, User, Settings } from 'lucide-react'
+import { getJSON } from '../utils/storage'
+import { useNavigate } from 'react-router-dom'
 import './MeredithShirkMealPlan.css'
 
 const MeredithShirkMealPlan = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('plans')
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [expandedRecipe, setExpandedRecipe] = useState(null)
@@ -13,9 +16,65 @@ const MeredithShirkMealPlan = () => {
   const [filterGoal, setFilterGoal] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [calorieTarget, setCalorieTarget] = useState('all')
+  const [userProfile, setUserProfile] = useState(null)
 
   console.log('🍽️ MeredithShirkMealPlan component loaded')
   console.log('Translation test:', t('meredithShirk.title'))
+
+  // Load user profile from localStorage
+  useEffect(() => {
+    const profile = getJSON('personalInformation', null)
+    setUserProfile(profile)
+  }, [])
+
+  // Calculate daily calorie needs based on BMR (Basal Metabolic Rate)
+  const calculateCalories = useMemo(() => {
+    if (!userProfile || !userProfile.age || !userProfile.weight || !userProfile.height || !userProfile.gender) {
+      return null
+    }
+
+    const { age, weight, height, gender, activityLevel, goal } = userProfile
+
+    // Mifflin-St Jeor Equation for BMR
+    let bmr
+    if (gender === 'Male') {
+      bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+    } else {
+      bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+    }
+
+    // Activity multipliers
+    const activityMultipliers = {
+      'Sedentary': 1.2,
+      'Lightly active': 1.375,
+      'Moderately active': 1.55,
+      'Very active': 1.725,
+      'Extra active': 1.9
+    }
+
+    const multiplier = activityMultipliers[activityLevel] || 1.2
+    let tdee = bmr * multiplier // Total Daily Energy Expenditure
+
+    // Adjust for goal
+    if (goal === 'Weight Loss') {
+      tdee = tdee - 500 // 500 calorie deficit for weight loss
+    } else if (goal === 'Muscle Gain') {
+      tdee = tdee + 300 // 300 calorie surplus for muscle gain
+    }
+
+    // Calculate macros (example: 40% carbs, 30% protein, 30% fat)
+    const protein = Math.round((tdee * 0.30) / 4) // 4 calories per gram of protein
+    const carbs = Math.round((tdee * 0.40) / 4) // 4 calories per gram of carbs
+    const fat = Math.round((tdee * 0.30) / 9) // 9 calories per gram of fat
+
+    return {
+      calories: Math.round(tdee),
+      protein,
+      carbs,
+      fat,
+      bmr: Math.round(bmr)
+    }
+  }, [userProfile])
 
   const mealPlans = [
     {
@@ -477,6 +536,66 @@ const MeredithShirkMealPlan = () => {
           <span>{t('meredithShirk.tabs.recipes')}</span>
         </button>
       </div>
+
+      {/* Personalized Profile Banner */}
+      {calculateCalories ? (
+        <div className="profile-nutrition-banner">
+          <div className="banner-header">
+            <User size={24} />
+            <div>
+              <h3>Your Personalized Nutrition Goals</h3>
+              <p>Based on your profile: {userProfile.age}y, {userProfile.weight}kg, {userProfile.height}cm, {userProfile.activityLevel}</p>
+            </div>
+          </div>
+          <div className="nutrition-stats">
+            <div className="stat-card primary">
+              <Flame size={28} />
+              <div>
+                <span className="stat-value">{calculateCalories.calories}</span>
+                <span className="stat-label">Daily Calories</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <Target size={24} />
+              <div>
+                <span className="stat-value">{calculateCalories.protein}g</span>
+                <span className="stat-label">Protein</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <Activity size={24} />
+              <div>
+                <span className="stat-value">{calculateCalories.carbs}g</span>
+                <span className="stat-label">Carbs</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <TrendingUp size={24} />
+              <div>
+                <span className="stat-value">{calculateCalories.fat}g</span>
+                <span className="stat-label">Fats</span>
+              </div>
+            </div>
+          </div>
+          <p className="banner-note">
+            💡 Tip: Meal plans are filtered to match your {calculateCalories.calories} calorie goal
+          </p>
+        </div>
+      ) : (
+        <div className="profile-nutrition-banner incomplete">
+          <div className="banner-header">
+            <Settings size={24} />
+            <div>
+              <h3>Complete Your Profile for Personalized Meal Plans</h3>
+              <p>Set your age, weight, height, activity level, and goal to get customized recommendations</p>
+            </div>
+          </div>
+          <button className="setup-profile-btn" onClick={() => navigate('/profile/personal-info')}>
+            <User size={20} />
+            Complete Profile Setup
+          </button>
+        </div>
+      )}
 
       {activeTab === 'plans' && (
         <div className="meal-plans-section">
