@@ -336,4 +336,338 @@
 
 
 
+    "name": "Find Your Inner Peace",
+    "tagline": "Your Personal Wellness Journey Companion",
+    "loading": "Loading..."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "mind": "Mind",
+    "body": "Body",
+    "wellness": "Wellness",
+    "community": "Community",
+    "profile": "Profile",
+    "subscription": "Subscription",
+    "notifications": "Notifications",
+    "logout": "Log Out",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "viewAll": "View All"
+  },
+  "landing": {
+    "hero": {
+      "title": "Find Your Inner Peace",
+      "subtitle": "Your Comprehensive Wellness & Meditation Platform",
+      "description": "Track your mood, meditate, and discover AI-powered insights for a healthier, happier you.",
+      "ctaSignUp": "Start Your Journey",
+      "ctaSignIn": "Sign In",
+      "ctaLearnMore": "Learn More"
+    },
+    "sections": {
+      "comprehensiveFeatures": {
+        "title": "Comprehensive Wellness Features",
+        "subtitle": "Discover our complete suite of AI-powered wellness tools designed to help you achieve optimal health and inner peace."
+      },
+      "aiFeatures": {
+        "title": "Advanced AI-Powered Features",
+        "subtitle": "Leveraging cutting-edge AI technology for personalized wellness insights"
+      },
+      "howItWorks": {
+        "title": "How It Works",
+        "subtitle": "Your journey to wellness in 4 simple steps"
+      },
+      "pricing": {
+        "title": "Simple, Affordable Pricing",
+        "subtitle": "Full access to all features",
+        "monthlyPlan": "Monthly Subscription",
+        "price": "25.67",
+        "currency": "AED",
+        "perMonth": "/month",
+        "fullAccess": "Full Access",
+        "subscribe": "Subscribe Now",
+        "whatsIncluded": "What's included:"
+      }
+    },
+    "mainFeatures": {
+      "aiHub": {
+        "title": "AI Hub",
+        "subtitle": "Your personal wellness assistant",
+        "description": "Get personalized wellness summaries, 5 tailored recommendations, and AI-powered insights based on your data patterns.",
+        "feature1": "Personalized Recommendations",
+        "feature2": "Wellness Summary",
+        "feature3": "AI Assistant"
+      },
+      "nutrition": {
+        "title": "AI Nutrition Tracker",
+        "subtitle": "Smart food analysis and tracking",
+        "description": "Analyze food photos, scan nutrition labels, search food database, and track your daily nutrition with AI.",
+        "feature1": "Photo Analysis",
+        "feature2": "Label Scanning",
+        "feature3": "Food Database",
+        "feature4": "Macro Tracking"
+      },
+      "meditation": {
+        "title": "Meditation & Mindfulness",
+        "subtitle": "Guided sessions with vocal instructions",
+        "description": "Access guided meditation sessions, breathing exercises, and mindfulness practices with vocal guidance.",
+        "feature1": "Guided Meditation",
+        "feature2": "Breathing Exercises",
+        "feature3": "Vocal Instructions"
+      },
+      "sleep": {
+        "title": "Sleep Analysis",
+        "subtitle": "Comprehensive sleep monitoring",
+        "description": "Track sleep quality, duration, and patterns. Get insights to improve your rest and recovery.",
+        "feature1": "Sleep Quality",
+        "feature2": "Duration Tracking",
+        "feature3": "Pattern Analysis"
+      },
+      "activity": {
+        "title": "Activity Tracking",
+        "subtitle": "Monitor your daily activities",
+        "description": "Log various activities, track calories burned, and visualize your weekly activity patterns with charts.",
+        "feature1": "Activity Logging",
+        "feature2": "Calorie Tracking",
+        "feature3": "Weekly Charts"
+      },
+      "water": {
+        "title": "Water Intake Tracking",
+        "subtitle": "Stay hydrated with smart logging",
+        "description": "Track daily water intake with quick-add buttons, custom amounts, and comprehensive history with offline sync.",
+        "feature1": "Quick Add",
+        "feature2": "Custom Amounts",
+        "feature3": "Offline Sync"
+      },
+      "mood": {
+        "title": "Mood Tracking",
+        "subtitle": "Monitor emotional well-being",
+        "description": "Log daily moods, emotions, and triggers to identify patterns and improve your mental health.",
+        "feature1": "Emotion Logging",
+        "feature2": "Pattern Analysis",
+        "feature3": "Trigger Tracking"
+      },
+      "journal": {
+        "title": "Digital Journal",
+        "subtitle": "Reflect and document your journey",
+        "description": "Write daily reflections, gratitude entries, and thoughts. Organize entries with tags and search functionality.",
+        "feature1": "Daily Reflections",
+        "feature2": "Gratitude Entries",
+        "feature3": "Tag Organization"
+      },
+      "selfLove": {
+        "title": "Self Love & Care",
+        "subtitle": "Nurture your relationship with yourself",
+        "description": "Practice self-compassion, positive affirmations, and self-care activities to build a healthier relationship with yourself.",
+        "feature1": "Affirmations",
+        "feature2": "Self-Care Activities",
+        "feature3": "Compassion Practice"
+      },
+      "habits": {
+        "title": "Habits & Goals",
+        "subtitle": "Build lasting wellness habits",
+        "description": "Create and track daily habits, set wellness goals, and build consistency with streak tracking and progress monitoring.",
+        "feature1": "Habit Tracking",
+        "feature2": "Goal Setting",
+        "feature3": "Streak Tracking"
+      }
+    },
+    "aiFeatures": {
+      "title1": "Smart Food Analysis",
+      "desc1": "Take a photo of your meal and get instant nutritional analysis, portion size estimation, and macro breakdown.",
+      "title2": "Personalized Goals",
+      "desc2": "Get customized nutrition targets, macro recommendations, and wellness goals based on your unique profile and objectives."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Get started with our comprehensive wellness platform in just a few simple steps."
+    },
+    "quickStart": {
+      "title": "Quick Start Guide",
+      "subtitle": "New to wellness tracking? Follow our quick start guide to get the most out of your journey.",
+      "cta": "Start Your Journey"
+    },
+    "completePlatform": {
+      "title": "Complete Wellness Platform",
+      "subtitle": "Access all our AI-powered wellness features, meditation sessions, and personalized insights for just 25.67 AED per month.",
+      "monthlyPrice": "25.67 AED/MONTH",
+      "fullAccessDesc": "Full access to all wellness features including AI-powered nutrition analysis, unlimited meditation sessions, personalized insights, and priority support. Cancel anytime."
+    },
+    "guarantee": {
+      "title": "Money-Back Guarantee",
+      "subtitle": "100% Money Refundable",
+      "subtitleSuffix": "if you're dissatisfied with our service.",
+      "description": "We stand behind our wellness platform. If you're not completely satisfied, contact us for a full refund—no questions asked."
+    },
+    "footer": {
+      "about": "About",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "copyright": "© 2024 Find Your Inner Peace. All rights reserved.",
+      "securePayment": "Secure UAE Payment (Ziina)",
+      "encryption": "256-bit Encryption",
+      "support": "Priority Support",
+      "securityNote": "All features include secure data encryption, regular updates, and access to our supportive community."
+    },
+    "steps": {
+      "step1": {
+        "number": "1",
+        "title": "Create Your Profile",
+        "description": "Set up your personal information including age, weight, height, activity level, and wellness goals.",
+        "benefit1": "Personalized recommendations",
+        "benefit2": "Accurate nutrition calculations",
+        "benefit3": "Nutrition tracking & analysis"
+      },
+      "step2": {
+        "number": "2",
+        "title": "Explore AI-Powered Features",
+        "description": "Use our AI Hub for personalized recommendations, nutrition analysis, and wellness insights.",
+        "benefit1": "Food photo analysis",
+        "benefit2": "Nutrition label scanning"
+      },
+      "step3": {
+        "number": "3",
+        "title": "Track Your Wellness",
+        "description": "Log your meals, water intake, activities, sleep, and mood to get comprehensive insights.",
+        "benefit1": "Nutrition tracking",
+        "benefit2": "Water intake monitoring",
+        "benefit3": "Activity and sleep logs"
+      },
+      "step4": {
+        "number": "4",
+        "title": "Practice Mindfulness",
+        "description": "Engage with meditation sessions, breathing exercises, and journaling for mental wellness.",
+        "benefit1": "Guided meditation",
+        "benefit2": "Breathing exercises",
+        "benefit3": "Journaling and reflection"
+      }
+    },
+    "pricingFeatures": [
+      "Full access to all wellness features and tools",
+      "Unlimited meditation sessions (5-60 min)",
+      "AI-powered nutrition analysis",
+      "Food photo recognition & analysis",
+      "Advanced breathing & mindfulness exercises",
+      "Mood tracking & mental wellness tools",
+      "Sleep analysis & activity tracking",
+      "AI Hub with personalized insights",
+      "Digital journaling & self-love practices",
+      "Community support & regular updates"
+    ],
+    "notificationDropdown": {
+      "goalAchieved": "Goal Achieved!",
+      "goalMessage": "You completed your daily water intake goal",
+      "reminder": "Reminder",
+      "reminderMessage": "Time for your evening meditation session"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "subtitle": "Welcome back! Please sign in to your account.",
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign In",
+      "signing": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign Up",
+      "or": "or",
+      "continueWithGoogle": "Continue with Google"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "subtitle": "Create your account to start your wellness journey.",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "namePlaceholder": "Enter your full name",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Create a password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "button": "Sign Up",
+      "creating": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign In",
+      "or": "or",
+      "continueWithGoogle": "Continue with Google",
+      "passwordMatch": "Passwords match"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password.",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "button": "Send Reset Link",
+      "sending": "Sending...",
+      "backToSignIn": "Back to Sign In",
+      "success": {
+        "title": "Check Your Email",
+        "message": "We've sent a password reset link to",
+        "instructions": "Please check your inbox and click the link to reset your password. If you don't see the email, check your spam folder."
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your wellness overview",
+    "welcome": "Welcome back",
+    "quickStats": "Quick Stats",
+    "recentActivity": "Recent Activity",
+    "goals": "Goals",
+    "streaks": "Streaks"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "all": "All"
+  },
+  "sidebar": {
+    "mindPractices": "Mind Practices",
+    "journal": "Journal",
+    "emotionInsights": "Emotion Insights",
+    "nutrition": "Nutrition",
+    "waterLog": "Water Log",
+    "activity": "Activity",
+    "sleep": "Sleep",
+    "mood": "Mood",
+    "selfLove": "Self Love",
+    "whatsappGroups": "WhatsApp Groups",
+    "hobbies": "Hobbies",
+    "habitsGoals": "Habits & Goals",
+    "aiHub": "AI Hub",
+    "wellnessReport": "Wellness Report",
+    "webAnalytics": "Web Analytics",
+    "dataBackup": "Data Backup",
+    "wearableDevices": "Wearable Devices",
+    "personalInfo": "Personal Information",
+    "about": "About",
+    "contact": "Contact"
+  }
+}
+
+
+
+
+
+
 

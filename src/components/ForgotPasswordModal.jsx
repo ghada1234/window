@@ -409,3 +409,33 @@ Your Find Your Inner Peace Team`
 
 export default ForgotPasswordModal
 
+
+            {isLoading ? (
+              <>
+                <div className="spinner-small"></div>
+                <span>Sending...</span>
+              </>
+            ) : (
+              'Send Reset Link'
+            )}
+          </button>
+
+          <p className="auth-switch">
+            Remember your password?{' '}
+            <button 
+              type="button" 
+              className="auth-link" 
+              onClick={onSwitchToSignIn}
+              disabled={isLoading}
+            >
+              Sign In
+            </button>
+          </p>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default ForgotPasswordModal
+

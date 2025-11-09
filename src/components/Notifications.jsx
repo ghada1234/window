@@ -370,3 +370,121 @@ const Notifications = () => {
 
 export default Notifications
 
+
+            className="send-all-emails-btn"
+            onClick={handleSendAllEmails}
+            title={`Send all notifications to ${userEmail || 'your email'}`}
+          >
+            <Send size={18} />
+            <span>{t('notifications.sendAllEmail')}</span>
+          </button>
+        )}
+      </header>
+
+      {/* Push Notifications Tab */}
+      {activeTab === 'push' && (
+        <NotificationSettings />
+      )}
+
+      {/* Email Settings Tab */}
+      {activeTab === 'email' && (
+        <div style={{ padding: '20px', background: 'white', borderRadius: '12px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '20px', marginBottom: '16px', color: '#1a1a1a' }}>
+            <Mail size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+            {t('notifications.emailSettings.title')}
+          </h2>
+          <p style={{ color: '#666', marginBottom: '20px' }}>
+            {t('notifications.emailSettings.configureIn')} <a href="/profile" style={{ color: '#667eea', textDecoration: 'underline' }}>{t('notifications.emailSettings.profileLink')}</a> {t('notifications.emailSettings.section')}
+          </p>
+          <div style={{ padding: '16px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '16px', marginBottom: '12px', color: '#333' }}>{t('notifications.emailSettings.serviceStatus')}</h3>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: emailjsConfigured || resendConfigured ? '#059669' : '#dc2626' }}>
+              {emailjsConfigured || resendConfigured ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+              {resendConfigured ? t('notifications.emailSettings.resendConfigured') : emailjsConfigured ? t('notifications.emailSettings.emailjsConfigured') : t('notifications.emailSettings.notConfigured')}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Notifications List Tab */}
+      {activeTab === 'list' && (
+        <>
+          {!emailjsConfigured && !resendConfigured && (
+            <div style={{ 
+              marginBottom: '20px',
+              padding: '16px', 
+              background: '#fef3c7', 
+              border: '1px solid #f59e0b', 
+              borderRadius: '12px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px'
+            }}>
+              <AlertCircle size={20} color="#f59e0b" />
+              <span style={{ color: '#92400e' }}>
+                {t('notifications.emailSettings.notConfiguredWarning')} <a href="/profile" style={{ color: '#d97706', textDecoration: 'underline' }}>{t('notifications.emailSettings.configureLink')}</a>
+              </span>
+            </div>
+          )}
+          <div className="notifications-list">
+        {notifications.length === 0 ? (
+          <div className="no-notifications">
+            <Bell size={48} />
+            <p>{t('notifications.noNotifications')}</p>
+          </div>
+        ) : (
+          notifications.map((notification) => {
+            const Icon = getNotificationIcon(notification.type)
+            const color = getNotificationColor(notification.type)
+            return (
+              <div
+                key={notification.id}
+                className={`notification-item ${notification.read ? 'read' : 'unread'}`}
+              >
+                <div className="notification-icon" style={{ color }}>
+                  <Icon size={24} />
+                </div>
+                <div className="notification-content">
+                  <h3 className="notification-title">{notification.title}</h3>
+                  <p className="notification-message">{notification.message}</p>
+                  <span className="notification-time">
+                    <Clock size={14} />
+                    {notification.time}
+                  </span>
+                </div>
+                <div className="notification-actions">
+                  <button
+                    className="send-email-btn"
+                    onClick={() => handleSendEmail(notification)}
+                    disabled={sendingEmails[notification.id]}
+                    title={`Send to ${userEmail || 'your email'}`}
+                  >
+                    {sendingEmails[notification.id] ? (
+                      <div className="spinner-small"></div>
+                    ) : (
+                      <Mail size={18} />
+                    )}
+                  </button>
+                  {!notification.read && (
+                    <button className="mark-read-btn" title={t('notifications.markAsRead')}>
+                      <Check size={18} />
+                    </button>
+                  )}
+                  <button className="delete-btn" title={t('notifications.delete')}>
+                    <X size={18} />
+                  </button>
+                </div>
+              </div>
+            )
+          })
+        )}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default Notifications
+

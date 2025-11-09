@@ -424,3 +424,92 @@ const MoodTracker = () => {
 export default MoodTracker
 
 
+
+            {/* Recent Entries */}
+            <div className="recent-entries-card">
+              <h3>{t('moodTracker.recentEntries')}</h3>
+              {recentEntries.length === 0 ? (
+                <div className="no-entries">
+                  <p>{t('moodTracker.noEntries')}</p>
+                </div>
+              ) : (
+                <div className="entries-list">
+                  {recentEntries.map(entry => (
+                    <div key={entry.id} className="entry-item">
+                      <div className="entry-main">
+                        <div className="entry-mood-energy">
+                          <span>{entry.moodEmoji || '😊'} {entry.mood || t('moodTracker.good')} {t('moodTracker.moodLabel')},</span>
+                          <span>{entry.energyEmoji || '😌'} {entry.energy || t('moodTracker.moderate')} {t('moodTracker.energyLabel')}</span>
+                        </div>
+                        <div className="entry-date">{entry.dateString || entry.date}</div>
+                        <div className="entry-actions">
+                          <button 
+                            className="icon-btn edit-btn" 
+                            onClick={() => handleEditMood(entry)}
+                            title={t('common.edit')}
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button 
+                            className="icon-btn delete-btn" 
+                            onClick={() => setDeleteConfirm(entry.id)}
+                            title={t('common.delete')}
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                      {entry.factors && entry.factors.length > 0 && (
+                        <div className="entry-factors">
+                          {entry.factors.map((factor, idx) => {
+                            const factorData = typeof factor === 'object' ? factor : moodFactors.find(f => f.id === factor)
+                            return factorData ? (
+                              <span key={idx} className="factor-tag">
+                                {factorData.emoji} {factorData.label}
+                              </span>
+                            ) : null
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {recentEntries.length >= 10 && (
+                    <button className="load-more-btn">{t('common.loadMore')}</button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm && (
+          <div className="modal-overlay" onClick={() => setDeleteConfirm(null)}>
+            <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2>{t('common.confirmDelete')}</h2>
+                <button className="close-btn" onClick={() => setDeleteConfirm(null)}>
+                  <X size={24} />
+                </button>
+              </div>
+              <p className="delete-message">{t('common.deleteMessage')}</p>
+              <div className="modal-actions">
+                <button className="cancel-btn" onClick={() => setDeleteConfirm(null)}>
+                  {t('common.cancel')}
+                </button>
+                <button className="delete-confirm-btn" onClick={() => handleDeleteMood(deleteConfirm)}>
+                  <Trash2 size={18} />
+                  {t('common.delete')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default MoodTracker
+
+
