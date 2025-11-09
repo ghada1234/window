@@ -75,13 +75,28 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     }))
   }
 
+  // Handle navigation and close sidebar on mobile
+  const handleNavigation = (path) => {
+    navigate(path)
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth <= 768 && isOpen) {
+      toggleSidebar()
+    }
+  }
+
   return (
     <>
       <button className={`sidebar-toggle ${isOpen ? 'sidebar-open' : ''}`} onClick={toggleSidebar}>
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
+      {/* Overlay for mobile - closes sidebar when clicked */}
+      <div 
+        className={`sidebar-overlay ${isOpen ? 'active' : ''}`}
+        onClick={toggleSidebar}
+        aria-hidden="true"
+      />
       <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
-        <div className="sidebar-header" onClick={() => navigate('/dashboard')}>
+        <div className="sidebar-header" onClick={() => handleNavigation('/dashboard')}>
           <img src="/sun.jpg" alt={t('app.name')} className="sidebar-logo-img" />
           <h2>{t('app.name')}</h2>
         </div>
@@ -104,7 +119,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         {item.children.map((child, childIndex) => (
                           <div
                             key={childIndex}
-                            onClick={() => navigate(child.path)}
+                            onClick={() => handleNavigation(child.path)}
                             className={`nav-child-item ${location.pathname === child.path || (child.path === '/profile' && location.pathname.startsWith('/profile')) ? 'active' : ''}`}
                           >
                             {child.icon && <child.icon size={16} />}
@@ -116,7 +131,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   </>
                 ) : (
                   <div
-                    onClick={() => navigate(item.path)}
+                    onClick={() => handleNavigation(item.path)}
                     className={`nav-item-link ${location.pathname === item.path ? 'active' : ''}`}
                   >
                     <Icon size={20} />
