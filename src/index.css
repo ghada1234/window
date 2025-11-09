@@ -48,6 +48,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* iOS viewport height fix */
+  height: -webkit-fill-available;
 }
 
 body {
@@ -62,6 +64,10 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  /* iOS specific fixes */
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
 }
 
 code {
@@ -72,6 +78,11 @@ code {
 #root {
   width: 100%;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
+  /* iOS height fix */
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Universal Responsive Container */

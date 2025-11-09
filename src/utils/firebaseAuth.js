@@ -5,9 +5,19 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signOut as firebaseSignOut,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence
 } from 'firebase/auth'
 import { auth } from './firebase'
+
+// Set Firebase persistence for iOS/Safari compatibility
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error('Error setting auth persistence:', error)
+  // Fallback to session persistence if local fails
+  setPersistence(auth, browserSessionPersistence).catch(console.error)
+})
 
 // Sign in with email and password
 export const signIn = async (email, password) => {

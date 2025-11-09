@@ -2,8 +2,12 @@
   display: flex;
   width: 100%;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   position: relative;
   overflow-x: hidden;
+  /* iOS specific fixes */
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
 }
 
 /* Language Switcher moved to Sidebar - old styles kept for backward compatibility */
@@ -41,10 +45,19 @@ html[dir="rtl"] .main-content.sidebar-closed {
     margin-left: 0 !important;
     margin-right: 0 !important;
     padding: 4rem 1rem 5rem 1rem;
+    /* iOS safe area support */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(5rem, calc(5rem + env(safe-area-inset-bottom)));
     width: 100%;
     min-height: 100vh;
+    min-height: -webkit-fill-available;
     position: relative;
     z-index: 1;
+    /* iOS rendering fix */
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   
   .main-content.sidebar-open {
