@@ -827,6 +827,3 @@ const MeredithShirkMealPlan = () => {
 }
 
 export default MeredithShirkMealPlan
-
-
-export default MeredithShirkMealPlan

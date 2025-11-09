@@ -476,11 +476,3 @@ const EmotionInsights = () => {
 }
 
 export default EmotionInsights
-
-
-
-}
-
-export default EmotionInsights
-
-

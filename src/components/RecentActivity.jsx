@@ -57,28 +57,3 @@ const RecentActivity = () => {
 }
 
 export default RecentActivity
-
-
-
-        {activities.map((activity, index) => {
-          const Icon = activity.icon
-          return (
-            <div key={index} className="activity-item">
-              <div className="activity-icon">
-                <Icon size={18} />
-              </div>
-              <div className="activity-content">
-                <p className="activity-text">{activity.text}</p>
-                <span className="activity-time">{activity.time}</span>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-export default RecentActivity
-
-

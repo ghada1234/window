@@ -134,24 +134,3 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
 export default Sidebar
 
-
-                ) : (
-                  <div
-                    onClick={() => navigate(item.path)}
-                    className={`nav-item-link ${location.pathname === item.path ? 'active' : ''}`}
-                  >
-                    <Icon size={20} />
-                    <span>{item.label}</span>
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </nav>
-      </aside>
-    </>
-  )
-}
-
-export default Sidebar
-

@@ -78,39 +78,3 @@ const WaterIntake = () => {
 }
 
 export default WaterIntake
-
-
-              <h4>{t('waterTracker.history')}</h4>
-            </div>
-            <div className="water-entries-list">
-              {entries.slice(0, 5).map((entry) => (
-                <div key={entry.id} className="water-entry-item">
-                  <div className="entry-info">
-                    <Droplet size={16} />
-                    <span>{entry.glasses} {entry.glasses === 1 ? t('waterTracker.glass') : t('waterTracker.glasses')}</span>
-                    <span className="entry-time">
-                      {new Date(entry.timestamp).toLocaleString(i18n.language === 'ar' ? 'ar-AE' : 'en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </span>
-                  </div>
-                  <button 
-                    className="icon-btn delete-btn" 
-                    onClick={() => deleteWaterEntry(entry.id)}
-                    title={t('common.delete')}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-export default WaterIntake
-

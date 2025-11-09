@@ -159,10 +159,3 @@ const WaterLog = () => {
 }
 
 export default WaterLog
-
-
-  )
-}
-
-export default WaterLog
-

@@ -746,5 +746,3 @@ const WellnessReport = () => {
 }
 
 export default WellnessReport
-
-export default WellnessReport
