@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChefHat, Clock, Users, Flame, BookOpen, Star, ChevronDown, ChevronUp, ShoppingCart, Filter, Search, TrendingUp, Target, Activity, User, Settings } from 'lucide-react'
+import { ChefHat, Clock, Users, Flame, BookOpen, Star, ChevronDown, ChevronUp, ShoppingCart, Filter, Search, TrendingUp, TrendingDown, Target, Activity, User, Settings } from 'lucide-react'
 import { getJSON } from '../utils/storage'
 import { useNavigate } from 'react-router-dom'
 import './MeredithShirkMealPlan.css'
