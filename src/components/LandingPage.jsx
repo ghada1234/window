@@ -23,10 +23,15 @@ const LandingPage = () => {
     // Check if user is logged in using Firebase Auth
     const unsubscribe = onAuthChange((user) => {
       setIsLoggedIn(!!user)
+      // If user is logged in and on landing page, redirect to dashboard
+      if (user && (window.location.pathname === '/landing' || window.location.pathname === '/')) {
+        console.log('✅ User logged in, redirecting to dashboard')
+        navigate('/dashboard', { replace: true })
+      }
     })
 
     return () => unsubscribe()
-  }, [])
+  }, [navigate])
 
   const handleLogout = async () => {
     try {
@@ -55,8 +60,10 @@ const LandingPage = () => {
     setShowSignUp(false)
     setShowForgotPassword(false)
     setIsLoggedIn(true)
-    // Modals already set isLoggedIn in storage
-    navigate('/dashboard')
+    // Wait a bit for auth state to propagate before navigating
+    setTimeout(() => {
+      navigate('/dashboard')
+    }, 300)
   }
 
   const handleProfileClick = () => {

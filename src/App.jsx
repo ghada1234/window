@@ -52,30 +52,56 @@ const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let timeoutId
     const unsubscribe = onAuthChange((currentUser) => {
+      console.log('🔐 Auth state changed:', currentUser ? 'Logged in' : 'Not logged in')
       setUser(currentUser)
       setLoading(false)
     })
 
-    return () => unsubscribe()
+    // Set a timeout to prevent infinite loading
+    timeoutId = setTimeout(() => {
+      console.warn('⚠️ Auth check timeout - assuming not logged in')
+      setLoading(false)
+    }, 3000)
+
+    return () => {
+      unsubscribe()
+      if (timeoutId) clearTimeout(timeoutId)
+    }
   }, [])
 
   if (loading) {
     return (
       <div style={{ 
         display: 'flex', 
+        flexDirection: 'column',
         alignItems: 'center', 
         justifyContent: 'center', 
         height: '100vh',
-        fontSize: '18px',
-        color: '#667eea'
+        gap: '1rem'
       }}>
-        Loading...
+        <div style={{
+          width: '40px',
+          height: '40px',
+          border: '4px solid #e5e7eb',
+          borderTop: '4px solid #667eea',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }}></div>
+        <p style={{ fontSize: '16px', color: '#667eea' }}>Loading...</p>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     )
   }
   
   if (!user) {
+    console.log('❌ No user found, redirecting to landing')
     return <Navigate to="/landing" replace />
   }
   
