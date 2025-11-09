@@ -161,7 +161,7 @@ select:focus {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   :root {
-    --sidebar-width: 100%;
+    --sidebar-width: 280px;
     --sidebar-collapsed-width: 0px;
   }
 
@@ -202,49 +202,3 @@ select:focus {
     height: 4px;
   }
 }
-
-
-@media (max-width: 768px) {
-  :root {
-    --sidebar-width: 100%;
-    --sidebar-collapsed-width: 0px;
-  }
-
-  body {
-    font-size: 14px;
-  }
-
-  /* Better touch targets for mobile */
-  button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Smaller scrollbars on mobile */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  /* Disable focus outlines for touch devices */
-  button:focus:not(:focus-visible),
-  a:focus:not(:focus-visible),
-  input:focus:not(:focus-visible),
-  textarea:focus:not(:focus-visible),
-  select:focus:not(:focus-visible) {
-    outline: none;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 13px;
-  }
-
-  /* Even smaller scrollbars on very small screens */
-  ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-}
-
