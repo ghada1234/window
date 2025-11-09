@@ -54,16 +54,44 @@ export const generateRecipes = () => {
     ]
   };
   
-  // Protein sources
-  const proteins = ['Chicken', 'Turkey', 'Salmon', 'Tuna', 'Beef', 'Tofu', 'Tempeh', 'Eggs', 'Shrimp', 'Cod', 'Tilapia', 'Pork', 'Lamb', 'Lentils', 'Chickpeas', 'Black Beans'];
+  // Protein sources with Arabic translations
+  const proteins = [
+    { en: 'Chicken', ar: 'دجاج' },
+    { en: 'Turkey', ar: 'ديك رومي' },
+    { en: 'Salmon', ar: 'سلمون' },
+    { en: 'Tuna', ar: 'تونة' },
+    { en: 'Beef', ar: 'لحم بقر' },
+    { en: 'Tofu', ar: 'توفو' },
+    { en: 'Tempeh', ar: 'تمبيه' },
+    { en: 'Eggs', ar: 'بيض' },
+    { en: 'Shrimp', ar: 'جمبري' },
+    { en: 'Cod', ar: 'سمك القد' },
+    { en: 'Tilapia', ar: 'بلطي' },
+    { en: 'Pork', ar: 'لحم خنزير' },
+    { en: 'Lamb', ar: 'لحم خروف' },
+    { en: 'Lentils', ar: 'عدس' },
+    { en: 'Chickpeas', ar: 'حمص' },
+    { en: 'Black Beans', ar: 'فاصوليا سوداء' }
+  ];
   
-  // Cuisines with their typical ingredients and flavors
-  const cuisineProfiles = {
-    mediterranean: { flavors: ['Olive oil', 'Lemon', 'Garlic', 'Herbs', 'Feta'], veggies: ['Tomatoes', 'Cucumbers', 'Olives', 'Spinach', 'Eggplant'] },
-    asian: { flavors: ['Soy sauce', 'Ginger', 'Sesame oil', 'Rice vinegar', 'Sriracha'], veggies: ['Bok choy', 'Mushrooms', 'Bean sprouts', 'Snow peas', 'Broccoli'] },
-    mexican: { flavors: ['Cumin', 'Chili powder', 'Lime', 'Cilantro', 'Salsa'], veggies: ['Bell peppers', 'Onions', 'Tomatoes', 'Avocado', 'Corn'] },
-    italian: { flavors: ['Basil', 'Oregano', 'Parmesan', 'Balsamic', 'Olive oil'], veggies: ['Tomatoes', 'Zucchini', 'Eggplant', 'Arugula', 'Bell peppers'] },
-    indian: { flavors: ['Curry', 'Turmeric', 'Cumin', 'Garam masala', 'Coriander'], veggies: ['Cauliflower', 'Potatoes', 'Peas', 'Spinach', 'Tomatoes'] }
+  // Cuisines with Arabic names
+  const cuisineNames = {
+    mediterranean: { en: 'Mediterranean', ar: 'متوسطي' },
+    asian: { en: 'Asian', ar: 'آسيوي' },
+    mexican: { en: 'Mexican', ar: 'مكسيكي' },
+    italian: { en: 'Italian', ar: 'إيطالي' },
+    american: { en: 'American', ar: 'أمريكي' },
+    indian: { en: 'Indian', ar: 'هندي' },
+    middleeastern: { en: 'Middle Eastern', ar: 'شرق أوسطي' },
+    french: { en: 'French', ar: 'فرنسي' }
+  };
+  
+  // Meal templates with Arabic translations
+  const mealTemplatesArabic = {
+    breakfast: { en: 'Bowl', ar: 'بول' },
+    lunch: { en: 'Salad', ar: 'سلطة' },
+    dinner: { en: 'Grilled', ar: 'مشوي' },
+    snacks: { en: 'Mix', ar: 'خليط' }
   };
 
   // Generate variations of recipes
@@ -87,9 +115,14 @@ export const generateRecipes = () => {
           const calories = baseCalories + (cIdx * 10);
           const rating = 4.5 + (Math.random() * 0.5);
           
+          const cuisineName = cuisineNames[cuisine]?.en || cuisine;
+          const cuisineNameAr = cuisineNames[cuisine]?.ar || cuisine;
+          const templateAr = mealTemplatesArabic[category]?.ar || template;
+          
           recipes.push({
             id: currentId++,
-            name: `${cuisine.charAt(0).toUpperCase() + cuisine.slice(1)} ${protein} ${template}`,
+            name: `${cuisineName} ${protein.en} ${template}`,
+            nameAr: `${templateAr} ${protein.ar} ${cuisineNameAr}`,
             category,
             cuisine,
             goal,
@@ -99,8 +132,10 @@ export const generateRecipes = () => {
             calories,
             difficulty,
             rating: Math.round(rating * 10) / 10,
-            ingredients: generateIngredients(protein, cuisine, category),
-            instructions: generateInstructions(protein, cuisine, category, template),
+            ingredients: generateIngredients(protein.en, cuisine, category),
+            ingredientsAr: generateIngredientsAr(protein.ar, cuisine, category),
+            instructions: generateInstructions(protein.en, cuisine, category, template),
+            instructionsAr: generateInstructionsAr(protein.ar, cuisine, category, templateAr),
             nutrition: generateNutrition(calories, goal)
           });
         });
@@ -143,6 +178,29 @@ const generateIngredients = (protein, cuisine, category) => {
   if (cuisine === 'mexican') base.push('Cumin', 'Chili powder', 'Cilantro', 'Lime');
   if (cuisine === 'italian') base.push('Basil', 'Tomatoes', 'Parmesan');
   if (cuisine === 'indian') base.push('Curry powder', 'Turmeric', 'Garam masala');
+  if (cuisine === 'french') base.push('Butter', 'White wine', 'Thyme');
+  if (cuisine === 'middleeastern') base.push('Cumin', 'Paprika', 'Tahini', 'Sumac');
+  
+  return base;
+};
+
+const generateIngredientsAr = (protein, cuisine, category) => {
+  const base = [
+    `${protein}`,
+    'زيت زيتون',
+    'ملح وفلفل',
+    'ثوم',
+    'بصل'
+  ];
+  
+  // Add cuisine-specific ingredients in Arabic
+  if (cuisine === 'mediterranean') base.push('ليمون', 'أعشاب', 'جبنة فيتا');
+  if (cuisine === 'asian') base.push('صلصة صويا', 'زنجبيل', 'زيت سمسم');
+  if (cuisine === 'mexican') base.push('كمون', 'فلفل حار', 'كزبرة', 'ليمون');
+  if (cuisine === 'italian') base.push('ريحان', 'طماطم', 'بارميزان');
+  if (cuisine === 'indian') base.push('بودرة كاري', 'كركم', 'جارام ماسالا');
+  if (cuisine === 'french') base.push('زبدة', 'نبيذ أبيض', 'زعتر');
+  if (cuisine === 'middleeastern') base.push('كمون', 'بابريكا', 'طحينة', 'سماق');
   
   return base;
 };
@@ -156,6 +214,18 @@ const generateInstructions = (protein, cuisine, category, template) => {
     'Combine all ingredients',
     'Plate and garnish',
     'Serve hot or cold as appropriate'
+  ];
+};
+
+const generateInstructionsAr = (protein, cuisine, category, template) => {
+  return [
+    `جهز ${protein}`,
+    'تبل بالتوابل',
+    'اطبخ حسب الطريقة',
+    'أضف الخضروات',
+    'اخلط جميع المكونات',
+    'رتب في الطبق وزين',
+    'قدم ساخناً أو بارداً حسب المناسب'
   ];
 };
 

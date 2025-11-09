@@ -7,7 +7,7 @@ import { generateRecipes } from '../data/recipeDatabase'
 import './MeredithShirkMealPlan.css'
 
 const MeredithShirkMealPlan = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('plans')
   const [selectedPlan, setSelectedPlan] = useState(null)
@@ -554,7 +554,7 @@ const MeredithShirkMealPlan = () => {
                 
                 <div className="recipe-content">
                   <div className="recipe-header">
-                    <h3>{recipe.name}</h3>
+                    <h3>{i18n.language === 'ar' && recipe.nameAr ? recipe.nameAr : recipe.name}</h3>
                     <div className="recipe-rating">
                       <Star size={16} fill="gold" color="gold" />
                       <span>{recipe.rating}</span>
@@ -580,7 +580,7 @@ const MeredithShirkMealPlan = () => {
                       <span>{recipe.calories} {t('meredithShirk.common.kcal')}</span>
                     </div>
                     <div className={`difficulty-badge ${getDifficultyColor(recipe.difficulty)}`}>
-                      {recipe.difficulty}
+                      {t(`meredithShirk.mealMeta.${recipe.difficulty.toLowerCase()}`)}
                     </div>
                   </div>
 
@@ -600,7 +600,7 @@ const MeredithShirkMealPlan = () => {
                           {t('meredithShirk.common.ingredients')}
                         </h4>
                         <ul>
-                          {recipe.ingredients.map((ingredient, index) => (
+                          {(i18n.language === 'ar' && recipe.ingredientsAr ? recipe.ingredientsAr : recipe.ingredients).map((ingredient, index) => (
                             <li key={index}>{ingredient}</li>
                           ))}
                         </ul>
@@ -609,7 +609,7 @@ const MeredithShirkMealPlan = () => {
                       <div className="instructions-section">
                         <h4>{t('meredithShirk.common.instructions')}</h4>
                         <ol>
-                          {recipe.instructions.map((instruction, index) => (
+                          {(i18n.language === 'ar' && recipe.instructionsAr ? recipe.instructionsAr : recipe.instructions).map((instruction, index) => (
                             <li key={index}>{instruction}</li>
                           ))}
                         </ol>
