@@ -173,7 +173,7 @@ const SelfLoveCare = () => {
         >
           {t('selfLove.selfCare')}
         </button>
-        <button
+        <button 
           className={`tab ${activeTab === 'gratitude' ? 'active' : ''}`}
           onClick={() => setActiveTab('gratitude')}
         >
@@ -214,13 +214,13 @@ const SelfLoveCare = () => {
                 <Heart size={18} />
                 {t('selfLove.addToFavorites')}
               </button>
-              <button className="new-affirmation-btn" onClick={() => {
-                const random = getRandomAffirmation()
-                setAffirmationText('')
-                setShowAffirmationForm(false)
-              }}>
+            <button className="new-affirmation-btn" onClick={() => {
+              const random = getRandomAffirmation()
+              setAffirmationText('')
+              setShowAffirmationForm(false)
+            }}>
                 {t('selfLove.newAffirmation')}
-              </button>
+            </button>
             </div>
           </div>
 
