@@ -14,6 +14,11 @@
     
     <!-- Prevent iOS from treating as app when not installed -->
     <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Emergency fallback if JavaScript fails -->
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/emergency.html">
+    </noscript>
   </head>
   <body>
     <div id="root">
@@ -32,6 +37,19 @@
     
     <!-- Unregister any problematic service workers first -->
     <script>
+      console.log('🌐 Page loading...');
+      console.log('📱 Device:', navigator.userAgent);
+      console.log('📏 Screen:', window.innerWidth, 'x', window.innerHeight);
+      
+      // Set a failsafe - if app doesn't load in 10 seconds, redirect to emergency page
+      var appLoaded = false;
+      setTimeout(function() {
+        if (!appLoaded && !document.querySelector('.dashboard') && !document.querySelector('.landing-page')) {
+          console.error('❌ App failed to load, redirecting to emergency page');
+          window.location.href = '/emergency.html';
+        }
+      }, 10000);
+      
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
           for(let registration of registrations) {
@@ -48,6 +66,17 @@
     </script>
     
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Mark app as loaded once React renders
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          if (document.querySelector('.dashboard') || document.querySelector('.landing-page') || document.querySelector('.profile-page')) {
+            appLoaded = true;
+            console.log('✅ App loaded successfully');
+          }
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
 
