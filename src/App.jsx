@@ -121,6 +121,12 @@ const AnalyticsTracker = () => {
 }
 
 function App() {
+  // Log app initialization for debugging
+  console.log('🚀 App initializing...')
+  console.log('📱 User agent:', navigator.userAgent)
+  console.log('🌐 Window size:', window.innerWidth, 'x', window.innerHeight)
+  console.log('📍 Location:', window.location.href)
+  
   // Start with sidebar closed on mobile, open on desktop
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     return window.innerWidth > 768
