@@ -133,14 +133,20 @@ const Profile = () => {
     }
   }
 
+  console.log('👤 Profile rendering...')
+  
   return (
-    <div className="profile-page">
-      <header className="page-header">
-        <h1>{t('profile.title')}</h1>
-        <p>{t('profile.subtitle')}</p>
+    <div className="profile-page" style={{ minHeight: '100vh', padding: '1rem', background: '#f3f4f6' }}>
+      <header className="page-header" style={{ marginBottom: '2rem', background: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937', marginBottom: '0.5rem' }}>
+          {t('profile.title')}
+        </h1>
+        <p style={{ color: '#6b7280', fontSize: '1rem' }}>
+          {t('profile.subtitle')}
+        </p>
       </header>
 
-      <div className="profile-content">
+      <div className="profile-content" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div className="profile-card">
           <div className="profile-avatar-container">
             <div className="profile-avatar" onClick={() => setShowImageOptions(true)}>
