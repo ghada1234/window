@@ -8,7 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['sun.jpg', 'favicon.ico'],
-      injectRegister: 'auto',
+      injectRegister: false,
+      disable: false,
       manifest: {
         name: 'Find Your Inner Peace',
         short_name: 'Inner Peace',
