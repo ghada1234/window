@@ -41,12 +41,35 @@
       console.log('📱 Device:', navigator.userAgent);
       console.log('📏 Screen:', window.innerWidth, 'x', window.innerHeight);
       
+      // Detect if mobile browser (not PWA)
+      var isMobileBrowser = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) && 
+                            !window.matchMedia('(display-mode: standalone)').matches;
+      
+      // Check if already visited mobile version
+      var visitedMobile = sessionStorage.getItem('triedMobile');
+      
+      if (isMobileBrowser && !visitedMobile && !window.location.search.includes('force-react')) {
+        console.log('📱 Mobile browser detected, redirecting to mobile version');
+        sessionStorage.setItem('triedMobile', 'true');
+        // Give React a chance first
+        setTimeout(function() {
+          if (!document.querySelector('.landing-page') && !document.querySelector('.dashboard')) {
+            console.log('❌ React not loading, using mobile fallback');
+            window.location.href = '/index-mobile.html';
+          }
+        }, 3000);
+      }
+      
       // Set a failsafe - if app doesn't load in 10 seconds, redirect to emergency page
       var appLoaded = false;
       setTimeout(function() {
         if (!appLoaded && !document.querySelector('.dashboard') && !document.querySelector('.landing-page')) {
-          console.error('❌ App failed to load, redirecting to emergency page');
-          window.location.href = '/emergency.html';
+          console.error('❌ App failed to load after 10s');
+          if (isMobileBrowser) {
+            window.location.href = '/index-mobile.html';
+          } else {
+            window.location.href = '/emergency.html';
+          }
         }
       }, 10000);
       

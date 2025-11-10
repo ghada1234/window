@@ -1,8 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/.*|emergency\\.html|basic\\.html|test\\.html|mobile-test\\.html|unregister-sw\\.html).*)",
+      "source": "/((?!api/.*|emergency\\.html|basic\\.html|test\\.html|mobile-test\\.html|unregister-sw\\.html|index-mobile\\.html).*)",
       "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/mobile",
+      "destination": "/index-mobile.html",
+      "permanent": false
     }
   ],
   "headers": [
