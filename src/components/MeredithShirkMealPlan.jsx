@@ -190,7 +190,7 @@ const MeredithShirkMealPlan = () => {
 
   // Generate comprehensive recipe database (1500+ recipes)
   const recipes = useMemo(() => generateRecipes(), [])
-  
+
   const filteredRecipes = recipes.filter(recipe => {
     const matchesCategory = filterCategory === 'all' || recipe.category === filterCategory
     const matchesCuisine = filterCuisine === 'all' || recipe.cuisine === filterCuisine

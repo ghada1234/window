@@ -16,7 +16,19 @@
     <meta name="format-detection" content="telephone=no" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Loading indicator while app loads -->
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 20px;">
+        <div style="width: 60px; height: 60px; border: 6px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <h2 style="margin-top: 20px; font-size: 24px;">Loading App...</h2>
+        <p style="margin-top: 10px; opacity: 0.8;">Please wait a moment</p>
+        <style>
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        </style>
+      </div>
+    </div>
     
     <!-- Unregister any problematic service workers first -->
     <script>

@@ -62,7 +62,7 @@ const LandingPage = () => {
     setIsLoggedIn(true)
     // Wait a bit for auth state to propagate before navigating
     setTimeout(() => {
-      navigate('/dashboard')
+    navigate('/dashboard')
     }, 300)
   }
 
