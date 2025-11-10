@@ -7,7 +7,6 @@ import LandingPage from './components/LandingPage'
 import Sidebar from './components/Sidebar'
 import Dashboard from './components/Dashboard'
 import Nutrition from './components/Nutrition'
-import MeredithShirkMealPlan from './components/MeredithShirkMealPlan'
 import WaterLog from './components/WaterLog'
 import ActivityTracker from './components/ActivityTracker'
 import SleepTracker from './components/SleepTracker'
@@ -201,7 +200,6 @@ function App() {
                     <Route path="/mind/journal" element={<Journal />} />
                     <Route path="/mind/emotions" element={<EmotionInsights />} />
                     <Route path="/body/nutrition" element={<Nutrition />} />
-                    <Route path="/body/meal-plans" element={<MeredithShirkMealPlan />} />
                     <Route path="/body/water" element={<WaterLog />} />
                     <Route path="/body/activity" element={<ActivityTracker />} />
                     <Route path="/body/sleep" element={<SleepTracker />} />

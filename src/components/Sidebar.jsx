@@ -20,7 +20,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     ]},
     { icon: Apple, label: t('nav.body'), children: [
       { label: t('sidebar.nutrition'), path: '/body/nutrition' },
-      { icon: ChefHat, label: t('sidebar.meredithShirk'), path: '/body/meal-plans' },
       { label: t('sidebar.waterLog'), path: '/body/water' },
       { icon: Activity, label: t('sidebar.activity'), path: '/body/activity' },
       { icon: Moon, label: t('sidebar.sleep'), path: '/body/sleep' }
