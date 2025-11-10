@@ -299,7 +299,7 @@ html[dir="rtl"] .nav-child-item span {
   .nav-item-link,
   .nav-item-header {
     padding: 0.6rem 0.85rem;
-    font-size: 0.9rem;
+  font-size: 0.9rem;
     gap: 0.6rem;
   }
   
@@ -315,7 +315,7 @@ html[dir="rtl"] .nav-child-item span {
   .language-switch-btn {
     padding: 0.65rem 0.85rem;
     font-size: 0.875rem;
-  }
+}
 }
 
 /* Tablet Devices (769px - 1024px) */
@@ -342,8 +342,8 @@ html[dir="rtl"] .nav-child-item span {
   
   .sidebar-header h2 {
     font-size: 1.35rem;
-  }
-  
+}
+
   .nav-item-link,
   .nav-item-header {
     padding: 0.85rem 1.75rem;
@@ -363,8 +363,8 @@ html[dir="rtl"] .nav-child-item span {
   
   .sidebar-header h2 {
     font-size: 1.5rem;
-  }
-  
+}
+
   .nav-item-link,
   .nav-item-header {
     font-size: 1.1rem;

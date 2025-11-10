@@ -86,16 +86,16 @@ html[dir="rtl"] .main-content.sidebar-closed {
 
 /* Large Screens (1441px+) */
 @media (min-width: 1441px) {
-  .main-content {
+.main-content {
     padding: 2.5rem 3rem;
     max-width: var(--max-content-width);
     margin-left: auto;
     margin-right: auto;
-  }
-  
+}
+
   .sidebar {
     width: 300px;
-  }
+}
 }
 
 /* Ultra Large Screens (1921px+) */

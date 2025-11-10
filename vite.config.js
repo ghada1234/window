@@ -9,7 +9,7 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['sun.jpg', 'favicon.ico'],
       injectRegister: false,
-      disable: false,
+      disable: true,
       manifest: {
         name: 'Find Your Inner Peace',
         short_name: 'Inner Peace',

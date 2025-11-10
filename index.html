@@ -17,6 +17,24 @@
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Unregister any problematic service workers first -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            // Only unregister if it's causing issues
+            if (registration.active && registration.active.scriptURL.includes('sw.js')) {
+              console.log('Cleaning up old service worker:', registration.active.scriptURL);
+              registration.unregister();
+            }
+          }
+        }).catch(function(err) {
+          console.log('Service worker cleanup skipped:', err);
+        });
+      }
+    </script>
+    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
