@@ -61,9 +61,9 @@ const ProtectedRoute = ({ children }) => {
 
     // Set a timeout to prevent infinite loading
     timeoutId = setTimeout(() => {
-      console.warn('⚠️ Auth check timeout - assuming not logged in')
+      console.warn('⚠️ Auth check timeout - finishing loading state')
       setLoading(false)
-    }, 3000)
+    }, 5000)
 
     return () => {
       unsubscribe()

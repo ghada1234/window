@@ -1,6 +1,9 @@
 .dashboard {
   max-width: 1400px;
   margin: 0 auto;
+  min-width: 280px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dashboard-header {
@@ -95,6 +98,26 @@
 
   .stats-grid {
     gap: 0.75rem;
+  }
+}
+
+/* Extra small screens (very narrow) */
+@media (max-width: 320px) {
+  .dashboard {
+    padding: 0.5rem;
+    min-width: 280px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.25rem !important;
+  }
+
+  .dashboard-date {
+    font-size: 0.75rem !important;
+  }
+
+  .stats-grid {
+    gap: 0.5rem;
   }
 }
 
