@@ -35,52 +35,20 @@
       </div>
     </div>
     
-    <!-- Unregister any problematic service workers first -->
+    <!-- Simple service worker cleanup -->
     <script>
       console.log('🌐 Page loading...');
       console.log('📱 Device:', navigator.userAgent);
       console.log('📏 Screen:', window.innerWidth, 'x', window.innerHeight);
       
-      // Detect if mobile browser (not PWA)
-      var isMobileBrowser = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) && 
-                            !window.matchMedia('(display-mode: standalone)').matches;
-      
-      // Check if already visited mobile version
-      var visitedMobile = sessionStorage.getItem('triedMobile');
-      
-      if (isMobileBrowser && !visitedMobile && !window.location.search.includes('force-react')) {
-        console.log('📱 Mobile browser detected, redirecting to mobile version');
-        sessionStorage.setItem('triedMobile', 'true');
-        // Give React a chance first
-        setTimeout(function() {
-          if (!document.querySelector('.landing-page') && !document.querySelector('.dashboard')) {
-            console.log('❌ React not loading, using mobile fallback');
-            window.location.href = '/index-mobile.html';
-          }
-        }, 3000);
-      }
-      
-      // Set a failsafe - if app doesn't load in 10 seconds, redirect to emergency page
-      var appLoaded = false;
-      setTimeout(function() {
-        if (!appLoaded && !document.querySelector('.dashboard') && !document.querySelector('.landing-page')) {
-          console.error('❌ App failed to load after 10s');
-          if (isMobileBrowser) {
-            window.location.href = '/index-mobile.html';
-          } else {
-            window.location.href = '/emergency.html';
-          }
-        }
-      }, 10000);
-      
+      // Clean up any old service workers
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for(let registration of registrations) {
-            // Only unregister if it's causing issues
-            if (registration.active && registration.active.scriptURL.includes('sw.js')) {
-              console.log('Cleaning up old service worker:', registration.active.scriptURL);
+          if (registrations.length > 0) {
+            console.log('🧹 Cleaning up', registrations.length, 'service workers');
+            registrations.forEach(function(registration) {
               registration.unregister();
-            }
+            });
           }
         }).catch(function(err) {
           console.log('Service worker cleanup skipped:', err);
@@ -88,18 +56,8 @@
       }
     </script>
     
+    <!-- Load React app -->
     <script type="module" src="/src/main.jsx"></script>
-    <script>
-      // Mark app as loaded once React renders
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          if (document.querySelector('.dashboard') || document.querySelector('.landing-page') || document.querySelector('.profile-page')) {
-            appLoaded = true;
-            console.log('✅ App loaded successfully');
-          }
-        }, 1000);
-      });
-    </script>
   </body>
 </html>
 

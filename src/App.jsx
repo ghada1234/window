@@ -50,20 +50,33 @@ import './App.css'
 const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
+    console.log('🔐 Starting auth check...')
     let timeoutId
+    
     const unsubscribe = onAuthChange((currentUser) => {
       console.log('🔐 Auth state changed:', currentUser ? 'Logged in' : 'Not logged in')
+      if (currentUser) {
+        console.log('✅ User email:', currentUser.email)
+      }
       setUser(currentUser)
       setLoading(false)
+      setAuthChecked(true)
+      
+      // Clear timeout since we got auth response
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
     })
 
-    // Set a timeout to prevent infinite loading
+    // Set a timeout to prevent infinite loading (2 seconds for mobile)
     timeoutId = setTimeout(() => {
       console.warn('⚠️ Auth check timeout - finishing loading state')
       setLoading(false)
-    }, 5000)
+      setAuthChecked(true)
+    }, 2000)
 
     return () => {
       unsubscribe()
