@@ -6,21 +6,20 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       includeAssets: ['sun.jpg', 'favicon.ico'],
-      injectRegister: false,
-      disable: true,
+      injectRegister: 'auto',
+      disable: false,
       manifest: {
         name: 'Find Your Inner Peace',
         short_name: 'Inner Peace',
         description: 'Your Personal Wellness Journey Companion - Track nutrition, meditation, sleep, and achieve inner peace',
         theme_color: '#6366f1',
         background_color: '#ffffff',
-        display: 'minimal-ui',
-        orientation: 'any',
+        display: 'standalone',
+        orientation: 'portrait',
         scope: '/',
-        start_url: '/',
-        display_override: ['window-controls-overlay', 'minimal-ui', 'browser'],
+        start_url: '/?source=pwa',
         icons: [
           {
             src: 'sun.jpg',
