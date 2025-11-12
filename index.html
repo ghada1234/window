@@ -35,24 +35,17 @@
       </div>
     </div>
     
-    <!-- Simple service worker cleanup -->
+    <!-- PWA Service Worker Info -->
     <script>
       console.log('🌐 Page loading...');
       console.log('📱 Device:', navigator.userAgent);
       console.log('📏 Screen:', window.innerWidth, 'x', window.innerHeight);
       
-      // Clean up any old service workers
+      // Check service worker support (don't unregister - needed for PWA!)
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          if (registrations.length > 0) {
-            console.log('🧹 Cleaning up', registrations.length, 'service workers');
-            registrations.forEach(function(registration) {
-              registration.unregister();
-            });
-          }
-        }).catch(function(err) {
-          console.log('Service worker cleanup skipped:', err);
-        });
+        console.log('✅ Service Worker supported - PWA ready');
+      } else {
+        console.log('❌ Service Worker not supported - PWA unavailable');
       }
     </script>
     

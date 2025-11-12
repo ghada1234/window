@@ -25,9 +25,9 @@ import PersonalInformation from './components/PersonalInformation'
 import About from './components/About'
 import Contact from './components/Contact'
 import StorageWarning from './components/StorageWarning'
-import Subscription from './components/Subscription'
-import PaymentSuccess from './components/PaymentSuccess'
-import PWAInstallPrompt from './components/PWAInstallPrompt'
+// import Subscription from './components/Subscription' // REMOVED - No subscription needed
+// import PaymentSuccess from './components/PaymentSuccess' // REMOVED - No payments
+// import PWAInstallPrompt from './components/PWAInstallPrompt' // REMOVED - No PWA
 import ResetPassword from './components/ResetPassword'
 import WebAnalytics from './components/WebAnalytics'
 import WellnessReport from './components/WellnessReport'
@@ -35,8 +35,9 @@ import DataBackup from './components/DataBackup'
 import WearableSync from './components/WearableSync'
 import OAuthCallback from './components/OAuthCallback'
 import NotificationPrompt from './components/NotificationPrompt/NotificationPrompt'
-import InstallPrompt from './components/InstallPrompt'
-import SubscriptionGate from './components/SubscriptionGate'
+// import InstallPrompt from './components/InstallPrompt' // REMOVED - No PWA install
+// import SubscriptionGate from './components/SubscriptionGate' // REMOVED - All features are now free
+// import TrialCountdown from './components/TrialCountdown' // REMOVED - No trial needed
 import VoiceJournal from './components/VoiceJournal'
 import CBTTherapy from './components/CBTTherapy'
 import SocialFeed from './components/SocialFeed'
@@ -169,7 +170,7 @@ function App() {
       <Router>
         <AnalyticsTracker />
         <StorageWarning />
-        <PWAInstallPrompt />
+        {/* <PWAInstallPrompt /> */} {/* REMOVED - No PWA */}
         <Analytics />
         <SpeedInsights />
         <Routes>
@@ -177,8 +178,8 @@ function App() {
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/" element={<LandingPage />} />
           
-          {/* Payment success page - accessible without login */}
-          <Route path="/payment/success" element={<PaymentSuccess />} />
+          {/* Payment success page - REMOVED (no payments) */}
+          {/* <Route path="/payment/success" element={<PaymentSuccess />} /> */}
           
           {/* Password reset page - accessible without login */}
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -189,10 +190,8 @@ function App() {
           {/* Protected routes - require login */}
           <Route path="/*" element={
             <ProtectedRoute>
-              <SubscriptionGate>
               <div className="app">
                   <NotificationPrompt />
-                  <InstallPrompt />
                 <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
                 <main className={`main-content ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                   <Routes>
@@ -211,7 +210,7 @@ function App() {
                     <Route path="/wellness/mood" element={<MoodTracker />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/profile/personal-info" element={<PersonalInformation />} />
-                    <Route path="/subscription" element={<Subscription />} />
+                    {/* <Route path="/subscription" element={<Subscription />} /> */} {/* REMOVED - All features are free */}
                     <Route path="/notifications" element={<Notifications />} />
                     <Route path="/info/about" element={<About />} />
                     <Route path="/info/contact" element={<Contact />} />
@@ -227,7 +226,6 @@ function App() {
                   </Routes>
                 </main>
               </div>
-              </SubscriptionGate>
             </ProtectedRoute>
           } />
         </Routes>

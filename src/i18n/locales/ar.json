@@ -246,6 +246,15 @@
       "reminderMessage": "حان وقت جلسة التأمل المسائية"
     }
   },
+  "notificationPrompt": {
+    "title": "تفعيل الإشعارات",
+    "description": "ابق على اطلاع بتقدمك في العافية",
+    "enable": "تفعيل",
+    "dismiss": "إغلاق",
+    "remove": "إزالة",
+    "iosInstallRequired": "قم بتثبيت التطبيق على شاشتك الرئيسية لتفعيل الإشعارات على الآيفون",
+    "showInstructions": "عرض التعليمات"
+  },
   "auth": {
     "signIn": {
       "title": "تسجيل الدخول",

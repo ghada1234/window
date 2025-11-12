@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, Crown, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat, Globe } from 'lucide-react'
+import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import './Sidebar.css'
 
@@ -10,7 +10,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { t, i18n } = useTranslation()
 
   // Re-create menu items when language changes
-  const menuItems = [
+  const allMenuItems = [
     { icon: Home, label: t('nav.dashboard'), path: '/dashboard' },
     { icon: Brain, label: t('nav.mind'), children: [
       { label: t('sidebar.journal'), path: '/mind/journal' },
@@ -44,13 +44,16 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { icon: UserCircle, label: t('nav.profile'), children: [
       { label: t('nav.profile'), path: '/profile' },
       { label: t('sidebar.personalInfo'), path: '/profile/personal-info' },
-      { icon: Crown, label: t('nav.subscription'), path: '/subscription' }
+      // Subscription menu completely removed - all features are now free
     ]},
     { icon: Info, label: t('sidebar.about'), children: [
       { label: t('sidebar.about'), path: '/info/about' },
       { label: t('sidebar.contact'), path: '/info/contact' }
     ]}
   ]
+  
+  // Filter out subscription-related items if on custom domain
+  const menuItems = allMenuItems
 
   const [expandedItems, setExpandedItems] = useState({})
 
@@ -147,7 +150,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     )}
                   </>
                 ) : (
-                  <div
+                  <div 
                     onClick={() => handleNavigation(item.path)}
                     className={`nav-item-link ${location.pathname === item.path ? 'active' : ''}`}
                   >

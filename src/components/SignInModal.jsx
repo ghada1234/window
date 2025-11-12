@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { X, AlertCircle } from 'lucide-react'
 import { signIn, signInWithGoogle } from '../utils/firebaseAuth'
 import { trackUserActivity } from '../utils/userStats'
+// import { initializeTrial } from '../utils/subscription' // REMOVED - No trial needed
 import { useTranslation } from 'react-i18next'
 import './AuthModal.css'
 
@@ -30,6 +31,7 @@ const SignInModal = ({ onClose, onSuccess, onSwitchToSignUp, onSwitchToForgotPas
         console.log('✅ Signed in as:', result.user.email)
         // Track user sign-in
         trackUserActivity(result.user.uid, 'sign_in')
+        // No trial needed - all features are free!
         onSuccess()
       } else {
         setError(result.error)
@@ -53,6 +55,7 @@ const SignInModal = ({ onClose, onSuccess, onSwitchToSignUp, onSwitchToForgotPas
         console.log('✅ Signed in with Google:', result.user.email)
         // Track Google sign-in
         trackUserActivity(result.user.uid, 'google_sign_in')
+        // No trial needed - all features are free!
         onSuccess()
       } else {
         setError(result.error)

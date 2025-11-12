@@ -46,8 +46,58 @@
 
 .modal-subtitle {
   color: var(--text-secondary);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-size: 0.875rem;
+}
+
+/* 7-Day Free Trial Banner */
+.trial-banner {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.trial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.trial-icon {
+  font-size: 18px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.trial-text {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trial-description {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 13px;
+  margin: 0;
+  font-weight: 500;
 }
 
 .auth-form {

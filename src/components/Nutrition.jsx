@@ -1,7 +1,9 @@
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useWellness } from '../context/WellnessContext'
-import { Apple, Heart, Search, Camera, ScanLine, TrendingUp, TrendingDown, Brain, Lightbulb, AlertCircle } from 'lucide-react'
-import { analyzeFoodImage, analyzeNutritionLabel, isGeminiConfigured } from '../utils/gemini'
+import { Apple, Heart, Search, Camera, ScanLine, TrendingUp, TrendingDown, Brain, Lightbulb, AlertCircle, Sparkles, Activity, Target, Info } from 'lucide-react'
+import { analyzeFoodImage, analyzeNutritionLabel, isGeminiConfigured, getFoodSuggestions as getGeminiFoodSuggestions } from '../utils/gemini'
+import { searchFoodDatabase, getFoodByName, getAllFoodNames } from '../utils/foodDatabase'
+import { getNutritionPlan, calculateProgress, getProgressColor, formatNutritionValue } from '../utils/nutritionCalculator'
 import { useTranslation } from 'react-i18next'
 import './Nutrition.css'
 
@@ -21,14 +23,85 @@ const Nutrition = () => {
   const photoInputRef = useRef(null)
   const labelInputRef = useRef(null)
   const geminiConfigured = isGeminiConfigured()
+  const [nutritionPlan, setNutritionPlan] = useState(null)
+  const [showPlanInfo, setShowPlanInfo] = useState(false)
+  
+  // Calculate personalized nutrition plan based on user profile
+  useEffect(() => {
+    try {
+      // Get user profile from localStorage
+      const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}')
+      
+      if (userProfile.weight && userProfile.height && userProfile.age) {
+        const plan = getNutritionPlan(userProfile)
+        setNutritionPlan(plan)
+        console.log('📊 Personalized nutrition plan:', plan)
+      }
+    } catch (error) {
+      console.error('Error calculating nutrition plan:', error)
+    }
+  }, [])
+  
+  // Use personalized goals if available, otherwise use default
+  const dailyGoals = nutritionPlan ? {
+    calories: nutritionPlan.dailyCalories,
+    protein: nutritionPlan.macros.protein,
+    carbs: nutritionPlan.macros.carbs,
+    fat: nutritionPlan.macros.fat,
+    fiber: nutritionPlan.macros.fiber,
+    sugar: nutritionPlan.macros.sugar
+  } : {
+    calories: 2000,
+    protein: 150,
+    carbs: 200,
+    fat: 65,
+    fiber: 30,
+    sugar: 50
+  }
   
   const nutritionStats = [
-    { label: t('nutrition.calories'), value: nutrition.calories.toFixed(0), unit: '', key: 'calories' },
-    { label: t('nutrition.protein'), value: nutrition.protein.toFixed(0), unit: 'g', key: 'protein' },
-    { label: t('nutrition.carbs'), value: nutrition.carbs.toFixed(0), unit: 'g', key: 'carbs' },
-    { label: t('nutrition.fat'), value: nutrition.fat.toFixed(0), unit: 'g', key: 'fat' },
-    { label: t('nutrition.fiber'), value: nutrition.fiber.toFixed(0), unit: 'g', key: 'fiber' },
-    { label: t('nutrition.sugar'), value: nutrition.sugar.toFixed(0), unit: 'g', key: 'sugar' }
+    { 
+      label: t('nutrition.calories'), 
+      value: nutrition.calories.toFixed(0), 
+      goal: dailyGoals.calories,
+      unit: '', 
+      key: 'calories' 
+    },
+    { 
+      label: t('nutrition.protein'), 
+      value: nutrition.protein.toFixed(0), 
+      goal: dailyGoals.protein,
+      unit: 'g', 
+      key: 'protein' 
+    },
+    { 
+      label: t('nutrition.carbs'), 
+      value: nutrition.carbs.toFixed(0), 
+      goal: dailyGoals.carbs,
+      unit: 'g', 
+      key: 'carbs' 
+    },
+    { 
+      label: t('nutrition.fat'), 
+      value: nutrition.fat.toFixed(0), 
+      goal: dailyGoals.fat,
+      unit: 'g', 
+      key: 'fat' 
+    },
+    { 
+      label: t('nutrition.fiber'), 
+      value: nutrition.fiber.toFixed(0), 
+      goal: dailyGoals.fiber,
+      unit: 'g', 
+      key: 'fiber' 
+    },
+    { 
+      label: t('nutrition.sugar'), 
+      value: nutrition.sugar.toFixed(0), 
+      goal: dailyGoals.sugar,
+      unit: 'g', 
+      key: 'sugar' 
+    }
   ]
 
   const moods = ['😊 Happy', '😌 Calm', '😰 Anxious', '😔 Sad', '😠 Angry', '😴 Tired']
@@ -270,102 +343,178 @@ const Nutrition = () => {
     // The post-meal mood will be used for the next meal recommendation
   }
 
-  // Comprehensive food database
-  const foodDatabase = {
-    // Proteins
-    'grilled chicken breast': { calories: 231, protein: 43.5, carbs: 0, fat: 5, fiber: 0, sugar: 0, serving: '100g' },
-    'chicken breast': { calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0, sugar: 0, serving: '100g' },
-    'salmon': { calories: 206, protein: 22, carbs: 0, fat: 12, fiber: 0, sugar: 0, serving: '100g' },
-    'tuna': { calories: 144, protein: 30, carbs: 0, fat: 1, fiber: 0, sugar: 0, serving: '100g' },
-    'eggs': { calories: 155, protein: 13, carbs: 1.1, fat: 11, fiber: 0, sugar: 0.6, serving: '2 large' },
-    'tofu': { calories: 144, protein: 15.6, carbs: 3.4, fat: 8.7, fiber: 2.3, sugar: 0.5, serving: '100g' },
-    'lean ground beef': { calories: 250, protein: 26, carbs: 0, fat: 17, fiber: 0, sugar: 0, serving: '100g' },
-    'turkey breast': { calories: 135, protein: 30, carbs: 0, fat: 1, fiber: 0, sugar: 0, serving: '100g' },
-    
-    // Grains & Carbs
-    'quinoa': { calories: 222, protein: 8.1, carbs: 39.4, fat: 3.6, fiber: 5.2, sugar: 0.9, serving: '1 cup cooked' },
-    'brown rice': { calories: 216, protein: 5, carbs: 45, fat: 1.8, fiber: 3.5, sugar: 0.4, serving: '1 cup cooked' },
-    'white rice': { calories: 205, protein: 4.3, carbs: 45, fat: 0.4, fiber: 0.6, sugar: 0.1, serving: '1 cup cooked' },
-    'oatmeal': { calories: 154, protein: 5.3, carbs: 27, fat: 2.4, fiber: 4, sugar: 0.8, serving: '1 cup cooked' },
-    'whole wheat bread': { calories: 81, protein: 4, carbs: 13.8, fat: 1.3, fiber: 2, sugar: 1.3, serving: '1 slice' },
-    'pasta': { calories: 131, protein: 5, carbs: 25, fat: 1.1, fiber: 1.8, sugar: 0.6, serving: '100g cooked' },
-    
-    // Fruits
-    'banana': { calories: 105, protein: 1.3, carbs: 27, fat: 0.4, fiber: 3.1, sugar: 14.4, serving: '1 medium' },
-    'apple': { calories: 95, protein: 0.5, carbs: 25, fat: 0.3, fiber: 4.4, sugar: 19, serving: '1 medium' },
-    'orange': { calories: 62, protein: 1.2, carbs: 15.4, fat: 0.2, fiber: 3.1, sugar: 12.2, serving: '1 medium' },
-    'strawberries': { calories: 49, protein: 1, carbs: 12, fat: 0.5, fiber: 3, sugar: 7, serving: '1 cup' },
-    'blueberries': { calories: 84, protein: 1.1, carbs: 21, fat: 0.5, fiber: 3.6, sugar: 15, serving: '1 cup' },
-    'avocado': { calories: 234, protein: 3, carbs: 12, fat: 21, fiber: 10, sugar: 0.7, serving: '1 medium' },
-    'grapes': { calories: 62, protein: 0.6, carbs: 16, fat: 0.2, fiber: 1, sugar: 16, serving: '1 cup' },
-    
-    // Vegetables
-    'broccoli': { calories: 55, protein: 3.7, carbs: 11, fat: 0.6, fiber: 5, sugar: 2.6, serving: '1 cup' },
-    'spinach': { calories: 7, protein: 0.9, carbs: 1.1, fat: 0.1, fiber: 0.7, sugar: 0.1, serving: '1 cup raw' },
-    'carrots': { calories: 50, protein: 1, carbs: 12, fat: 0.2, fiber: 3.4, sugar: 5, serving: '1 cup chopped' },
-    'sweet potato': { calories: 180, protein: 4, carbs: 41, fat: 0.3, fiber: 6.6, sugar: 13, serving: '1 medium' },
-    'tomatoes': { calories: 32, protein: 1.6, carbs: 7, fat: 0.4, fiber: 2.2, sugar: 4.7, serving: '1 cup chopped' },
-    
-    // Nuts & Seeds
-    'almonds': { calories: 164, protein: 6, carbs: 6.1, fat: 14, fiber: 3.5, sugar: 1.2, serving: '1 oz (23 nuts)' },
-    'walnuts': { calories: 185, protein: 4.3, carbs: 3.9, fat: 18, fiber: 1.9, sugar: 0.7, serving: '1 oz (14 halves)' },
-    'peanut butter': { calories: 188, protein: 8, carbs: 6, fat: 16, fiber: 2, sugar: 3, serving: '2 tbsp' },
-    
-    // Dairy
-    'greek yogurt': { calories: 100, protein: 17, carbs: 6, fat: 0, fiber: 0, sugar: 4, serving: '1 cup' },
-    'milk': { calories: 103, protein: 8, carbs: 12, fat: 2.4, fiber: 0, sugar: 12, serving: '1 cup' },
-    'cheese': { calories: 113, protein: 7, carbs: 1, fat: 9, fiber: 0, sugar: 0.5, serving: '1 oz' },
-    
-    // Other
-    'dark chocolate': { calories: 155, protein: 2.2, carbs: 13, fat: 11, fiber: 3.1, sugar: 6.8, serving: '1 oz' },
-    'honey': { calories: 64, protein: 0.1, carbs: 17, fat: 0, fiber: 0, sugar: 17, serving: '1 tbsp' },
-  }
-
-  // Generate food suggestions based on search input
-  const getFoodSuggestions = (query) => {
-    if (!query || query.length < 2) return []
-    const normalizedQuery = query.toLowerCase()
-    return Object.keys(foodDatabase)
-      .filter(food => food.toLowerCase().includes(normalizedQuery))
-      .slice(0, 5)
-  }
-
-  // Handle food search with suggestions
-  const handleFoodSearchChange = (value) => {
+  // Handle food search with suggestions using the comprehensive database
+  const handleFoodSearchChange = async (value) => {
     setFoodSearch(value)
-    const suggestions = getFoodSuggestions(value)
-    setFoodSuggestions(suggestions)
     setSearchResults(null)
+    
+    if (!value || value.length < 2) {
+      setFoodSuggestions([])
+      return
+    }
+    
+    // Get suggestions from comprehensive food database
+    const dbResults = searchFoodDatabase(value, 5)
+    const localSuggestions = dbResults.map(item => item.food)
+    
+    // Try Gemini AI for additional suggestions if configured
+    if (geminiConfigured && value.length >= 3) {
+      try {
+        const aiSuggestions = await getGeminiFoodSuggestions(value)
+        if (aiSuggestions && Array.isArray(aiSuggestions)) {
+          // Merge and deduplicate
+          const combined = [...new Set([...localSuggestions, ...aiSuggestions])]
+          setFoodSuggestions(combined.slice(0, 8))
+          return
+        }
+      } catch (error) {
+        console.warn('AI suggestions failed, using local database only:', error)
+      }
+    }
+    
+    setFoodSuggestions(localSuggestions)
   }
 
-  const handleSearchFood = (foodName = null) => {
+  const handleSearchFood = async (foodName = null) => {
     const searchTerm = foodName || foodSearch.trim()
     if (!searchTerm) return
     
-    const normalizedSearch = searchTerm.toLowerCase()
-    let food = foodDatabase[normalizedSearch]
+    // Show loading state
+    setSearchResults({ loading: true })
+    setFoodSuggestions([])
     
-    // Try partial match
-    if (!food) {
-      const match = Object.keys(foodDatabase).find(key => 
-        key.toLowerCase().includes(normalizedSearch) || normalizedSearch.includes(key.toLowerCase())
-      )
-      if (match) {
-        food = foodDatabase[match]
-        setFoodSearch(match)
+    // Primary: Try Gemini AI (works for ANY food worldwide!)
+    if (geminiConfigured) {
+      try {
+        console.log('🤖 Using Gemini AI to analyze:', searchTerm)
+        
+        // Use Gemini to get nutritional information
+        const aiResult = await getGeminiNutritionInfo(searchTerm)
+        
+        if (aiResult && !aiResult.error) {
+          setSearchResults({
+            food: aiResult.food || searchTerm,
+            calories: aiResult.calories,
+            protein: aiResult.protein,
+            carbs: aiResult.carbs,
+            fat: aiResult.fat,
+            fiber: aiResult.fiber,
+            sugar: aiResult.sugar,
+            serving: aiResult.serving || '1 serving',
+            source: 'AI',
+            aiGenerated: true,
+            preMealMood: preMealMood || undefined,
+            postMealMood: postMealMood || undefined
+          })
+          
+          // Update search field with AI's food name
+          if (aiResult.food && aiResult.food !== searchTerm) {
+            setFoodSearch(aiResult.food)
+          }
+          return
+        }
+      } catch (error) {
+        console.warn('AI lookup failed, trying local database:', error)
       }
     }
-
+    
+    // Fallback: Use local database
+    const food = getFoodByName(searchTerm)
+    
     if (food) {
       setSearchResults({
-        food: foodName || foodSearch,
-        ...food,
+        food: food.food,
+        calories: food.calories,
+        protein: food.protein,
+        carbs: food.carbs,
+        fat: food.fat,
+        fiber: food.fiber,
+        sugar: food.sugar,
+        serving: food.serving,
+        source: 'Database',
         preMealMood: preMealMood || undefined,
         postMealMood: postMealMood || undefined
       })
-      setFoodSuggestions([])
+      
+      if (food.food !== searchTerm) {
+        setFoodSearch(food.food)
+      }
     } else {
-      setSearchResults({ error: `Food "${searchTerm}" not found in database. Try searching for common foods like chicken, salmon, banana, or quinoa.` })
+      // Show helpful error with suggestions
+      const similarFoods = searchFoodDatabase(searchTerm, 5).map(f => f.food)
+      const suggestionText = similarFoods.length > 0 
+        ? `Did you mean: ${similarFoods.join(', ')}?`
+        : geminiConfigured 
+          ? 'AI lookup failed. Try another food or check your Gemini API key.'
+          : 'Set up Gemini API for unlimited food search, or try: chicken, salmon, banana, pita bread.'
+      
+      setSearchResults({ 
+        error: `Food "${searchTerm}" not found. ${suggestionText}`
+      })
+    }
+  }
+  
+  // Use Gemini AI to get nutrition info for ANY food
+  const getGeminiNutritionInfo = async (foodName) => {
+    try {
+      const { GoogleGenerativeAI } = await import('@google/generative-ai')
+      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
+      
+      const prompt = `You are a nutrition expert. Provide nutritional information for: "${foodName}"
+
+Return ONLY a valid JSON object with this exact structure:
+{
+  "food": "exact food name",
+  "calories": number,
+  "protein": number,
+  "carbs": number,
+  "fat": number,
+  "fiber": number,
+  "sugar": number,
+  "serving": "serving size description"
+}
+
+Rules:
+- All numeric values must be numbers (not strings)
+- Use standard serving sizes
+- If the food is not specific enough, use common portions
+- Provide realistic, accurate nutrition values
+- Return ONLY the JSON, no explanations`
+
+      const result = await model.generateContent(prompt)
+      const response = await result.response
+      const text = response.text()
+      
+      // Parse JSON response
+      let jsonText = text.trim()
+      jsonText = jsonText.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
+      
+      const jsonMatch = jsonText.match(/\{[\s\S]*\}/)
+      if (jsonMatch) {
+        jsonText = jsonMatch[0]
+      }
+      
+      const parsed = JSON.parse(jsonText)
+      
+      // Validate response
+      if (parsed && typeof parsed.calories === 'number') {
+        return {
+          food: parsed.food || foodName,
+          calories: parsed.calories,
+          protein: parsed.protein || 0,
+          carbs: parsed.carbs || 0,
+          fat: parsed.fat || 0,
+          fiber: parsed.fiber || 0,
+          sugar: parsed.sugar || 0,
+          serving: parsed.serving || '1 serving'
+        }
+      }
+      
+      return { error: 'Invalid AI response' }
+    } catch (error) {
+      console.error('Gemini nutrition lookup error:', error)
+      return { error: error.message }
     }
   }
 
@@ -696,17 +845,126 @@ const Nutrition = () => {
         )}
       </section>
 
-      {/* Today's Nutrition */}
-      <section className="nutrition-stats">
-        <h2>{t('nutrition.todayNutrition')}</h2>
-        <p>{t('nutrition.dailyProgress')}</p>
-        <div className="stats-grid">
-          {nutritionStats.map((stat, index) => (
-            <div key={index} className="nutrition-stat-card">
-              <div className="stat-value">{stat.value}<span className="stat-unit">{stat.unit}</span></div>
-              <div className="stat-label">{stat.label}</div>
+      {/* Personalized Nutrition Plan */}
+      {nutritionPlan && (
+        <section className="nutrition-plan-banner">
+          <div className="plan-header">
+            <Activity size={24} />
+            <div>
+              <h3>Your Personalized Plan</h3>
+              <p>Based on your profile: BMI {nutritionPlan.bmi} ({nutritionPlan.bmiCategory})</p>
             </div>
-          ))}
+            <button className="info-btn" onClick={() => setShowPlanInfo(!showPlanInfo)}>
+              <Info size={18} />
+            </button>
+          </div>
+          
+          {showPlanInfo && (
+            <div className="plan-details">
+              <div className="plan-metrics">
+                <div className="metric">
+                  <span className="metric-label">BMR (Base Metabolic Rate)</span>
+                  <span className="metric-value">{nutritionPlan.bmr} cal/day</span>
+                </div>
+                <div className="metric">
+                  <span className="metric-label">TDEE (Total Daily Energy)</span>
+                  <span className="metric-value">{nutritionPlan.tdee} cal/day</span>
+                </div>
+                <div className="metric">
+                  <span className="metric-label">Daily Calorie Goal</span>
+                  <span className="metric-value">{nutritionPlan.dailyCalories} cal</span>
+                </div>
+                <div className="metric">
+                  <span className="metric-label">Water Goal</span>
+                  <span className="metric-value">{nutritionPlan.waterGoal}L/day</span>
+                </div>
+              </div>
+              <div className="plan-tips">
+                <h4>💡 Tips for Success:</h4>
+                <ul>
+                  {nutritionPlan.tips.map((tip, i) => (
+                    <li key={i}>{tip}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="meal-suggestions">
+                <h4>🍽️ Meal Distribution:</h4>
+                <div className="meal-grid">
+                  <div className="meal-item">
+                    <span>Breakfast</span>
+                    <strong>{nutritionPlan.mealSuggestions.breakfast} cal</strong>
+                  </div>
+                  <div className="meal-item">
+                    <span>Lunch</span>
+                    <strong>{nutritionPlan.mealSuggestions.lunch} cal</strong>
+                  </div>
+                  <div className="meal-item">
+                    <span>Dinner</span>
+                    <strong>{nutritionPlan.mealSuggestions.dinner} cal</strong>
+                  </div>
+                  <div className="meal-item">
+                    <span>Snacks</span>
+                    <strong>{nutritionPlan.mealSuggestions.snacks} cal</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Today's Nutrition with Progress Bars */}
+      <section className="nutrition-stats">
+        <div className="stats-header">
+          <div>
+            <h2>{t('nutrition.todayNutrition')}</h2>
+            <p>{nutritionPlan ? 'Progress towards your personalized goals' : t('nutrition.dailyProgress')}</p>
+          </div>
+          {!nutritionPlan && (
+            <div className="setup-prompt">
+              <Target size={20} />
+              <span>Complete your <a href="/profile/personal-info">profile</a> for personalized goals</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="stats-grid-enhanced">
+          {nutritionStats.map((stat, index) => {
+            const progress = calculateProgress(parseFloat(stat.value), stat.goal)
+            const progressColor = getProgressColor(progress)
+            
+            return (
+              <div key={index} className="nutrition-stat-card-enhanced">
+                <div className="stat-header">
+                  <div className="stat-label">{stat.label}</div>
+                  <div className="stat-values">
+                    <span className="stat-current">{stat.value}{stat.unit}</span>
+                    <span className="stat-divider">/</span>
+                    <span className="stat-goal">{stat.goal}{stat.unit}</span>
+                  </div>
+                </div>
+                <div className="progress-bar-container">
+                  <div 
+                    className="progress-bar" 
+                    style={{ 
+                      width: `${progress}%`,
+                      background: progressColor
+                    }}
+                  ></div>
+                </div>
+                <div className="stat-footer">
+                  <span className="progress-text">{progress}%</span>
+                  {progress >= 100 ? (
+                    <span className="goal-badge achieved">✓ Goal Met</span>
+                  ) : progress >= 80 ? (
+                    <span className="goal-badge near">Almost there!</span>
+                  ) : (
+                    <span className="goal-badge">{stat.goal - parseFloat(stat.value)}{stat.unit} remaining</span>
+                  )}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 
@@ -811,10 +1069,30 @@ const Nutrition = () => {
             </div>
             
             {/* Search Results */}
-            {searchResults && !searchResults.error && (
+            {searchResults && searchResults.loading && (
+              <div className="search-results loading">
+                <div className="loading-spinner"></div>
+                <p>🤖 Using Gemini AI to analyze nutrition...</p>
+              </div>
+            )}
+            
+            {searchResults && !searchResults.error && !searchResults.loading && (
               <div className="search-results">
                 <div className="food-result-header">
-                  <h4>{searchResults.food}</h4>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <h4>{searchResults.food}</h4>
+                    {searchResults.aiGenerated && (
+                      <span className="ai-badge" title="Powered by Gemini AI">
+                        <Sparkles size={14} />
+                        AI
+                      </span>
+                    )}
+                    {searchResults.source === 'Database' && (
+                      <span className="db-badge" title="From local database">
+                        DB
+                      </span>
+                    )}
+                  </div>
                   {searchResults.serving && <span className="serving-size">Serving: {searchResults.serving}</span>}
                 </div>
                 <div className="nutrition-info-grid">

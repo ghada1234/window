@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { X, AlertCircle, CheckCircle } from 'lucide-react'
 import { signUp, signInWithGoogle } from '../utils/firebaseAuth'
 import { trackSignUp, trackUserActivity } from '../utils/userStats'
-import { initializeTrial } from '../utils/subscription'
+// import { initializeTrial } from '../utils/subscription' // REMOVED - No trial needed
 import { useTranslation } from 'react-i18next'
 import './AuthModal.css'
 
@@ -60,9 +60,8 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
         // Track new user sign-up
         trackSignUp(result.user.uid, result.user.email, 'email')
         trackUserActivity(result.user.uid, 'sign_up')
-        // Initialize 7-day trial
-        initializeTrial(result.user.uid)
-        console.log('✅ 7-day trial activated')
+        // No trial needed - all features are free!
+        console.log('✅ All features unlocked (free app)')
         // Show welcome message or send welcome email
         onSuccess()
       } else {
@@ -88,9 +87,8 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
         // Track Google sign-up
         trackSignUp(result.user.uid, result.user.email, 'google')
         trackUserActivity(result.user.uid, 'google_sign_up')
-        // Initialize 7-day trial
-        initializeTrial(result.user.uid)
-        console.log('✅ 7-day trial activated')
+        // No trial needed - all features are free!
+        console.log('✅ All features unlocked (free app)')
         onSuccess()
       } else {
         setError(result.error)
@@ -109,6 +107,17 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2 className="modal-title">{t('auth.signUp.title')}</h2>
         <p className="modal-subtitle">{t('auth.signUp.subtitle')}</p>
+        
+        {/* Free Forever Banner - All Features Free */}
+        <div className="trial-banner" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
+          <div className="trial-badge">
+            <span className="trial-icon">🎁</span>
+            <span className="trial-text">100% Free</span>
+          </div>
+          <p className="trial-description">
+            All features are completely free. No credit card, no subscription, just wellness!
+          </p>
+        </div>
         
         {error && (
           <div className="auth-error-message">

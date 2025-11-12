@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, BellOff, RefreshCw, Copy, Check, AlertCircle } from 'lucide-react';
+import { Bell, BellOff, RefreshCw, Copy, Check, AlertCircle, Smartphone } from 'lucide-react';
 import {
   areNotificationsSupported,
   getNotificationPermissionStatus,
@@ -10,19 +10,35 @@ import {
   initializeFCM,
   sendTokenToServer
 } from '../../utils/fcmNotifications';
+import {
+  isIOS,
+  isIOSSafari,
+  isIOSPWA,
+  checkIOSNotificationCompatibility,
+  requestIOSNotificationPermission,
+  showIOSTestNotification,
+  getIOSInstallInstructions
+} from '../../utils/iosNotifications';
 import { useTranslation } from 'react-i18next';
 import './NotificationSettings.css';
 
 const NotificationSettings = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [permissionStatus, setPermissionStatus] = useState('default');
   const [fcmToken, setFcmToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [testSent, setTestSent] = useState(false);
+  const [iosCompatibility, setIosCompatibility] = useState(null);
 
   useEffect(() => {
     checkNotificationStatus();
+    
+    // Check iOS compatibility
+    if (isIOS()) {
+      const iosCheck = checkIOSNotificationCompatibility();
+      setIosCompatibility(iosCheck);
+    }
   }, []);
 
   const checkNotificationStatus = () => {
@@ -34,16 +50,32 @@ const NotificationSettings = () => {
     const status = getNotificationPermissionStatus();
     setPermissionStatus(status);
 
-    // Get stored token if available
+    // Get stored token if available (not applicable for iOS Safari)
+    if (!isIOSSafari()) {
     const storedToken = getStoredToken();
     setFcmToken(storedToken);
+    }
   };
 
   const handleEnableNotifications = async () => {
     setIsLoading(true);
     
     try {
-      // Check if running on HTTPS
+      // iOS-specific handling
+      if (isIOS()) {
+        const permission = await requestIOSNotificationPermission();
+        setPermissionStatus(permission);
+        
+        if (permission === 'granted') {
+          alert(t('notifications.pushSettings.enabledSuccess') || '✅ Push notifications enabled successfully!');
+        } else {
+          alert(t('notifications.pushSettings.enabledFailed') || '❌ Failed to enable notifications. Please check your browser settings.');
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      // Check if running on HTTPS (for non-iOS)
       if (window.location.protocol !== 'https:' && !window.location.hostname.includes('localhost')) {
         alert(t('notifications.pushSettings.httpsRequired') || '⚠️ Push notifications require HTTPS. Please access the app via https://');
         setIsLoading(false);
@@ -111,7 +143,16 @@ const NotificationSettings = () => {
     }
 
     try {
-      // Create notification
+      // iOS-specific test notification
+      if (isIOS()) {
+        showIOSTestNotification(i18n.language);
+        setTestSent(true);
+        setTimeout(() => setTestSent(false), 3000);
+        console.log('✅ iOS test notification sent successfully');
+        return;
+      }
+
+      // Create notification for other platforms
       const notification = new Notification(
         t('notifications.pushSettings.testNotificationTitle'),
         {
@@ -174,6 +215,37 @@ const NotificationSettings = () => {
           {getStatusBadge()}
         </div>
       </div>
+
+      {/* iOS Safari - requires PWA installation */}
+      {isIOSSafari() && iosCompatibility?.needsInstall && (
+        <div className="notification-alert alert-warning">
+          <Smartphone size={20} />
+          <div>
+            <strong>📱 iPhone Users</strong>
+            <p>
+              To enable notifications on your iPhone, you need to install this app to your home screen:
+            </p>
+            <ol style={{ margin: '12px 0', paddingLeft: '20px', fontSize: '0.9rem' }}>
+              {getIOSInstallInstructions(i18n.language).steps.map((step, i) => (
+                <li key={i} style={{ marginBottom: '6px' }}>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
+
+      {/* iOS PWA - notifications work but no FCM */}
+      {isIOSPWA() && (
+        <div className="notification-alert" style={{ background: '#e0f2fe', border: '1px solid #0284c7' }}>
+          <AlertCircle size={20} color="#0369a1" />
+          <div>
+            <strong style={{ color: '#0369a1' }}>ℹ️ iOS Notifications</strong>
+            <p style={{ color: '#0c4a6e' }}>
+              You're using the app as a PWA on iOS. Local notifications will work, but cloud messaging (FCM) is not supported on iOS.
+            </p>
+          </div>
+        </div>
+      )}
 
       {permissionStatus === 'unsupported' && (
         <div className="notification-alert alert-danger">
@@ -280,6 +352,8 @@ const NotificationSettings = () => {
                 )}
               </button>
 
+              {/* Only show refresh token for non-iOS platforms */}
+              {!isIOS() && (
               <button
                 className="notification-button secondary"
                 onClick={handleRefreshToken}
@@ -288,10 +362,12 @@ const NotificationSettings = () => {
                 <RefreshCw size={18} className={isLoading ? 'spinning' : ''} />
                 {t('notifications.pushSettings.refreshToken')}
               </button>
+              )}
             </div>
           </div>
 
-          {fcmToken && (
+          {/* Only show FCM token for non-iOS platforms */}
+          {fcmToken && !isIOS() && (
             <div className="notification-card">
               <h3 className="notification-card-title">{t('notifications.pushSettings.fcmToken')}</h3>
               <p className="notification-card-text">

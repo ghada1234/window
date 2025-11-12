@@ -246,6 +246,12 @@
       "reminderMessage": "Time for your evening meditation session"
     }
   },
+  "notificationPrompt": {
+    "title": "Enable Notifications",
+    "description": "Stay updated with your wellness progress",
+    "enable": "Enable",
+    "dismiss": "Dismiss"
+  },
   "auth": {
     "signIn": {
       "title": "Sign In",
