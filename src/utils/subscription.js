@@ -178,29 +178,3 @@ export const cancelSubscription = () => {
   setJSON('subscription', updatedSubscription)
   return updatedSubscription
 }
-
-// Ensure user has trial access (for existing users without subscription)
-export const ensureTrialAccess = () => {
-  const subscription = getJSON('subscription', null)
-  
-  // If no subscription exists, auto-initialize trial
-  if (!subscription) {
-    const trialEndDate = new Date()
-    trialEndDate.setDate(trialEndDate.getDate() + 7)
-    
-    const newTrial = {
-      userId: 'auto-trial',
-      plan: 'trial',
-      status: 'active',
-      trialStartDate: new Date().toISOString(),
-      trialEndDate: trialEndDate.toISOString(),
-      createdAt: new Date().toISOString()
-    }
-    
-    setJSON('subscription', newTrial)
-    console.log('✅ Auto-initialized 7-day trial for user')
-    return newTrial
-  }
-  
-  return subscription
-}

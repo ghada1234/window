@@ -262,4 +262,3 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
 
 export default SignUpModal
 
-

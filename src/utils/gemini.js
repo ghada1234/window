@@ -4,6 +4,25 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || ''
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null
 
+// Force a single stable model: Gemini 2.5 Flash
+const DEFAULT_MODEL = 'gemini-2.5-flash'
+
+// Normalize Gemini errors to friendly messages
+const normalizeGeminiError = (error) => {
+  const message = String(error?.message || error || '').toLowerCase()
+  const status = error?.status || error?.response?.status
+  if (status === 403 || message.includes('403')) {
+    if (message.includes('leaked')) {
+      return 'Your Gemini API key was reported as leaked. Create a new key in Google AI Studio, update VITE_GEMINI_API_KEY, then redeploy.'
+    }
+    return 'Gemini access denied (403). Check billing, model access, and API key permissions.'
+  }
+  if (status === 401 || message.includes('unauthorized') || message.includes('invalid api key')) {
+    return 'Invalid Gemini API key. Update VITE_GEMINI_API_KEY and restart the app.'
+  }
+  return error?.message || 'Gemini request failed. Please check your API key and try again.'
+}
+
 // Food analysis prompt template
 const FOOD_ANALYSIS_PROMPT = `You are a nutrition analysis expert. Analyze the food image provided and extract nutritional information. 
 
@@ -74,8 +93,8 @@ export const analyzeFoodImage = async (imageFile) => {
   }
 
   try {
-    // Use Gemini 2.5 models (stable, multimodal - support text + images)
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    // Use Gemini 2.5 Flash (stable, multimodal - supports text + images)
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
     
     // Convert file to base64 first
@@ -174,12 +193,12 @@ export const analyzeFoodImage = async (imageFile) => {
     // If all models failed, return error
     console.error('All Gemini models failed:', lastError)
     return {
-      error: lastError?.message || 'Failed to analyze image. Please check your API key and try again.'
+      error: normalizeGeminiError(lastError)
     }
   } catch (error) {
     console.error('Gemini API error:', error)
     return {
-      error: error.message || 'Failed to analyze image. Please check your API key and try again.'
+      error: normalizeGeminiError(error)
     }
   }
 }
@@ -191,8 +210,8 @@ export const analyzeNutritionLabel = async (imageFile) => {
   }
 
   try {
-    // Use Gemini 2.5 models (stable, multimodal - support text + images)
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    // Use Gemini 2.5 Flash (stable, multimodal - supports text + images)
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
     
     // Convert file to base64 first
@@ -280,12 +299,12 @@ export const analyzeNutritionLabel = async (imageFile) => {
     // If all models failed, return error
     console.error('All Gemini models failed:', lastError)
     return {
-      error: lastError?.message || 'Failed to analyze label. Please check your API key and try again.'
+      error: normalizeGeminiError(lastError)
     }
   } catch (error) {
     console.error('Gemini API error:', error)
     return {
-      error: error.message || 'Failed to analyze label. Please check your API key and try again.'
+      error: normalizeGeminiError(error)
     }
   }
 }
@@ -298,8 +317,8 @@ export const getFoodSuggestions = async (query) => {
   }
 
   try {
-    // Use Gemini 2.5 models for text generation
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    // Use Gemini 2.5 Flash for text generation
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
 
     for (const modelName of modelsToTry) {
@@ -370,7 +389,7 @@ export const generateWellnessRecommendations = async (userData) => {
   }
 
   try {
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
 
     for (const modelName of modelsToTry) {
@@ -438,7 +457,7 @@ export const generateWellnessChatResponse = async (userMessage, userData) => {
   }
 
   try {
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
 
     for (const modelName of modelsToTry) {
@@ -484,7 +503,7 @@ export const generateWellnessInsights = async (userData) => {
   }
 
   try {
-    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-flash-preview-05-20']
+    const modelsToTry = [DEFAULT_MODEL]
     let lastError = null
 
     for (const modelName of modelsToTry) {
@@ -555,4 +574,3 @@ Return ONLY a valid JSON object with insights:
 export const isGeminiConfigured = () => {
   return !!API_KEY
 }
-
