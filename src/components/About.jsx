@@ -13,7 +13,7 @@ const About = () => {
       </header>
 
       <section className="creator-section" style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #7FB3A8 0%, #9B9BC8 100%)',
         padding: '3rem 2rem',
         borderRadius: '16px',
         marginBottom: '3rem',

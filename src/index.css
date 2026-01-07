@@ -5,17 +5,21 @@
 }
 
 :root {
-  /* Colors */
-  --primary-color: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary-color: #8b5cf6;
-  --accent-color: #ec4899;
-  --bg-color: #f8fafc;
-  --card-bg: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --success-color: #10b981;
+  /* Calm Color Palette - Nature-Inspired & Soothing */
+  --primary-color: #7FB3A8;        /* Soft sage green - calming, nature-inspired */
+  --primary-dark: #6B9B8A;         /* Deeper sage green */
+  --primary-light: #A8C5BD;        /* Light sage for hover states */
+  --secondary-color: #9B9BC8;        /* Soft lavender - peaceful, serene */
+  --accent-color: #5FA8A3;         /* Soft teal - fresh, tranquil */
+  --bg-color: #FAF9F6;             /* Warm cream - soft, welcoming */
+  --card-bg: #FFFFFF;               /* Pure white for cards */
+  --text-primary: #2D3748;           /* Soft charcoal - readable but gentle */
+  --text-secondary: #6B7A8F;         /* Soft gray - secondary text */
+  --border-color: #E5E8EB;         /* Soft gray border */
+  --success-color: #6B9B8A;         /* Sage green for success states */
+  --warning-color: #D4A574;         /* Soft amber for warnings */
+  --error-color: #C99A9A;           /* Soft rose for errors */
+  --info-color: #8B9DC3;            /* Soft periwinkle for info */
   
   /* Layout - Fluid Responsive */
   --sidebar-width: 280px;

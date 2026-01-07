@@ -176,10 +176,6 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="hero-section">
-          <div className="trial-badge">
-            <Sparkles size={20} />
-            <span>{t('landing.hero.trialBadge')}</span>
-          </div>
         <div className="hero-container">
           <h1 className="hero-title">{t('landing.hero.title')}</h1>
           <p className="hero-subtitle">{t('landing.hero.subtitle')}</p>
@@ -194,7 +190,6 @@ const LandingPage = () => {
               {t('landing.hero.ctaSignIn')}
             </button>
           </div>
-          <p className="trial-notice">{t('landing.hero.trialNotice')}</p>
         </div>
       </section>
 
@@ -285,66 +280,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="pricing-section">
-        <div className="section-container">
-          <h2 className="section-title">{t('landing.completePlatform.title')}</h2>
-          <p className="section-subtitle">
-            {t('landing.completePlatform.subtitle')}
-          </p>
-          
-          <div className="pricing-info">
-            <div className="pricing-badge" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' }}>
-              <span className="badge-text">{t('landing.completePlatform.monthlyPrice')}</span>
-            </div>
-            <p className="pricing-note">
-              {t('landing.completePlatform.fullAccessDesc')}
-            </p>
-          </div>
-
-          <div className="pricing-card">
-            <div className="pricing-header">
-              <span className="pricing-badge-free" style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', color: 'white' }}>{t('landing.sections.pricing.monthlyPlan')}</span>
-              <h3 className="pricing-title">{t('landing.sections.pricing.fullAccess')}</h3>
-              <div className="pricing-price">
-                <span className="price-amount">{t('landing.sections.pricing.price')} {t('landing.sections.pricing.currency')}</span>
-                <span className="price-period">{t('landing.sections.pricing.perMonth')}</span>
-              </div>
-            </div>
-            
-            <ul className="pricing-features-list">
-              {t('landing.pricingFeatures', { returnObjects: true }).map((feature, index) => (
-                <li key={index} className="pricing-feature">
-                  <CheckCircle size={20} />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="pricing-footer">
-              <p className="pricing-note-small">{t('landing.footer.securityNote')}</p>
-              <div className="pricing-highlights">
-                <span>💳 {t('landing.footer.securePayment')}</span>
-                <span>🔒 {t('landing.footer.encryption')}</span>
-                <span>📧 {t('landing.footer.support')}</span>
-              </div>
-              <button className="btn-pricing" onClick={handleSignUp}>
-                {t('landing.sections.pricing.subscribe')} - {t('landing.sections.pricing.price')} {t('landing.sections.pricing.currency')}{t('landing.sections.pricing.perMonth')}
-              </button>
-            </div>
-          </div>
-
-          <div className="money-back-guarantee">
-            <h3>{t('landing.guarantee.title')}</h3>
-            <p>
-              <strong>{t('landing.guarantee.subtitle')}</strong> {t('landing.guarantee.subtitleSuffix')}
-            </p>
-            <p>
-              {t('landing.guarantee.description')}
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="landing-footer">

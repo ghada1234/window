@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, BarChart3, ClipboardList, Database, Bell, Share2, ChefHat, Globe } from 'lucide-react'
+import { Menu, X, Home, Brain, BookOpen, Apple, Droplet, Activity, Moon, Heart, Users, MessageCircle, Palette, Target, Sparkles, FileText, Info, Phone, User, UserCircle, ClipboardList, Bell, Share2, ChefHat, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import './Sidebar.css'
 
@@ -36,9 +36,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { icon: Target, label: t('sidebar.habitsGoals'), path: '/habits-goals' },
     { icon: Sparkles, label: t('sidebar.aiHub'), path: '/ai-hub' },
     { icon: ClipboardList, label: t('sidebar.wellnessReport'), path: '/wellness-report' },
-    { icon: BarChart3, label: t('sidebar.webAnalytics'), path: '/analytics' },
-    { icon: Users, label: t('sidebar.userStats'), path: '/user-stats' },
-    { icon: Database, label: t('sidebar.dataBackup'), path: '/data-backup' },
     { icon: Activity, label: t('sidebar.wearableDevices'), path: '/wearable-sync' },
     { icon: Bell, label: t('nav.notifications'), path: '/notifications' },
     { icon: UserCircle, label: t('nav.profile'), children: [

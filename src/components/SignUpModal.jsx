@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { X, AlertCircle, CheckCircle } from 'lucide-react'
 import { signUp, signInWithGoogle } from '../utils/firebaseAuth'
-import { trackSignUp, trackUserActivity } from '../utils/userStats'
-// import { initializeTrial } from '../utils/subscription' // REMOVED - No trial needed
 import { useTranslation } from 'react-i18next'
 import './AuthModal.css'
 
@@ -57,12 +55,7 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
 
       if (result.success) {
         console.log('✅ Account created:', result.user.email)
-        // Track new user sign-up
-        trackSignUp(result.user.uid, result.user.email, 'email')
-        trackUserActivity(result.user.uid, 'sign_up')
-        // No trial needed - all features are free!
         console.log('✅ All features unlocked (free app)')
-        // Show welcome message or send welcome email
         onSuccess()
       } else {
         setError(result.error)
@@ -84,10 +77,6 @@ const SignUpModal = ({ onClose, onSuccess, onSwitchToSignIn }) => {
 
       if (result.success) {
         console.log('✅ Signed up with Google:', result.user.email)
-        // Track Google sign-up
-        trackSignUp(result.user.uid, result.user.email, 'google')
-        trackUserActivity(result.user.uid, 'google_sign_up')
-        // No trial needed - all features are free!
         console.log('✅ All features unlocked (free app)')
         onSuccess()
       } else {

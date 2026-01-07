@@ -128,7 +128,7 @@ Your Find Your Inner Peace Team`
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     .email-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #7FB3A8 0%, #9B9BC8 100%);
       padding: 40px 30px;
       text-align: center;
     }
@@ -168,7 +168,7 @@ Your Find Your Inner Peace Team`
     }
     .reset-button {
       display: inline-block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #7FB3A8 0%, #9B9BC8 100%);
       color: #ffffff !important;
       text-decoration: none;
       padding: 14px 32px;

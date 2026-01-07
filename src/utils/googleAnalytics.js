@@ -1,7 +1,13 @@
 import ReactGA from 'react-ga4'
+import { isAnalyticsEnabled } from './analyticsFilter'
 
 // Initialize Google Analytics
 export const initGA = (measurementId) => {
+  // Check if analytics should be disabled for admin users
+  if (!isAnalyticsEnabled()) {
+    console.log('🚫 Google Analytics disabled for admin user')
+    return false
+  }
   if (measurementId && measurementId !== 'YOUR_GA4_MEASUREMENT_ID') {
     try {
       ReactGA.initialize(measurementId, {
@@ -23,6 +29,11 @@ export const initGA = (measurementId) => {
 
 // Track page views
 export const trackPageView = (path, title) => {
+  // Skip tracking for admin users
+  if (!isAnalyticsEnabled()) {
+    return
+  }
+  
   try {
     ReactGA.send({ 
       hitType: 'pageview', 
@@ -37,6 +48,11 @@ export const trackPageView = (path, title) => {
 
 // Track custom events
 export const trackEvent = (category, action, label = '', value = 0) => {
+  // Skip tracking for admin users
+  if (!isAnalyticsEnabled()) {
+    return
+  }
+  
   try {
     ReactGA.event({
       category,
@@ -83,16 +99,6 @@ export const trackSignIn = (method = 'email') => {
   })
 }
 
-// Track subscription
-export const trackSubscription = (plan, amount) => {
-  ReactGA.event({
-    category: 'Subscription',
-    action: 'Subscribe',
-    label: plan,
-    value: amount
-  })
-}
-
 // Track AI feature usage
 export const trackAIFeature = (feature, success = true) => {
   ReactGA.event({
@@ -111,7 +117,6 @@ export default {
   trackError,
   trackSignUp,
   trackSignIn,
-  trackSubscription,
   trackAIFeature
 }
 

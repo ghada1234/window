@@ -35,6 +35,7 @@ const WearableSync = () => {
   const [apiConfigured, setApiConfigured] = useState(false)
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(true)
   const [showDebug, setShowDebug] = useState(false)
+  const [debugData, setDebugData] = useState({ activities: 0, sleepLogs: 0 })
 
   useEffect(() => {
     loadConnectedDevices()
@@ -45,7 +46,28 @@ const WearableSync = () => {
     if (autoSyncPref !== null) {
       setAutoSyncEnabled(autoSyncPref === 'true')
     }
+    
+    // Update debug data
+    updateDebugData()
   }, [])
+  
+  // Update debug data periodically and when debug panel is shown
+  useEffect(() => {
+    if (showDebug) {
+      updateDebugData()
+      const interval = setInterval(updateDebugData, 1000) // Update every second when debug is open
+      return () => clearInterval(interval)
+    }
+  }, [showDebug])
+  
+  const updateDebugData = () => {
+    const activities = getJSON('activities', [])
+    const sleepLogs = getJSON('sleepLogs', [])
+    setDebugData({
+      activities: Array.isArray(activities) ? activities.length : 0,
+      sleepLogs: Array.isArray(sleepLogs) ? sleepLogs.length : 0
+    })
+  }
 
   // Auto-sync every 5 minutes for connected devices
   useEffect(() => {
@@ -350,13 +372,25 @@ const WearableSync = () => {
     // Import activities - matches ActivityTracker format
     if (syncData.activities && syncData.activities.length > 0) {
       const existingActivities = getJSON('activities', [])
-      const formattedActivities = syncData.activities.map((act, idx) => ({
-        id: Date.now() + idx,
-        name: act.name || act.type || 'Workout',
-        duration: act.duration || 30,
-        calories: act.calories || 0,
-        date: act.date || new Date().toISOString()
-      }))
+      const formattedActivities = syncData.activities.map((act, idx) => {
+        // Get activity name, filtering out generic values like "exercise"
+        let activityName = act.name || act.type || null
+        if (activityName && activityName.toLowerCase() === 'exercise') {
+          // If it's just "exercise", try to find a better name or use a default
+          activityName = act.workoutType || act.activityType || 'Workout'
+        }
+        if (!activityName || activityName.trim() === '') {
+          activityName = 'Workout'
+        }
+        
+        return {
+          id: Date.now() + idx,
+          name: activityName.trim(),
+          duration: act.duration || 30,
+          calories: act.calories || 0,
+          date: act.date || new Date().toISOString()
+        }
+      })
       
       // Add to activities array (newest first)
       const mergedActivities = [...formattedActivities, ...existingActivities]
@@ -543,6 +577,74 @@ const WearableSync = () => {
       data.itemsCount++
     }
 
+    // Extract workout/activity data
+    const workoutRegex = /type="HKWorkoutTypeIdentifier(\w+)".*?startDate="([^"]+)".*?endDate="([^"]+)".*?duration="([^"]+)".*?totalEnergyBurned="([^"]+)"?/g
+    let workoutMatch
+    const workoutMap = new Map()
+    
+    while ((workoutMatch = workoutRegex.exec(xmlContent)) !== null) {
+      const workoutType = workoutMatch[1] || 'Workout'
+      const startDate = workoutMatch[2]
+      const endDate = workoutMatch[3]
+      const duration = parseFloat(workoutMatch[4]) || 0
+      const calories = parseFloat(workoutMatch[5]) || 0
+      
+      // Convert duration from seconds to minutes
+      const durationMinutes = Math.round(duration / 60)
+      
+      // Format workout type name
+      const workoutName = workoutType
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase())
+        .trim()
+      
+      const activityKey = `${workoutName}_${startDate}`
+      if (!workoutMap.has(activityKey)) {
+        workoutMap.set(activityKey, {
+          name: workoutName,
+          type: workoutName,
+          duration: durationMinutes,
+          calories: Math.round(calories),
+          date: startDate || new Date().toISOString(),
+          source: 'Apple Health'
+        })
+      }
+    }
+    
+    // Also try simpler workout pattern
+    const simpleWorkoutRegex = /<Workout.*?workoutActivityType="(\w+)".*?startDate="([^"]+)".*?duration="([^"]+)".*?totalEnergyBurned="([^"]+)"?/g
+    while ((workoutMatch = simpleWorkoutRegex.exec(xmlContent)) !== null) {
+      const workoutType = workoutMatch[1] || 'Workout'
+      const startDate = workoutMatch[2]
+      const duration = parseFloat(workoutMatch[3]) || 0
+      const calories = parseFloat(workoutMatch[4]) || 0
+      
+      const durationMinutes = Math.round(duration / 60)
+      const workoutName = workoutType
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase())
+        .trim()
+      
+      const activityKey = `${workoutName}_${startDate}`
+      if (!workoutMap.has(activityKey)) {
+        workoutMap.set(activityKey, {
+          name: workoutName,
+          type: workoutName,
+          duration: durationMinutes,
+          calories: Math.round(calories),
+          date: startDate || new Date().toISOString(),
+          source: 'Apple Health'
+        })
+      }
+    }
+    
+    // Add all unique activities
+    data.activities = Array.from(workoutMap.values())
+    if (data.activities.length > 0) {
+      data.itemsCount += data.activities.length
+      console.log(`✅ Extracted ${data.activities.length} activities from Apple Health XML`)
+    }
+
     // Extract sleep data
     const sleepMatches = xmlContent.match(/type="HKCategoryTypeIdentifierSleepAnalysis".*?/g)
     if (sleepMatches && sleepMatches.length > 0) {
@@ -561,22 +663,64 @@ const WearableSync = () => {
   // Parse CSV
   const parseCSV = (csvContent) => {
     const data = { activities: [], sleep: [], steps: 0, itemsCount: 0 }
-    const lines = csvContent.split('\n')
+    const lines = csvContent.split('\n').filter(line => line.trim())
     
     // Simple CSV parser - assumes first row is headers
     if (lines.length > 1) {
-      const headers = lines[0].split(',')
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase())
+      
+      // Find column indices - prioritize name/title over generic activity/exercise columns
+      const stepsIndex = headers.findIndex(h => h.includes('step'))
+      const nameIndex = headers.findIndex(h => (h.includes('name') || h.includes('title')) && !h.includes('exercise'))
+      const activityIndex = headers.findIndex(h => (h.includes('activity') || h.includes('workout')) && !h.includes('exercise') && !h.includes('name') && !h.includes('title'))
+      const typeIndex = headers.findIndex(h => h.includes('type') && !h.includes('exercise'))
+      const durationIndex = headers.findIndex(h => h.includes('duration') || (h.includes('time') && !h.includes('date')) || h.includes('minutes'))
+      const caloriesIndex = headers.findIndex(h => h.includes('calorie') || h.includes('energy'))
+      const dateIndex = headers.findIndex(h => h.includes('date') || (h.includes('time') && h.includes('date')))
       
       for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(',')
+        const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''))
         if (values.length === headers.length) {
-          // Try to extract steps or activity
-          const stepsIndex = headers.findIndex(h => h.toLowerCase().includes('step'))
+          // Extract steps
           if (stepsIndex >= 0) {
-            data.steps += parseInt(values[stepsIndex]) || 0
-            data.itemsCount++
+            const stepValue = parseInt(values[stepsIndex]) || 0
+            if (stepValue > 0) {
+              data.steps += stepValue
+              data.itemsCount++
+            }
+          }
+          
+          // Extract activities/workouts - prioritize name/title, then activity, then type
+          let activityName = null
+          if (nameIndex >= 0 && values[nameIndex] && values[nameIndex].trim() !== '' && values[nameIndex].toLowerCase() !== 'exercise') {
+            activityName = values[nameIndex].trim()
+          } else if (activityIndex >= 0 && values[activityIndex] && values[activityIndex].trim() !== '' && values[activityIndex].toLowerCase() !== 'exercise') {
+            activityName = values[activityIndex].trim()
+          } else if (typeIndex >= 0 && values[typeIndex] && values[typeIndex].trim() !== '' && values[typeIndex].toLowerCase() !== 'exercise') {
+            activityName = values[typeIndex].trim()
+          }
+          
+          // Only add if we have a valid, meaningful activity name
+          if (activityName && activityName !== '' && activityName.toLowerCase() !== 'exercise') {
+            const duration = durationIndex >= 0 ? parseFloat(values[durationIndex]) || 30 : 30
+            const calories = caloriesIndex >= 0 ? parseFloat(values[caloriesIndex]) || 0 : 0
+            const date = dateIndex >= 0 ? values[dateIndex] : new Date().toISOString()
+            
+            data.activities.push({
+              name: activityName,
+              type: activityName,
+              duration: Math.round(duration),
+              calories: Math.round(calories),
+              date: date,
+              source: 'CSV Import'
+            })
           }
         }
+      }
+      
+      if (data.activities.length > 0) {
+        data.itemsCount += data.activities.length
+        console.log(`✅ Extracted ${data.activities.length} activities from CSV`)
       }
     }
 
@@ -879,11 +1023,22 @@ const WearableSync = () => {
             <div className="debug-grid">
               <div className="debug-item">
                 <strong>Activities in Storage:</strong>
-                <span className="debug-value">{getJSON('activities', []).length} items</span>
+                <span className="debug-value">{debugData.activities} items</span>
+                <button 
+                  onClick={updateDebugData}
+                  style={{ 
+                    marginLeft: '8px', 
+                    padding: '4px 8px', 
+                    fontSize: '12px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🔄 Refresh
+                </button>
               </div>
               <div className="debug-item">
                 <strong>Sleep Logs in Storage:</strong>
-                <span className="debug-value">{getJSON('sleepLogs', []).length} items</span>
+                <span className="debug-value">{debugData.sleepLogs} items</span>
               </div>
               <div className="debug-item">
                 <strong>Connected Devices:</strong>
@@ -899,19 +1054,52 @@ const WearableSync = () => {
               </div>
             </div>
             
-            {getJSON('activities', []).length > 0 && (
-              <div className="debug-data-preview">
-                <strong>Latest Activity Data:</strong>
-                <pre className="debug-code">{JSON.stringify(getJSON('activities', [])[0], null, 2)}</pre>
-              </div>
-            )}
-            
-            {getJSON('sleepLogs', []).length > 0 && (
-              <div className="debug-data-preview">
-                <strong>Latest Sleep Data:</strong>
-                <pre className="debug-code">{JSON.stringify(getJSON('sleepLogs', [])[0], null, 2)}</pre>
-              </div>
-            )}
+            {(() => {
+              const activities = getJSON('activities', [])
+              const sleepLogs = getJSON('sleepLogs', [])
+              return (
+                <>
+                  {Array.isArray(activities) && activities.length > 0 && (
+                    <div className="debug-data-preview">
+                      <strong>Latest Activity Data:</strong>
+                      <pre className="debug-code">{JSON.stringify(activities[0], null, 2)}</pre>
+                      <details style={{ marginTop: '8px' }}>
+                        <summary style={{ cursor: 'pointer', color: '#6366f1' }}>
+                          Show all {activities.length} activities
+                        </summary>
+                        <pre className="debug-code" style={{ maxHeight: '200px', overflow: 'auto' }}>
+                          {JSON.stringify(activities, null, 2)}
+                        </pre>
+                      </details>
+                    </div>
+                  )}
+                  
+                  {Array.isArray(sleepLogs) && sleepLogs.length > 0 && (
+                    <div className="debug-data-preview">
+                      <strong>Latest Sleep Data:</strong>
+                      <pre className="debug-code">{JSON.stringify(sleepLogs[0], null, 2)}</pre>
+                    </div>
+                  )}
+                  
+                  {debugData.activities === 0 && (
+                    <div style={{ 
+                      padding: '12px', 
+                      background: '#fef2f2', 
+                      border: '1px solid #fecaca',
+                      borderRadius: '8px',
+                      marginTop: '12px'
+                    }}>
+                      <strong>⚠️ No activities found in storage</strong>
+                      <p style={{ margin: '8px 0 0 0', fontSize: '14px' }}>
+                        Activities are stored under the key: <code>'activities'</code>
+                        <br />
+                        Current storage keys: {Object.keys(localStorage).filter(k => k.includes('activit') || k.includes('wellness')).join(', ') || 'None found'}
+                      </p>
+                    </div>
+                  )}
+                </>
+              )
+            })()}
             
             <button className="force-refresh-btn" onClick={() => window.location.reload()}>
               <RefreshCw size={16} />

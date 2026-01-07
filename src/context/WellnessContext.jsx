@@ -70,7 +70,12 @@ export const WellnessProvider = ({ children }) => {
   }, [waterIntake])
 
   useEffect(() => {
-    setJSON('activities', activities)
+    const saved = setJSON('activities', activities)
+    if (saved) {
+      console.log(`✅ Saved ${activities.length} activities to storage`)
+    } else {
+      console.warn('⚠️ Failed to save activities to storage')
+    }
   }, [activities])
 
   useEffect(() => {
@@ -129,7 +134,12 @@ export const WellnessProvider = ({ children }) => {
   }
 
   const addActivity = (activity) => {
-    setActivities(prev => [activity, ...prev])
+    console.log('➕ Adding activity:', activity)
+    setActivities(prev => {
+      const updated = [activity, ...prev]
+      console.log(`📊 Activities count: ${updated.length}`)
+      return updated
+    })
   }
 
   const updateActivity = (activityId, updates) => {

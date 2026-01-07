@@ -234,7 +234,7 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "copyright": "© 2024 Find Your Inner Peace. All rights reserved.",
-      "securePayment": "Secure UAE Payment (Ziina)",
+      "securePayment": "Secure Payment",
       "encryption": "256-bit Encryption",
       "support": "Priority Support",
       "securityNote": "All features include secure data encryption, regular updates, and access to our supportive community."
@@ -1357,7 +1357,7 @@
           "title": "Next Month - Weight Goal",
           "confidence": "78%",
           "prediction": "Current nutrition and activity patterns suggest 2-3kg progress toward goal",
-          "action": "Use AI Meal Planner for consistent nutrition"
+          "action": "Track nutrition consistently to meet your goals"
         },
         "mood": {
           "title": "Next Week - Mood Trend",
@@ -1664,8 +1664,8 @@
       "WhatsApp group features",
       "Offline PWA access"
     ],
-    "securePayment": "Secure Payment with Ziina",
-    "securePaymentDesc": "Your payment is processed securely through Ziina, a trusted UAE payment gateway. All transactions are encrypted and protected.",
+    "securePayment": "Secure Payment",
+    "securePaymentDesc": "All transactions are encrypted and protected.",
     "whySubscribe": "💎 Why Subscribe?",
     "benefits": {
       "aiPowered": {
@@ -1697,7 +1697,7 @@
       },
       "paymentMethods": {
         "question": "What payment methods do you accept?",
-        "answer": "We accept all major credit/debit cards and digital wallets through Ziina payment gateway (UAE-based)."
+        "answer": "All features are completely free. No payment required."
       },
       "autoCharge": {
         "question": "Will I be charged automatically?",
@@ -1709,12 +1709,12 @@
       },
       "paymentSecure": {
         "question": "Is my payment secure?",
-        "answer": "Absolutely! All payments are processed through Ziina, a trusted UAE payment gateway with bank-level encryption."
+        "answer": "All features are completely free. No payment required."
       }
     },
     "paymentModal": {
       "title": "Complete Your Subscription",
-      "subtitle": "Secure payment powered by Ziina",
+      "subtitle": "Secure payment",
       "monthlySubscription": "Monthly Subscription",
       "fullAccessUnlimited": "Full access to all features",
       "unlimited": "Unlimited",
@@ -1722,9 +1722,9 @@
       "totalDue": "Total Due",
       "autoRenew": "Auto-renews {{period}}",
       "nextBillingDate": "Next billing date: {date}",
-      "payWithZiina": "Pay with Ziina",
+      "payWithZiina": "Complete Payment",
       "processing": "Processing...",
-      "securedByZiina": "Secured by Ziina • 256-bit SSL encryption",
+      "securedByZiina": "Secured • 256-bit SSL encryption",
       "successMessage": "✅ Payment window opened! Complete your payment in the new tab. Once done, refresh this page."
     }
   },
@@ -1740,18 +1740,6 @@
     "weight": "Weight (kg)",
     "activityLevel": "Activity Level",
     "goal": "Goal",
-    "mealPlannerTitle": "Preferences for AI Meal Planner (Optional)",
-    "mealPlannerSubtitle": "These preferences help our AI generate personalized meal recommendations for you.",
-    "preferredCuisine": "Preferred Cuisine",
-    "cuisinePlaceholder": "e.g., Italian, Any",
-    "allergies": "Allergies",
-    "allergiesPlaceholder": "e.g., Peanuts, Shellfish",
-    "allergiesHint": "List any food allergies or intolerances",
-    "dislikes": "Dislikes",
-    "dislikesPlaceholder": "e.g., Mushrooms, Olives",
-    "dislikesHint": "Foods you prefer to avoid",
-    "dietaryPreference": "Dietary Preference",
-    "dietaryHint": "Select your dietary restriction or preference",
     "saveButton": "Save Personal Information",
     "saving": "Saving...",
     "saveSuccess": "✓ Personal information saved successfully!",
@@ -1775,18 +1763,6 @@
       "maintainWeight": "Maintain Weight",
       "improveFitness": "Improve Fitness",
       "generalHealth": "General Health"
-    },
-    "dietaryPreferences": {
-      "none": "None",
-      "vegan": "Vegan",
-      "vegetarian": "Vegetarian",
-      "pescatarian": "Pescatarian",
-      "keto": "Keto",
-      "paleo": "Paleo",
-      "glutenFree": "Gluten-Free",
-      "dairyFree": "Dairy-Free",
-      "halal": "Halal",
-      "kosher": "Kosher"
     }
   },
   "notifications": {

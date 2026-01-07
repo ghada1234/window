@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { onAuthChange } from './utils/firebaseAuth'
 import { initGA, trackPageView } from './utils/googleAnalytics'
+import { isAnalyticsEnabled } from './utils/analyticsFilter'
 import { WellnessProvider } from './context/WellnessContext'
 import LandingPage from './components/LandingPage'
 import Sidebar from './components/Sidebar'
@@ -25,25 +26,15 @@ import PersonalInformation from './components/PersonalInformation'
 import About from './components/About'
 import Contact from './components/Contact'
 import StorageWarning from './components/StorageWarning'
-// import Subscription from './components/Subscription' // REMOVED - No subscription needed
-// import PaymentSuccess from './components/PaymentSuccess' // REMOVED - No payments
-// import PWAInstallPrompt from './components/PWAInstallPrompt' // REMOVED - No PWA
 import ResetPassword from './components/ResetPassword'
-import WebAnalytics from './components/WebAnalytics'
 import WellnessReport from './components/WellnessReport'
-import DataBackup from './components/DataBackup'
 import WearableSync from './components/WearableSync'
 import OAuthCallback from './components/OAuthCallback'
 import NotificationPrompt from './components/NotificationPrompt/NotificationPrompt'
-// import InstallPrompt from './components/InstallPrompt' // REMOVED - No PWA install
-// import SubscriptionGate from './components/SubscriptionGate' // REMOVED - All features are now free
-// import TrialCountdown from './components/TrialCountdown' // REMOVED - No trial needed
 import VoiceJournal from './components/VoiceJournal'
 import CBTTherapy from './components/CBTTherapy'
 import SocialFeed from './components/SocialFeed'
-import UserStats from './components/UserStats'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
+import ConditionalAnalytics from './components/ConditionalAnalytics'
 import './App.css'
 
 // Protected Route wrapper - redirects to landing if not logged in
@@ -98,11 +89,11 @@ const ProtectedRoute = ({ children }) => {
           width: '40px',
           height: '40px',
           border: '4px solid #e5e7eb',
-          borderTop: '4px solid #667eea',
+          borderTop: '4px solid #7FB3A8',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite'
         }}></div>
-        <p style={{ fontSize: '16px', color: '#667eea' }}>Loading...</p>
+        <p style={{ fontSize: '16px', color: '#7FB3A8' }}>Loading...</p>
         <style>{`
           @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -124,11 +115,26 @@ const ProtectedRoute = ({ children }) => {
 // Analytics tracker component
 const AnalyticsTracker = () => {
   const location = useLocation()
+  const [user, setUser] = useState(null)
   
   useEffect(() => {
-    // Track page view on route change
-    trackPageView(location.pathname + location.search, document.title)
-  }, [location])
+    // Listen for auth changes to check if user is admin
+    const unsubscribe = onAuthChange((currentUser) => {
+      setUser(currentUser)
+    })
+    
+    return () => unsubscribe()
+  }, [])
+  
+  useEffect(() => {
+    // Reset cache and check if analytics should be enabled
+    if (user || !user) { // Check on every location change
+      // Only track if analytics is enabled (not admin user)
+      if (isAnalyticsEnabled()) {
+        trackPageView(location.pathname + location.search, document.title)
+      }
+    }
+  }, [location, user])
   
   return null
 }
@@ -145,11 +151,15 @@ function App() {
     return window.innerWidth > 768
   })
 
-  // Initialize Google Analytics on mount
+  // Initialize Google Analytics on mount (only if not admin)
   useEffect(() => {
-    const gaId = import.meta.env.VITE_GA4_MEASUREMENT_ID
-    if (gaId) {
-      initGA(gaId)
+    if (isAnalyticsEnabled()) {
+      const gaId = import.meta.env.VITE_GA4_MEASUREMENT_ID
+      if (gaId) {
+        initGA(gaId)
+      }
+    } else {
+      console.log('🚫 Analytics disabled for admin user')
     }
   }, [])
 
@@ -171,15 +181,11 @@ function App() {
         <AnalyticsTracker />
         <StorageWarning />
         {/* <PWAInstallPrompt /> */} {/* REMOVED - No PWA */}
-        <Analytics />
-        <SpeedInsights />
+        <ConditionalAnalytics />
         <Routes>
           {/* Landing page - default route */}
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/" element={<LandingPage />} />
-          
-          {/* Payment success page - REMOVED (no payments) */}
-          {/* <Route path="/payment/success" element={<PaymentSuccess />} /> */}
           
           {/* Password reset page - accessible without login */}
           <Route path="/reset-password" element={<ResetPassword />} />
@@ -210,14 +216,10 @@ function App() {
                     <Route path="/wellness/mood" element={<MoodTracker />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/profile/personal-info" element={<PersonalInformation />} />
-                    {/* <Route path="/subscription" element={<Subscription />} /> */} {/* REMOVED - All features are free */}
                     <Route path="/notifications" element={<Notifications />} />
                     <Route path="/info/about" element={<About />} />
                     <Route path="/info/contact" element={<Contact />} />
-                    <Route path="/analytics" element={<WebAnalytics />} />
-                    <Route path="/user-stats" element={<UserStats />} />
                     <Route path="/wellness-report" element={<WellnessReport />} />
-                    <Route path="/data-backup" element={<DataBackup />} />
                     <Route path="/wearable-sync" element={<WearableSync />} />
                     <Route path="/mind/voice-journal" element={<VoiceJournal />} />
                     <Route path="/mind/cbt-therapy" element={<CBTTherapy />} />

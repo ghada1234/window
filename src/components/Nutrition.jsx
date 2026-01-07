@@ -4,6 +4,7 @@ import { Apple, Heart, Search, Camera, ScanLine, TrendingUp, TrendingDown, Brain
 import { analyzeFoodImage, analyzeNutritionLabel, isGeminiConfigured, getFoodSuggestions as getGeminiFoodSuggestions } from '../utils/gemini'
 import { searchFoodDatabase, getFoodByName, getAllFoodNames } from '../utils/foodDatabase'
 import { getNutritionPlan, calculateProgress, getProgressColor, formatNutritionValue } from '../utils/nutritionCalculator'
+import { getJSON } from '../utils/storage'
 import { useTranslation } from 'react-i18next'
 import './Nutrition.css'
 
@@ -28,17 +29,41 @@ const Nutrition = () => {
   
   // Calculate personalized nutrition plan based on user profile
   useEffect(() => {
-    try {
-      // Get user profile from localStorage
-      const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}')
-      
-      if (userProfile.weight && userProfile.height && userProfile.age) {
-        const plan = getNutritionPlan(userProfile)
-        setNutritionPlan(plan)
-        console.log('📊 Personalized nutrition plan:', plan)
+    const calculatePlan = () => {
+      try {
+        // Get user profile from localStorage (personalInformation)
+        const userProfile = getJSON('personalInformation', {})
+        
+        if (userProfile.weight && userProfile.height && userProfile.age) {
+          const plan = getNutritionPlan(userProfile)
+          setNutritionPlan(plan)
+          console.log('📊 Personalized nutrition plan:', plan)
+        } else {
+          setNutritionPlan(null)
+        }
+      } catch (error) {
+        console.error('Error calculating nutrition plan:', error)
+        setNutritionPlan(null)
       }
-    } catch (error) {
-      console.error('Error calculating nutrition plan:', error)
+    }
+    
+    // Calculate on mount
+    calculatePlan()
+    
+    // Recalculate when profile data might change (listen to storage events)
+    const handleStorageChange = () => {
+      calculatePlan()
+    }
+    
+    // Listen for storage changes (from other tabs)
+    window.addEventListener('storage', handleStorageChange)
+    
+    // Also check periodically (in case same-tab updates don't trigger storage event)
+    const interval = setInterval(calculatePlan, 2000)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(interval)
     }
   }, [])
   
@@ -48,8 +73,8 @@ const Nutrition = () => {
     protein: nutritionPlan.macros.protein,
     carbs: nutritionPlan.macros.carbs,
     fat: nutritionPlan.macros.fat,
-    fiber: nutritionPlan.macros.fiber,
-    sugar: nutritionPlan.macros.sugar
+    fiber: nutritionPlan.macros.fiber || 30,
+    sugar: nutritionPlan.macros.sugar || 50
   } : {
     calories: 2000,
     protein: 150,
@@ -862,6 +887,10 @@ Rules:
           {showPlanInfo && (
             <div className="plan-details">
               <div className="plan-metrics">
+                <div className="metric">
+                  <span className="metric-label">BMI (Body Mass Index)</span>
+                  <span className="metric-value">{nutritionPlan.bmi} ({nutritionPlan.bmiCategory})</span>
+                </div>
                 <div className="metric">
                   <span className="metric-label">BMR (Base Metabolic Rate)</span>
                   <span className="metric-value">{nutritionPlan.bmr} cal/day</span>

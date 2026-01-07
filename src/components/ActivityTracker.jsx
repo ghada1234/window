@@ -3,7 +3,6 @@ import { useWellness } from '../context/WellnessContext'
 import { useNavigate } from 'react-router-dom'
 import { Activity, Plus, Clock, Watch, TrendingUp, X, Play, Pause, RotateCcw, BarChart3, Calendar, Flame, Edit2, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { trackUserActivity, getCurrentUserInfo } from '../utils/userStats'
 import './ActivityTracker.css'
 
 const ActivityTracker = () => {
@@ -76,8 +75,6 @@ const ActivityTracker = () => {
           date: timestamp
         }
         addActivity(activity)
-        const currentUser = getCurrentUserInfo()
-        trackUserActivity(currentUser?.uid || 'guest', 'activity_logged')
       }
       setActivityName('')
       setDuration('')

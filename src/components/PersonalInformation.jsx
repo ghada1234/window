@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { User, Save, Calendar, Activity, Target, UtensilsCrossed } from 'lucide-react'
+import { User, Save, Calendar, Activity, Target } from 'lucide-react'
 import { getJSON, setJSON } from '../utils/storage'
 import { useTranslation } from 'react-i18next'
 import './PersonalInformation.css'
@@ -13,11 +13,7 @@ const PersonalInformation = () => {
       height: 175,
       weight: 70,
       activityLevel: '',
-      goal: '',
-      preferredCuisine: '',
-      allergies: '',
-      dislikes: '',
-      dietaryPreference: ''
+      goal: ''
     })
   })
 
@@ -84,19 +80,6 @@ const PersonalInformation = () => {
     { value: 'Maintain Weight', label: t('personalInfo.goals.maintainWeight') },
     { value: 'Improve Fitness', label: t('personalInfo.goals.improveFitness') },
     { value: 'General Health', label: t('personalInfo.goals.generalHealth') }
-  ]
-  
-  const dietaryPreferences = [
-    { value: 'None', label: t('personalInfo.dietaryPreferences.none') },
-    { value: 'Vegan', label: t('personalInfo.dietaryPreferences.vegan') },
-    { value: 'Vegetarian', label: t('personalInfo.dietaryPreferences.vegetarian') },
-    { value: 'Pescatarian', label: t('personalInfo.dietaryPreferences.pescatarian') },
-    { value: 'Keto', label: t('personalInfo.dietaryPreferences.keto') },
-    { value: 'Paleo', label: t('personalInfo.dietaryPreferences.paleo') },
-    { value: 'Gluten-Free', label: t('personalInfo.dietaryPreferences.glutenFree') },
-    { value: 'Dairy-Free', label: t('personalInfo.dietaryPreferences.dairyFree') },
-    { value: 'Halal', label: t('personalInfo.dietaryPreferences.halal') },
-    { value: 'Kosher', label: t('personalInfo.dietaryPreferences.kosher') }
   ]
 
   return (
@@ -225,72 +208,6 @@ const PersonalInformation = () => {
                     <option key={goal.value} value={goal.value}>{goal.label}</option>
                   ))}
                 </select>
-              </div>
-            </div>
-
-            {/* Meal Planner Preferences */}
-            <div className="meal-planner-section">
-              <div className="section-header">
-                <UtensilsCrossed size={20} />
-                <h3>{t('personalInfo.mealPlannerTitle')}</h3>
-              </div>
-              <p className="section-subtitle">{t('personalInfo.mealPlannerSubtitle')}</p>
-
-              <div className="form-grid">
-                <div className="form-group full-width">
-                  <label htmlFor="preferredCuisine">{t('personalInfo.preferredCuisine')}</label>
-                  <input
-                    type="text"
-                    id="preferredCuisine"
-                    name="preferredCuisine"
-                    value={formData.preferredCuisine}
-                    onChange={handleChange}
-                    placeholder={t('personalInfo.cuisinePlaceholder')}
-                  />
-                </div>
-
-                <div className="form-group full-width">
-                  <label htmlFor="allergies">{t('personalInfo.allergies')}</label>
-                  <input
-                    type="text"
-                    id="allergies"
-                    name="allergies"
-                    value={formData.allergies}
-                    onChange={handleChange}
-                    placeholder={t('personalInfo.allergiesPlaceholder')}
-                  />
-                  <small className="form-hint">{t('personalInfo.allergiesHint')}</small>
-                </div>
-
-                <div className="form-group full-width">
-                  <label htmlFor="dislikes">{t('personalInfo.dislikes')}</label>
-                  <input
-                    type="text"
-                    id="dislikes"
-                    name="dislikes"
-                    value={formData.dislikes}
-                    onChange={handleChange}
-                    placeholder={t('personalInfo.dislikesPlaceholder')}
-                  />
-                  <small className="form-hint">{t('personalInfo.dislikesHint')}</small>
-                </div>
-
-                <div className="form-group full-width">
-                  <label htmlFor="dietaryPreference">{t('personalInfo.dietaryPreference')}</label>
-                  <select
-                    id="dietaryPreference"
-                    name="dietaryPreference"
-                    value={formData.dietaryPreference}
-                    onChange={handleChange}
-                    className="select-input"
-                  >
-                    <option value="">{t('personalInfo.dietaryPreferences.none')}</option>
-                    {dietaryPreferences.filter(p => p.value !== 'None').map(pref => (
-                      <option key={pref.value} value={pref.value}>{pref.label}</option>
-                    ))}
-                  </select>
-                  <small className="form-hint">{t('personalInfo.dietaryHint')}</small>
-                </div>
               </div>
             </div>
 

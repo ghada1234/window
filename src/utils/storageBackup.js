@@ -23,7 +23,6 @@ export const createBackup = () => {
     'habits',
     'goals',
     'journal',
-    'subscription',
     'passwordResetRequests'
   ]
   
@@ -46,6 +45,44 @@ export const restoreBackup = (backup) => {
     }
     
     let restored = 0
+    
+    // Special handling for activities - merge with existing instead of replacing
+    if (backup.data.activities && Array.isArray(backup.data.activities)) {
+      const existingActivities = getJSON('activities', [])
+      const backupActivities = backup.data.activities
+      
+      // Format activities to ensure they have the correct structure
+      const formattedActivities = backupActivities.map((act, idx) => {
+        // If activity already has correct format, use it
+        if (act.id && act.name && act.duration !== undefined && act.date) {
+          return act
+        }
+        
+        // Otherwise, format it
+        return {
+          id: act.id || Date.now() + idx,
+          name: act.name || act.type || 'Workout',
+          duration: typeof act.duration === 'number' ? act.duration : (parseInt(act.duration) || 30),
+          calories: typeof act.calories === 'number' ? act.calories : (parseInt(act.calories) || 0),
+          date: act.date || new Date().toISOString()
+        }
+      })
+      
+      // Merge activities (avoid duplicates based on id)
+      const existingIds = new Set(existingActivities.map(a => a.id))
+      const newActivities = formattedActivities.filter(a => !existingIds.has(a.id))
+      const mergedActivities = [...newActivities, ...existingActivities]
+      
+      if (setJSON('activities', mergedActivities)) {
+        restored++
+        console.log(`✓ Restored ${formattedActivities.length} activities (${newActivities.length} new, ${existingActivities.length} existing)`)
+      }
+      
+      // Remove from backup.data so we don't process it again
+      delete backup.data.activities
+    }
+    
+    // Restore other data normally
     for (const [key, value] of Object.entries(backup.data)) {
       if (setJSON(key, value)) {
         restored++

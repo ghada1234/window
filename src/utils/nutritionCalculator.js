@@ -37,6 +37,25 @@ const activityMultiplierFrom = (activityLevel) => {
   }
 }
 
+// Calculate BMI (Body Mass Index)
+export const calculateBMI = (weightKg, heightCm) => {
+  const weight = kgFrom(weightKg)
+  const height = cmFrom(heightCm)
+  if (height <= 0) return null
+  const heightM = height / 100
+  const bmi = weight / (heightM * heightM)
+  return Math.round(bmi * 10) / 10 // Round to 1 decimal place
+}
+
+// Get BMI category
+export const getBMICategory = (bmi) => {
+  if (!bmi || bmi < 0) return 'Unknown'
+  if (bmi < 18.5) return 'Underweight'
+  if (bmi < 25) return 'Normal weight'
+  if (bmi < 30) return 'Overweight'
+  return 'Obese'
+}
+
 export const getNutritionPlan = (profile) => {
   const gender = (profile?.gender || 'female').toLowerCase()
   const age = yearsFrom(profile?.age)
@@ -44,6 +63,10 @@ export const getNutritionPlan = (profile) => {
   const weight = kgFrom(profile?.weightKg ?? profile?.weight)
   const activityMultiplier = activityMultiplierFrom(profile?.activityLevel)
   const goal = (profile?.goal || 'maintain').toLowerCase()
+
+  // Calculate BMI
+  const bmi = calculateBMI(weight, height)
+  const bmiCategory = getBMICategory(bmi)
 
   // Mifflin-St Jeor BMR
   const bmr =
@@ -54,8 +77,8 @@ export const getNutritionPlan = (profile) => {
   const tdee = bmr * activityMultiplier
 
   let targetCalories = tdee
-  if (goal.includes('lose')) targetCalories = tdee - 300
-  if (goal.includes('gain')) targetCalories = tdee + 300
+  if (goal.includes('lose') || goal.includes('weight loss')) targetCalories = tdee - 300
+  if (goal.includes('gain') || goal.includes('weight gain') || goal.includes('muscle')) targetCalories = tdee + 300
 
   // Macros (approximate): protein 1.6 g/kg, fat 30% kcal, carbs remaining
   const proteinGrams = Math.round(1.6 * weight)
@@ -65,16 +88,56 @@ export const getNutritionPlan = (profile) => {
   const carbsKcal = Math.max(0, Math.round(targetCalories - proteinKcal - fatKcal))
   const carbsGrams = Math.round(carbsKcal / 4)
 
+  // Calculate water goal (35ml per kg body weight, minimum 2L)
+  const waterGoal = Math.max(2, Math.round((weight * 35) / 1000 * 10) / 10)
+
+  // Meal distribution suggestions
+  const mealSuggestions = {
+    breakfast: Math.round(targetCalories * 0.25),
+    lunch: Math.round(targetCalories * 0.35),
+    dinner: Math.round(targetCalories * 0.30),
+    snacks: Math.round(targetCalories * 0.10)
+  }
+
+  // Tips based on BMI and goal
+  const tips = []
+  if (bmi < 18.5) {
+    tips.push('Focus on nutrient-dense foods to support healthy weight gain')
+    tips.push('Include healthy fats like avocados, nuts, and olive oil')
+  } else if (bmi >= 30) {
+    tips.push('Prioritize whole foods and reduce processed foods')
+    tips.push('Aim for gradual, sustainable weight loss')
+  } else {
+    tips.push('Maintain a balanced diet with variety')
+  }
+  
+  if (goal.includes('lose')) {
+    tips.push('Create a moderate calorie deficit for sustainable weight loss')
+    tips.push('Focus on protein to preserve muscle mass during weight loss')
+  } else if (goal.includes('gain') || goal.includes('muscle')) {
+    tips.push('Ensure adequate protein intake for muscle building')
+    tips.push('Time meals around workouts for optimal recovery')
+  } else {
+    tips.push('Maintain consistent meal timing')
+    tips.push('Listen to your body\'s hunger and fullness cues')
+  }
+
   return {
+    bmi,
+    bmiCategory,
     bmr: Math.round(bmr),
     tdee: Math.round(tdee),
-    dailyGoals: {
-      calories: Math.round(targetCalories),
+    dailyCalories: Math.round(targetCalories),
+    waterGoal,
+    macros: {
       protein: proteinGrams,
       carbs: carbsGrams,
       fat: fatGrams,
-      fiber: 25
-    }
+      fiber: 30,
+      sugar: 50
+    },
+    mealSuggestions,
+    tips
   }
 }
 
