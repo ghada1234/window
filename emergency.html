@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Inner Peace - Mobile Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 15px 0;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:active {
+            background: #5568d3;
+        }
+        .status {
+            background: #10b981;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .info {
+            font-size: 14px;
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Find Your Inner Peace</h1>
+        
+        <div class="card">
+            <div class="status">✅ Mobile Site is Working!</div>
+            
+            <p style="margin: 20px 0; font-size: 16px;">
+                If you can see this page, the website is deployed and accessible on your mobile device.
+            </p>
+            
+            <div class="info" id="device-info"></div>
+            
+            <a href="/" class="btn">🚀 Open Full App</a>
+            
+            <button class="btn" onclick="clearAndReload()" style="background: #f59e0b;">
+                🔄 Clear Cache & Reload
+            </button>
+            
+            <a href="/basic.html" class="btn" style="background: #8b5cf6;">
+                📋 Simple Test Page
+            </a>
+        </div>
+        
+        <p style="font-size: 12px; margin-top: 20px; opacity: 0.8;">
+            Last updated: <span id="timestamp"></span>
+        </p>
+    </div>
+
+    <script>
+        // Show device info
+        const info = document.getElementById('device-info');
+        info.innerHTML = `
+            Device: ${/iPhone|iPad/.test(navigator.userAgent) ? 'iOS' : 'Android/Other'}<br>
+            Browser: ${/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) ? 'Safari' : 
+                        /Chrome/.test(navigator.userAgent) ? 'Chrome' : 'Other'}<br>
+            Screen: ${window.innerWidth} x ${window.innerHeight}<br>
+            Online: ${navigator.onLine ? '✅' : '❌'}
+        `;
+        
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        
+        function clearAndReload() {
+            // Clear all caches and storage
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+            }
+            
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+            
+            // Reload after cleanup
+            setTimeout(function() {
+                window.location.href = '/?t=' + Date.now();
+            }, 1000);
+        }
+        
+        console.log('🆘 Emergency page loaded');
+        console.log('Device:', navigator.userAgent);
+    </script>
+</body>
+</html>
+

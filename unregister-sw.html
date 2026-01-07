@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixing App - Please Wait</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .success {
+            background: #10b981;
+        }
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+        button.show {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fixing Your App</h1>
+        <div class="spinner"></div>
+        <div id="status" class="status">Removing old cached data...</div>
+        <button id="continue-btn" onclick="goToApp()">Continue to App</button>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const continueBtn = document.getElementById('continue-btn');
+
+        async function fixApp() {
+            try {
+                // Step 1: Unregister all service workers
+                statusDiv.textContent = '🗑️ Removing service workers...';
+                
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        console.log('Unregistered:', registration);
+                    }
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Step 2: Clear caches
+                statusDiv.textContent = '🧹 Clearing cached data...';
+                
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(
+                        cacheNames.map(name => caches.delete(name))
+                    );
+                    console.log('Cleared caches:', cacheNames);
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Step 3: Clear local storage issues
+                statusDiv.textContent = '📦 Cleaning storage...';
+                
+                try {
+                    // Don't clear everything, just service worker related items
+                    localStorage.removeItem('workbox-precache');
+                    sessionStorage.clear();
+                } catch (e) {
+                    console.log('Storage clear skipped:', e);
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Success!
+                statusDiv.textContent = '✅ App fixed! Ready to use.';
+                statusDiv.classList.add('success');
+                continueBtn.classList.add('show');
+                
+                console.log('✅ App cleanup complete');
+                
+                // Auto-redirect after 2 seconds
+                setTimeout(() => {
+                    goToApp();
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error during cleanup:', error);
+                statusDiv.textContent = '⚠️ Some cleanup failed, but trying anyway...';
+                statusDiv.style.background = '#f59e0b';
+                continueBtn.classList.add('show');
+            }
+        }
+
+        function goToApp() {
+            // Force reload without cache
+            window.location.href = '/?t=' + Date.now();
+        }
+
+        // Start the fix process
+        fixApp();
+    </script>
+</body>
+</html>
+
